@@ -6,7 +6,7 @@
 /*   By: ssghioua <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 02:03:55 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/11/20 23:30:56 by ssghioua         ###   ########.fr       */
+/*   Updated: 2023/11/23 00:07:33 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*ft_calloc(size_t nbitems, size_t size);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
-int		ft_isdigit(char n);
+int		ft_isdigit(int n);
 int		ft_isprint(int arg);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *pointer1, const void *pointer2, size_t size);

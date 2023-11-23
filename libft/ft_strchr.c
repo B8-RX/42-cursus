@@ -6,7 +6,7 @@
 /*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:45:58 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/11/20 23:53:34 by ssghioua         ###   ########.fr       */
+/*   Updated: 2023/11/23 02:39:51 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strchr(const char *s, int c)
 	int	i;
 
 	i = 0;
-	while (ft_isprint(*(s + i)))
+	while (*(s + i))
 	{
 		if (*(unsigned char *)(s + i) == (unsigned char)c)
 			return ((char *)(s + i));

@@ -6,7 +6,7 @@
 /*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 21:29:42 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/11/22 02:21:21 by ssghioua         ###   ########.fr       */
+/*   Updated: 2023/11/23 04:29:48 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t len)
 	size_t	i;
 	size_t	j;
 
-	if (!s1 || !s2)
+	if (!s1 && len == 0)
 		return (NULL);
 	if (ft_strlen(s2) == 0)
 		return ((char *)s1);
