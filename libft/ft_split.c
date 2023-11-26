@@ -5,68 +5,91 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssghioua <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/24 04:45:09 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/11/24 06:33:14 by ssghioua         ###   ########.fr       */
+/*   Created: 2023/11/26 04:08:27 by ssghioua          #+#    #+#             */
+/*   Updated: 2023/11/26 07:11:04 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+int	ft_count_childs(const char *s, char c)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] != c)
+		{
+			while (s[i] && s[i] != c)
+				i++;
+			j++;
+		}
+		else
+			while (s[i] == c)
+		i++;
+	}
+	return (j);
+}
+
+int	ft_memset_childs(char **parent, int nb_childs, const char *s, char c)
+{
+	int		index;
+	int		str_len;
+	size_t	child_len;
+	int		i;
+
+	index = 0;
+	str_len = ft_strlen(s);
+	i = 0;
+	while (str_len > 0)
+	{
+		child_len = 0;
+		while (s[i] == c && str_len)
+		{
+			i++;
+			str_len--;
+		}
+		while (*(s + (i + child_len)) != c && str_len)
+		{
+			child_len++;
+			str_len--;
+		}
+		if (index < nb_childs)
+		{
+			parent[index] = (char *)malloc((child_len + 1) * sizeof(char));
+			if (!parent[index])
+			{
+				while ((index + 1) > 0)
+				{
+					free(parent[index]);
+					index--;
+				}
+				free(parent);
+			}
+			ft_strlcpy(parent[index], s + i, child_len + 1);
+			index++;
+		}
+		i += child_len;
+	}
+	parent[nb_childs] = 0;
+	return (index);
+}
+
 char	**ft_split(const char *s, char c)
 {
-	int		len_str;
-	int		j;
-	int		k;
-	char	*child;
 	char	**parent;
-	char	*strclone;
+	int		nb_childs;
 
-	strclone = (char *)s;
-	len_str = ft_strlen(s);
 	parent = NULL;
-	j = 0;
-
-// TODO FAIRE DES PRINTF DE CHILD ET DE PARENT[0]... pour voir si strlcpy marche bien
-	
-	k = 0;
-	while (*strclone || *strclone == c)
-	{
-		while ((len_str - j >= 0) || *(strclone + j) != c)
-			j++;
-		if (*(strclone + j) == c)
-		{
-			child = malloc ((j + 1) * sizeof(char) + 1);
-			if (child == NULL)
-				return (NULL);
-			else
-			{
-				ft_strlcpy(child, strclone, j + 1);
-				*(parent + k) = (char *)malloc((j + 1) * sizeof(char) + 1);
-				if (*(parent + k) == NULL)
-					return (NULL);
-				else
-				{
-					ft_strlcpy(*(parent + k), child, ft_strlen(child) + 1);
-					free(child);
-					k++;
-				}
-			}
-			strclone += (j + 1);
-		}
-		len_str -= j;
-		j = 0;
-	}
-	return (parent);	
+	if (!s)
+		return (NULL);
+	nb_childs = ft_count_childs(s, c);
+	parent = (char **) malloc(sizeof(char *) * (nb_childs + 1));
+	if (!parent)
+		return (parent);
+	ft_memset_childs(parent, nb_childs, s, c);
+	return (parent);
 }
-	// 1 - loop on string s until char c is found or '\0' is found
-	// 2 - take from the first index of the search to last one before char c
-	// 3 - malloc a child array with the length of target plus null character, i.e (last index - first index + 1) + 1 ('\0')
-	// 4 - malloc a parent array of arrays with the lenght of child + 1 ('\0') 
-	// 5 - append child array to the parent array
-	// 6 - free(child);
-	// 7 - increament str s with length of previous match and repeat step 1	
-	// return parent array i.e **array
-
-
-
-
