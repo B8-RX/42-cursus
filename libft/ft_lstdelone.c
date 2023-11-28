@@ -6,8 +6,16 @@
 /*   By: ssghioua <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 04:47:38 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/11/28 04:48:09 by ssghioua         ###   ########.fr       */
+/*   Updated: 2023/11/28 05:18:26 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
+{
+	if (!lst)
+		return;
+	if (del)
+		del(lst -> content);
+}
