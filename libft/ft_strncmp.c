@@ -26,30 +26,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return ((unsigned char)*s1 - (unsigned char)*s2);
 	return (0);
 }
-/*
-int	main(void)
-{
-	char s1[15];
-	char s2[15];
-	int ret;
-
-	strcpy(s1, "abcdef");
-	strcpy(s2, "ABCDEF");
-
-	ret = ft_strncmp(s1, s2, 4);
-
-	if (ret < 0)
-	{
-		printf("s1 is less than s2");
-	}
-	else if (ret > 0)
-	{
-		printf("s2 is less than s1");
-	}
-	else
-	{
-		printf("s1 is equal to s2");
-	}
-
-	return (0);
-}*/

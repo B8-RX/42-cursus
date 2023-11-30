@@ -39,20 +39,3 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
-/*
-int	main(int argc,char **argv)
-{
-	int	i;
-
-	i = 1;
-	if (argc >= 1)
-	{
-		while (argv[i])
-		{
-			printf("res argv[%d] : %d\n", i, ft_atoi(argv[i]));
-			i++;
-		}
-	}
-	return (0);
-}
-*/

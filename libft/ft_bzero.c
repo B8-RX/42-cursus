@@ -24,21 +24,3 @@ void	ft_bzero(void *s, size_t n)
 		res++;
 	}
 }
-
-/*
-int	main(void)
-{
-	char	arr[] = "12345";
-	int		i;
-
-	i = -1;
-	while (++i < 5)
-		printf("%c", arr[i]);
-	printf("\n");
-	i = -1;
-	ft_bzero(arr, 3);
-	while (++i < 5)
-		printf("%c", arr[i]);
-	return (0);
-}
-*/

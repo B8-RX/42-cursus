@@ -32,20 +32,3 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	}
 	return (len_src);
 }
-/*
-int	main(void)
-{
-	const char	str[] = "test";
-	char		buff2[5];
-	int			i;
-
-	printf("result: %zu\n", ft_strlcpy(buff2, str, 5));
-	i = 0;
-	while(buff2[i])
-	{
-		printf("%c", buff2[i]);
-		i++;
-	}
-	return (0);
-}
-*/

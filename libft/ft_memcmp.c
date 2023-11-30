@@ -25,19 +25,3 @@ int	ft_memcmp(const void *pointer1, const void *pointer2, size_t size)
 				+ i));
 	return (0);
 }
-/*
-int	main(void) {
-
-	int array1 [] = { 54, 85, 20, 63, 21 };
-	int array2 [] = { 54, 85, 19, 63, 21 };
-	size_t size = sizeof( int ) * 5;
-
-	assert( memcmp( array1, array2, size) == ft_memcmp( array1, array2, size) );
-	assert( memcmp( array1, array1, size) == ft_memcmp( array1, array1, size) );
-	assert( memcmp( array2, array1, size) == ft_memcmp( array2, array1, size) );
-
-	printf( "test ok:");
-
-	return (0);
-}
-*/

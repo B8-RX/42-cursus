@@ -18,15 +18,3 @@ int	ft_isascii(int c)
 		return (1);
 	return (0);
 }
-
-// int	main(void)
-// {
-// 	int ch;
-
-// 	ch = 0x7d;
-// 	if (ft_isascii(ch))
-// 		printf("The character is |%c|\n", ch);
-// 	else
-// 		printf("Cannot be represented by an ASCII character\n");
-// 	return (0);
-// }

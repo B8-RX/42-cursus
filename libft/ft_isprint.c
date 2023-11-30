@@ -18,17 +18,3 @@ int	ft_isprint(int arg)
 		return (1);
 	return (0);
 }
-
-// int	main(void)
-// {
-// 	int	c;
-
-// 	c = 1;
-// 	while (c <= 127)
-// 	{
-// 		if (ft_isprint(c) != 0)
-// 			printf("|%c| ", c);
-// 		c++;
-// 	}
-// 	return (0);
-// }

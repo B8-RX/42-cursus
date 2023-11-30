@@ -18,11 +18,3 @@ int	ft_isalnum(int c)
 		return (1);
 	return (0);
 }
-
-// int	main(void)
-// {
-// 	char c = '-';
-// 	printf("test 1 %d\n", ft_isalnum(c));
-// 	printf("test 2 %d\n", isalnum(c));
-// 	return (0);
-// }

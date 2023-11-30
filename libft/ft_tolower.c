@@ -18,18 +18,3 @@ int	ft_tolower(int c)
 		c += 32;
 	return (c);
 }
-/*
-int	main(void) {
-
-	char * input = "Diego De La Vega";
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		printf( "%c", ft_tolower(input[i]));
-		i++;
-	}
-	return (0);
-}
-*/

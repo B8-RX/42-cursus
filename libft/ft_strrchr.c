@@ -27,18 +27,3 @@ char	*ft_strrchr(const char *str, int c)
 		return ((char *)str + (ft_strlen(str) + 1));
 	return ((void *)0);
 }
-/*
-int	main(void)
-{
-	const char	str[] = "https://www.tutorialspoint.com";
-	const char	ch = 'o';
-	char		*ret;
-	char		*ret2;
-
-	ret = ft_strrchr(str, ch);
-	ret2 = strrchr(str, ch);
-	printf("String after |%c| is - |%s|\n", ch, ret);
-	printf("Original String after |%c| is - |%s|\n", ch, ret2);
-	return (0);
-}
-*/

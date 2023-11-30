@@ -6,7 +6,7 @@
 /*   By: ssghioua <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 03:55:25 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/11/28 04:42:29 by ssghioua         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:36:47 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
+	t_list	*last;
+
 	if (!lst || !new)
-		return;
-	t_list *last = *lst;
+		return ;
+	last = *lst;
 	if (!*lst)
 	{	
 		*lst = new;
-		(**lst).next = NULL;
+		new -> next = NULL;
 	}
 	else
 	{
@@ -29,4 +31,3 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		last -> next = new;
 	}
 }
-

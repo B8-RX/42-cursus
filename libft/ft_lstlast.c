@@ -6,7 +6,7 @@
 /*   By: ssghioua <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 01:59:16 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/11/28 03:25:41 by ssghioua         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:38:09 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
-
-		while (lst && (*lst).next)
-			lst = (*lst).next;
-		return (lst);
+	while (lst && (*lst).next)
+		lst = (*lst).next;
+	return (lst);
 }
