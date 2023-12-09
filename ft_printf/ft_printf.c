@@ -34,28 +34,31 @@ int	ft_print_str(char *str)
 	return (count);
 }
 
-int	ft_print_nbr(int nb, int size)
+int	ft_print_nbr(int nb, int size, char format)
 {
 
 	char	num;
 	
-	if (nb == -2147483648)
+	if (format != 'u')
 	{
-		write(1, "-2147483648", 11);
-		return (11);
-	}
-	if (nb < 0)
-	{
-		write(1, "-", 1);
-		size++;
-		ft_print_nbr(-nb, size);	
+		if (nb == -2147483648)
+		{
+			write(1, "-2147483648", 11);
+			return (11);
+		}
+		if (nb < 0)
+		{
+			write(1, "-", 1);
+			size++;
+			ft_print_nbr(-nb, size, format);	
+		}
 	}
 	if (nb > 9)
 	{
+		size++;
+		ft_print_nbr(nb / 10, size, format);
 		num = nb % 10 + '0';
 		write(1, &num, 1);
-		size++;
-		ft_print_nbr(nb / 10, size);
 	}
 	else
 	{
@@ -72,13 +75,13 @@ int	ft_handle_format(char f, va_list args)
 	if (f == 's')
 		return (ft_print_str((char *)va_arg(args, void *)));
 	if (f == 'd')
-		return (ft_print_nbr(va_arg(args, int), 0));
+		return (ft_print_nbr(va_arg(args, int), 0, f));
+	if (f == 'u')
+		return (ft_print_nbr(va_arg(args, unsigned int), 0, f));
+	if (f == 'i')
+		return (ft_print_nbr(va_arg(args, int), 0, f)); 
 	// if (f == 'p')
 	// 	return (ft_print_nbr_base(va_arg(args, (void *), 16));
-	// if (f == 'i')
-	// 	return (ft_print_nbr(va_arg(args, int), 10)); 
-	// if (f == 'u')
-	// 	return (ft_print_nbr(va_arg(args, float)));
 	// if (f == 'x')
 	// 	return (ft_print_nbr_base(va_arg(args, int), 16));
 	// if (f == 'X')
@@ -120,13 +123,19 @@ int	main(void)
 	int	count;
 	// char	c = 'z';	
 	// char	str[] = "test";
-	int		decimal = -2147483648;
+	// int		int_min = -2147483648;
+	// int		int_max = 2147483647;
+	// int		nbr_positive = 42;
+	int		nbr_negative = -42;
+	// int		nbr_unsigned = 42;
 
 	count = 0;
 //	arg1 = 5;
 	// count = ft_printf("%c\n", c);// test char
-	// count = ft_printf("%s\n", arg2); // test string
-	count = ft_printf("%d\n", decimal); // test decimal
+	// count = ft_printf("%s\n", str); // test string
+	// count = ft_printf("%d\n", nbr_positive); // test positive num
+	count = ft_printf("%i\n", nbr_negative); // test negative num
+	// count = ft_printf("%u\n", nbr_unsigned); // test unsigned int
 	printf("result :%d\n", count);
 	return (0);
 }
