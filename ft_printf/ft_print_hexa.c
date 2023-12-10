@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_print_hexa.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 15:02:28 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/12/04 15:02:36 by ssghioua         ###   ########.fr       */
+/*   Created: 2023/12/10 19:56:59 by ssghioua          #+#    #+#             */
+/*   Updated: 2023/12/10 19:57:01 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_printf(const char *format, ...)
+int	ft_print_hexa(unsigned long nb, int size, char format, char *base)
 {
-	va_list	args;
-	int		count;
-	int		i;
+	size_t	base_len;
 
-	i = 0;
-	count = 0;
-	va_start(args, format);
-	while (format[i] != '\0')
+	base_len = ft_strlen(base);
+	if (nb > base_len)
 	{
-		if(format[i] == '%')
-		{	
-			count+= ft_handle_format(format[i + 1], args);
-			i += 2;
-		}
-		else
-		{
-			count+= write(1, &format[i], 1);
-			i++;
-		}
+		size = 1 + ft_print_hexa(nb / base_len, size, format, base);
+		write(1, &base[nb % base_len], 1);	
 	}
-	va_end(args);
-	return (count);
+	else
+	{
+		if (format == 'p')
+			size +=	write(1, "0x", 2);
+		size += write(1, &base[nb], 1);
+	}
+	return (size);
 }

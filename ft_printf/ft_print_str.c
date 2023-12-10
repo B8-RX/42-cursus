@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 15:02:28 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/12/04 15:02:36 by ssghioua         ###   ########.fr       */
+/*   Created: 2023/12/10 19:57:29 by ssghioua          #+#    #+#             */
+/*   Updated: 2023/12/10 19:57:31 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_printf(const char *format, ...)
+int	ft_print_str(char *str, int size)
 {
-	va_list	args;
-	int		count;
-	int		i;
-
-	i = 0;
-	count = 0;
-	va_start(args, format);
-	while (format[i] != '\0')
+	while (*str != '\0')
 	{
-		if(format[i] == '%')
-		{	
-			count+= ft_handle_format(format[i + 1], args);
-			i += 2;
-		}
-		else
-		{
-			count+= write(1, &format[i], 1);
-			i++;
-		}
-	}
-	va_end(args);
-	return (count);
+		size += ft_print_char(*str);
+		str++;
+	} 
+	return (size);
 }

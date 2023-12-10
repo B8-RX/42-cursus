@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 15:02:28 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/12/04 15:02:36 by ssghioua         ###   ########.fr       */
+/*   Created: 2023/12/10 19:32:05 by ssghioua          #+#    #+#             */
+/*   Updated: 2023/12/10 19:32:07 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef LIBFT_H
+# define LIBFT_H
 
-int	ft_printf(const char *format, ...)
-{
-	va_list	args;
-	int		count;
-	int		i;
+# include <unistd.h>
+# include <stdio.h>
+# include <stdarg.h>
 
-	i = 0;
-	count = 0;
-	va_start(args, format);
-	while (format[i] != '\0')
-	{
-		if(format[i] == '%')
-		{	
-			count+= ft_handle_format(format[i + 1], args);
-			i += 2;
-		}
-		else
-		{
-			count+= write(1, &format[i], 1);
-			i++;
-		}
-	}
-	va_end(args);
-	return (count);
-}
+int		ft_printf(const char *format, ...);
+size_t	ft_strlen(char *str);
+int		ft_print_char(char c);
+int		ft_print_str(char *str, int size);
+int		ft_print_nbr(int nb, int size);
+int		ft_print_hexa(unsigned long nb, int size, char format, char *base);
+int		ft_handle_format(char f, va_list args);
+#endif
+
