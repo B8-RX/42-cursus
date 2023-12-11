@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SOURCES = ft_printf.c ft_strlen.c ft_print_char.c ft_print_str.c ft_print_nbr.c ft_print_hexa.c ft_handle_format.c \
+SOURCES = ft_printf.c ft_strlen.c ft_print_char.c ft_print_str.c ft_print_nbr.c ft_print_unsigned.c ft_print_hexa.c ft_handle_format.c \
 
 NAME = libft.a
 

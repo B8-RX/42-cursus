@@ -22,7 +22,9 @@ size_t	ft_strlen(char *str);
 int		ft_print_char(char c);
 int		ft_print_str(char *str, int size);
 int		ft_print_nbr(int nb, int size);
+int		ft_print_unsigned(unsigned int nb, int size);
 int		ft_print_hexa(unsigned long nb, int size, char format, char *base);
 int		ft_handle_format(char f, va_list args);
+
 #endif
 
