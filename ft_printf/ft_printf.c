@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libftprintf.h"
 
 int	ft_printf(const char *format, ...)
 {
@@ -23,10 +23,15 @@ int	ft_printf(const char *format, ...)
 	va_start(args, format);
 	while (format[i] != '\0')
 	{
-		if(format[i] == '%')
+		if(format[i] == '%' && format[i + 1])
 		{	
-			count+= ft_handle_format(format[i + 1], args);
-			i += 2;
+			if (ft_strchr("csdiupxX%",format[i + 1]))
+			{	
+				count+= ft_handle_format(format[i + 1], args);
+				i += 2;
+			}
+			else
+				return (count+= write(1, &format[i], 1));
 		}
 		else
 		{

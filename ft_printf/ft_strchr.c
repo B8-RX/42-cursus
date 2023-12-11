@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_hexa.c                                    :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 19:56:59 by ssghioua          #+#    #+#             */
-/*   Updated: 2023/12/10 19:57:01 by ssghioua         ###   ########.fr       */
+/*   Created: 2023/12/11 22:01:57 by ssghioua          #+#    #+#             */
+/*   Updated: 2023/12/11 22:02:11 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int	ft_print_hexa(unsigned long nb, int size, char format, char *base)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	base_len;
+	int	i;
 
-	base_len = ft_strlen(base);
-	if (format == 'p' && !nb)
-		return (write(1, "(nil)", 5));
-	if (nb > base_len)
+	i = 0;
+	while (*(s + i))
 	{
-		size = 1 + ft_print_hexa(nb / base_len, size, format, base);
-		write(1, &base[nb % base_len], 1);	
+		if (*(unsigned char *)(s + i) == (unsigned char)c)
+			return ((char *)(s + i));
+		i++;
 	}
-	else
-	{
-		if (format == 'p')
-			size +=	write(1, "0x", 2);
-		size += write(1, &base[nb], 1);
-	}
-	return (size);
+	if (c == '\0')
+		return ((char *)(s + i));
+	return (NULL);
 }
