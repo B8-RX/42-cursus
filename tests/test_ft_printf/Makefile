@@ -2,17 +2,17 @@
 
 SOURCES = main.c \
 
-NAME = main_ftprintf.a
+NAME = output_ftprintf.a
 
 CCFLAGS = cc -Wall -Wextra -Werror
 
 LIB_PRINTF_PATH = ../ft_printf
 
-LIB_PRINTF  = ${LIB_PRINTF_PATH}/libft.a
+LIB_PRINTF  = ${LIB_PRINTF_PATH}/libftprintf.a
 
 OBJECTS = ${SOURCES:.c=.o}
 
-HEADER = ../ft_printf/libft.h
+HEADER = ../ft_printf/libftprintf.h
 
 all : ${NAME}
 
@@ -22,6 +22,7 @@ all : ${NAME}
 ${NAME} :	${LIB_PRINTF} ${OBJECTS}
 	cp ${LIB_PRINTF} ${NAME}
 		ar -rsc ${NAME} ${OBJECTS}
+		${CCFLAGS} ${NAME} -o run_test
 
 ${LIB_PRINTF} :
 	make -C ${LIB_PRINTF_PATH} all
@@ -32,7 +33,7 @@ clean :
 
 fclean :	clean
 	make -C ${LIB_PRINTF_PATH} fclean
-	rm -f ${NAME}
+	rm -f ${NAME} run_test
 
 re :	fclean all
 
