@@ -22,12 +22,12 @@ int	ft_print_hexa(unsigned long nb, int size, char format, char *base)
 	if (nb >= base_len)
 	{
 		size = 1 + ft_print_hexa(nb / base_len, size, format, base);
-		write(1, &base[nb % base_len], 1);	
+		write(1, &base[nb % base_len], 1);
 	}
 	else
 	{
 		if (format == 'p')
-			size +=	write(1, "0x", 2);
+			size += write(1, "0x", 2);
 		size += write(1, &base[nb], 1);
 	}
 	return (size);

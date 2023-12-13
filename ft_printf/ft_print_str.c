@@ -15,11 +15,11 @@
 int	ft_print_str(char *str, int size)
 {
 	if (!str)
-		return(ft_print_str("(null)", size));
+		return (ft_print_str("(null)", size));
 	while (*str != '\0')
 	{
 		size += ft_print_char(*str);
 		str++;
-	} 
+	}
 	return (size);
 }

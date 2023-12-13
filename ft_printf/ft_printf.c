@@ -23,19 +23,17 @@ int	ft_printf(const char *format, ...)
 	va_start(args, format);
 	while (format[i] != '\0')
 	{
-		if(format[i] == '%' && format[i + 1])
+		if (format[i] == '%' && format[i + 1])
 		{	
-			if (ft_strchr("csdiupxX%",format[i + 1]))
-			{	
-				count+= ft_handle_format(format[i + 1], args);
-				i += 2;
-			}
+			if (ft_strchr("csdiupxX%", format[i + 1]))
+				count += ft_handle_format(format[i + 1], args);
 			else
-				return (count+= write(1, &format[i], 1));
+				return (count += write(1, &format[i], 1));
+			i += 2;
 		}
 		else
 		{
-			count+= write(1, &format[i], 1);
+			count += write(1, &format[i], 1);
 			i++;
 		}
 	}
