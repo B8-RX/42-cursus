@@ -12,8 +12,16 @@
 
 #include "get_next_line.h"
 
+
 char	*get_next_line(int fd)
 {
-		
-	return (NULL);
+	char	*buff;
+	size_t	lines_read;
+	
+	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (buff == NULL)
+		return (NULL);
+	lines_read = read(fd, buff, BUFFER_SIZE);
+
+	return (buff);
 }
