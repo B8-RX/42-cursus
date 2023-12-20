@@ -19,11 +19,16 @@
 # define GET_NEXT_LINE_H
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 21
+# define BUFFER_SIZE 2
 #endif // !BUFFER_SIZE
 
 char	*get_next_line(int fd);		
 void	*ft_calloc(size_t nb, size_t n);
-
+char	*ft_substr(const char *s, unsigned int start, size_t len);
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strdup(const char *src);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
 #endif // !GET_NEXT_LINE_H
