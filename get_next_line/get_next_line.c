@@ -21,36 +21,65 @@ char	*get_next_line(int fd)
 	static int	memo_index;
 	int			index;
 
-	if (!memo_buff)
-		memo_buff = ft_strdup("");
 	if (!memo_index)
 		memo_index = 0;
+
 	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buff == NULL)
+	{
+		free(memo_buff);
+		free(buff);
 		return (NULL);
+	}
+
 	read_bytes = read(fd, buff, BUFFER_SIZE);
+	if (read_bytes == 0 && memo_buff[memo_index] == '\0')
+	{
+		free(memo_buff);
+		free(buff);
+		return (NULL);
+	}
 	buff[read_bytes] = '\0';
-	printf("buff after read function: |%s|\n", (unsigned char *)buff);
+	
+	if (!memo_buff)
+	{
+		memo_buff = ft_strdup("");
+		if (memo_buff == NULL)
+		{
+			free(memo_buff);
+			free(buff);
+			return (NULL);
+		}
+	}
 
-	if (read_bytes == 0)
+	if ((BUFFER_SIZE - read_bytes) > 0 && buff[read_bytes])
+	{
+		free(memo_buff);
+		free(buff);
 		return (NULL);
-	
-	if ((BUFFER_SIZE - read_bytes) > 0 && buff[read_bytes - 1] != -1)// error occures cause can't read the n BUFFER_SIZE characters and the end of file EOF (-1) has not been reached
-		return (NULL);
-	
+	}
 	memo_buff = ft_strjoin(memo_buff, buff);
-	
-	printf("memo_buff after strjoin: |%s|\n",  (unsigned char *)memo_buff);
-
+	if (memo_buff == NULL)
+	{
+		free(memo_buff);
+		free(buff);
+		return (NULL);
+	}
+	free(buff);
 	buff = NULL;
+	
 	index = 0;
-	while((BUFFER_SIZE - index) > 0 || (memo_buff[memo_index + index] && memo_buff[memo_index + index] != '\n'))
+	while(memo_buff[memo_index + index] && memo_buff[memo_index + index] != '\n')
 		index++;
-	
 	buff = ft_substr(memo_buff, memo_index, index + 1);
-	
-	memo_index += index;
-	printf("memo_index : |%d|\n", memo_index);
+
+	if (buff == NULL)
+	{
+		free(memo_buff);
+		free(buff);
+		return (NULL);
+	}
+	memo_index += index + 1;
 		
 	return (buff);
 }

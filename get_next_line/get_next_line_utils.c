@@ -22,7 +22,7 @@ void	*ft_calloc(size_t nb, size_t n)
 		return (NULL);
 	total = nb * n;
 	new = malloc(total);
-	if (!new)
+	if (new == NULL)
 		return (NULL);
 	i = 0;
 	while (i < total)
@@ -45,7 +45,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	else if (len > ft_strlen(&s[start]))
 		len = ft_strlen(&s[start]);
 	new = malloc(sizeof(char) * (len + 1));
-	if (!new)
+	if (new == NULL)
 		return (NULL);
 	i = 0;
 	while (i < len && s[start + i])
@@ -79,7 +79,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	len_s2 = ft_strlen(s2);
 	new = (char *)ft_calloc((len_s1 + len_s2 + 1), sizeof(char));
 	if (new == NULL)
-		return (new);
+		return (NULL);
 	ft_strlcpy(new, s1, len_s1 + 1);
 	ft_strlcat(new, s2, len_s1 + len_s2 + 1);
 	return (new);
@@ -92,7 +92,7 @@ char	*ft_strdup(const char *src)
 
 	new = (char *)malloc((ft_strlen(src)+ 1) / sizeof(char));
 	if (new == NULL)
-		return (new);
+		return (NULL);
 	i = 0;
 	while (src[i])
 	{
@@ -135,7 +135,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	if (size && len_dst < size - 1)
 	{
 		i = 0;
-		while (src[i] && (len_dst + i < size - 1))
+		while ((len_dst + i < size - 1) && src[i])
 		{
 			dst[len_dst + i] = src[i];
 			i++;
