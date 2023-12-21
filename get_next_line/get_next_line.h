@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 2
-#endif // !BUFFER_SIZE
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 2
+# endif // !BUFFER_SIZE
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
 
 char	*get_next_line(int fd);		
 void	*ft_calloc(size_t nb, size_t n);

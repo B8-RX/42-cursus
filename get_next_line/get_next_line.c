@@ -12,18 +12,16 @@
 
 #include "get_next_line.h"
 
-
 char	*get_next_line(int fd)
 {
-	char		*buff;
 	static char	*memo_buff;
-	size_t		read_bytes;
 	static int	memo_index;
+	char		*buff;
+	size_t		read_bytes;
 	int			index;
 
 	if (!memo_index)
 		memo_index = 0;
-
 	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buff == NULL)
 	{
@@ -31,7 +29,6 @@ char	*get_next_line(int fd)
 		free(buff);
 		return (NULL);
 	}
-
 	read_bytes = read(fd, buff, BUFFER_SIZE);
 	if (read_bytes == 0 && memo_buff[memo_index] == '\0')
 	{
@@ -40,7 +37,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	buff[read_bytes] = '\0';
-	
 	if (!memo_buff)
 	{
 		memo_buff = ft_strdup("");
@@ -51,7 +47,6 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 	}
-
 	if ((BUFFER_SIZE - read_bytes) > 0 && buff[read_bytes])
 	{
 		free(memo_buff);
@@ -67,12 +62,11 @@ char	*get_next_line(int fd)
 	}
 	free(buff);
 	buff = NULL;
-	
 	index = 0;
-	while(memo_buff[memo_index + index] && memo_buff[memo_index + index] != '\n')
+	while (memo_buff[memo_index + index]
+		&& memo_buff[memo_index + index] != '\n')
 		index++;
 	buff = ft_substr(memo_buff, memo_index, index + 1);
-
 	if (buff == NULL)
 	{
 		free(memo_buff);
@@ -80,6 +74,5 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	memo_index += index + 1;
-		
 	return (buff);
 }
