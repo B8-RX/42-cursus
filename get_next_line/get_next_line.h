@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdarg.h>
 
 char	*get_next_line(int fd);		
 void	*ft_calloc(size_t nb, size_t n);
@@ -30,5 +31,6 @@ char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strdup(const char *src);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
+void	*ft_memory_error(char *format, ...);
 
 #endif // !GET_NEXT_LINE_H
