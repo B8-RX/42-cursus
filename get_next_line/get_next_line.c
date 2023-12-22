@@ -12,6 +12,16 @@
 
 #include "get_next_line.h"
 
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
 void	*ft_free_memo(char *format, ...)
 {
 	va_list	args;
@@ -49,11 +59,11 @@ char	*get_next_line(int fd)
 	int			index;
 
 	ft_init_static_vars(&memo_buff, &memo_index);
-	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (buff == NULL)
+	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
 		return (ft_free_memo("%s%s", memo_buff, buff));
 	read_bytes = read(fd, buff, BUFFER_SIZE);
-	if (read_bytes == 0 && memo_buff[memo_index] == '\0')
+	if (!read_bytes && memo_buff[memo_index] == '\0')
 		return (ft_free_memo("%s%s", memo_buff, buff));
 	buff[read_bytes] = '\0';
 	memo_buff = ft_strjoin(memo_buff, buff);

@@ -12,27 +12,6 @@
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t nb, size_t n)
-{
-	void	*new;
-	size_t	i;
-	size_t	total;
-
-	if (n && nb > (size_t)(-1) / n)
-		return (NULL);
-	total = nb * n;
-	new = malloc(total);
-	if (new == NULL)
-		return (NULL);
-	i = 0;
-	while (i < total)
-	{
-		((unsigned char *)new)[i] = 0;
-		i++;
-	}
-	return (new);
-}
-
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	char	*new;
@@ -57,16 +36,6 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	return (new);
 }
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char			*new;
@@ -77,7 +46,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		return (NULL);
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
-	new = (char *)ft_calloc((len_s1 + len_s2 + 1), sizeof(char));
+	new = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(char));
 	if (new == NULL)
 		return (NULL);
 	ft_strlcpy(new, s1, len_s1 + 1);
