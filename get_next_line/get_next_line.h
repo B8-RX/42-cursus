@@ -31,6 +31,7 @@ char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strdup(const char *src);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
-void	*ft_memory_error(char *format, ...);
+void	*ft_free_memo(char *format, ...);
+void	ft_init_static_vars(char **memo_buff, int *memo_index);
 
 #endif // !GET_NEXT_LINE_H

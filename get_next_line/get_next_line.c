@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-void	*ft_memory_error(char *format, ...)
+void	*ft_free_memo(char *format, ...)
 {
 	va_list	args;
 
@@ -31,6 +31,15 @@ void	*ft_memory_error(char *format, ...)
 	return (NULL);
 }
 
+void	ft_init_static_vars(char **memo_buff, int *memo_index)
+{
+	if (!*memo_buff)
+	{
+		*memo_buff = ft_strdup("");
+		memo_index = 0;
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*memo_buff;
@@ -39,26 +48,15 @@ char	*get_next_line(int fd)
 	size_t		read_bytes;
 	int			index;
 
-	if (!memo_index)
-		memo_index = 0;
+	ft_init_static_vars(&memo_buff, &memo_index);
 	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buff == NULL)
-		return (ft_memory_error("%s%s", memo_buff, buff));
+		return (ft_free_memo("%s%s", memo_buff, buff));
 	read_bytes = read(fd, buff, BUFFER_SIZE);
 	if (read_bytes == 0 && memo_buff[memo_index] == '\0')
-		return (ft_memory_error("%s%s", memo_buff, buff));
+		return (ft_free_memo("%s%s", memo_buff, buff));
 	buff[read_bytes] = '\0';
-	if (!memo_buff)
-	{
-		memo_buff = ft_strdup("");
-		if (memo_buff == NULL)
-			return (ft_memory_error("%s%s", memo_buff, buff));
-	}
-	if ((BUFFER_SIZE - read_bytes) > 0 && buff[read_bytes])
-		return (ft_memory_error("%s%s", memo_buff, buff));
 	memo_buff = ft_strjoin(memo_buff, buff);
-	if (memo_buff == NULL)
-		return (ft_memory_error("%s%s", memo_buff, buff));
 	free(buff);
 	buff = NULL;
 	index = 0;
@@ -66,8 +64,6 @@ char	*get_next_line(int fd)
 		&& memo_buff[memo_index + index] != '\n')
 		index++;
 	buff = ft_substr(memo_buff, memo_index, index + 1);
-	if (buff == NULL)
-		return (ft_memory_error("%s%s", memo_buff, buff));
 	memo_index += index + 1;
 	return (buff);
 }
