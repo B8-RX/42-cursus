@@ -22,32 +22,21 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void	*ft_free_memo(char *format, ...)
+void	*ft_free_memo(char *buff)
 {
-	va_list	args;
-
-	va_start(args, format);
-	while (*format != '\0')
-	{
-		if (*format == '%')
-		{
-			free((char *)va_arg(args, char *));
-			format += 2;
-		}
-		else
-			format++;
-	}
-	va_end(args);
+	free(buff);
 	return (NULL);
 }
 
-void	ft_init_static_vars(char **memo_buff, int *memo_index)
+int	ft_init_static_vars(char **memo_buff, int *memo_index)
 {
+	free(*memo_buff);
+	*memo_buff = ft_calloc(1, sizeof(char));
 	if (!*memo_buff)
-	{
-		*memo_buff = ft_strdup("");
-		memo_index = 0;
-	}
+		*memo_index = -1;
+	else
+		*memo_index = 0;
+	return (*memo_index);
 }
 
 char	*get_next_line(int fd)
@@ -58,21 +47,21 @@ char	*get_next_line(int fd)
 	size_t		read_bytes;
 	int			index;
 
-	ft_init_static_vars(&memo_buff, &memo_index);
+	if (!memo_buff && !memo_index)
+		if (ft_init_static_vars(&memo_buff, &memo_index) == -1)
+			return (NULL);
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
-		return (ft_free_memo("%s%s", memo_buff, buff));
+		return (ft_free_memo(buff));
 	read_bytes = read(fd, buff, BUFFER_SIZE);
-	if (!read_bytes && memo_buff[memo_index] == '\0')
-		return (ft_free_memo("%s%s", memo_buff, buff));
+	if (read_bytes == 0 && !memo_buff[memo_index])
+		return (ft_free_memo(buff));
 	buff[read_bytes] = '\0';
 	memo_buff = ft_strjoin(memo_buff, buff);
-	free(buff);
-	buff = NULL;
 	index = 0;
-	while (memo_buff[memo_index + index]
-		&& memo_buff[memo_index + index] != '\n')
+	while (memo_buff[memo_index + index] != '\n' && memo_buff[memo_index + index])
 		index++;
+	free(buff);
 	buff = ft_substr(memo_buff, memo_index, index + 1);
 	memo_index += index + 1;
 	return (buff);
