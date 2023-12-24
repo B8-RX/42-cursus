@@ -23,7 +23,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		len = 0;
 	else if (len > ft_strlen(&s[start]))
 		len = ft_strlen(&s[start]);
-	new = malloc(sizeof(char) * (len + 1));
+	new = ft_calloc(sizeof(char), (len + 1));
 	if (new == NULL)
 		return (NULL);
 	i = 0;
@@ -32,7 +32,6 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		new[i] = s[start + i];
 		i++;
 	}
-	new[i] = '\0';
 	return (new);
 }
 
@@ -72,7 +71,6 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		return (NULL);
 	ft_strlcpy(new, s1, len_s1);
 	ft_strlcat(new, s2, len_s1 + len_s2 + 1);
-
 	return (new);
 }
 
@@ -92,7 +90,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 			dst[i] = src[i];
 			i++;
 		}
-		// dst[i] = '\0';
 	}
 	return (len_src);
 }

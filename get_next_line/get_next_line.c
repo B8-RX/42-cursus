@@ -44,25 +44,25 @@ char	*get_next_line(int fd)
 	static char	*memo_buff;
 	static int	memo_index;
 	char		*buff;
-	size_t		read_bytes;
 	int			index;
 
 	if (!memo_buff && !memo_index)
 		if (ft_init_static_vars(&memo_buff, &memo_index) == -1)
 			return (NULL);
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = ft_calloc((BUFFER_SIZE), sizeof(char));
 	if (!buff)
 		return (ft_free_memo(buff));
-	read_bytes = read(fd, buff, BUFFER_SIZE);
-	if (read_bytes == 0 && !memo_buff[memo_index])
+	if (!read(fd, buff, BUFFER_SIZE) && memo_buff[memo_index] == '\0')
 		return (ft_free_memo(buff));
-	buff[read_bytes] = '\0';
 	memo_buff = ft_strjoin(memo_buff, buff);
-	index = 0;
-	while (memo_buff[memo_index + index] != '\n' && memo_buff[memo_index + index])
-		index++;
 	free(buff);
-	buff = ft_substr(memo_buff, memo_index, index + 1);
-	memo_index += index + 1;
+	index = 0;
+	while (memo_buff[memo_index + index] != '\n'
+		&& memo_buff[memo_index + index])
+		index++;
+	if (memo_buff[memo_index + index] == '\n')
+		index++;
+	buff = ft_substr(memo_buff, memo_index, index);
+	memo_index += index;
 	return (buff);
 }
