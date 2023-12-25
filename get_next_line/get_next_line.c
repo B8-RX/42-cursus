@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
@@ -39,6 +39,16 @@ int	ft_init_static_vars(char **memo_buff, int *memo_index)
 	return (*memo_index);
 }
 
+char	*ft_update_memo_buff(char *memo_buff, char *buff)
+{
+	char	*new;
+
+	new = ft_strjoin(memo_buff, buff);
+	free(memo_buff);
+	free(buff);
+	return (new);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*memo_buff;
@@ -49,13 +59,12 @@ char	*get_next_line(int fd)
 	if (!memo_buff && !memo_index)
 		if (ft_init_static_vars(&memo_buff, &memo_index) == -1)
 			return (NULL);
-	buff = ft_calloc((BUFFER_SIZE), sizeof(char));
+	buff = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buff)
-		return (ft_free_memo(buff));
+		return (free(memo_buff), NULL);
 	if (!read(fd, buff, BUFFER_SIZE) && memo_buff[memo_index] == '\0')
-		return (ft_free_memo(buff));
-	memo_buff = ft_strjoin(memo_buff, buff);
-	free(buff);
+		return (free(buff), free(memo_buff), NULL);
+	memo_buff = ft_update_memo_buff(memo_buff, buff);
 	index = 0;
 	while (memo_buff[memo_index + index] != '\n'
 		&& memo_buff[memo_index + index])

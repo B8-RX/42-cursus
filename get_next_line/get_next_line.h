@@ -25,11 +25,11 @@
 
 char	*get_next_line(int fd);		
 void	*ft_calloc(size_t nb, size_t n);
-char	*ft_substr(const char *s, unsigned int start, size_t len);
-size_t	ft_strlen(const char *s);
-char	*ft_strjoin(const char *s1, const char *s2);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-size_t	ft_strlcat(char *dst, const char *src, size_t size);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+size_t	ft_strlen(char *s);
+char	*ft_strjoin(char *s1, char *s2);
+size_t	ft_strlcpy(char *dst, char *src, size_t size);
+size_t	ft_strlcat(char *dst, char *src, size_t size);
 void	*ft_free_memo(char *buff);
 int		ft_init_static_vars(char **memo_buff, int *memo_index);
 

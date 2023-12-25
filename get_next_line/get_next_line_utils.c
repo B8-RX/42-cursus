@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*new;
 	size_t	i;
@@ -56,7 +56,7 @@ void	*ft_calloc(size_t nb, size_t n)
 	return (new);
 }
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char			*new;
 	size_t			len_s1;
@@ -66,15 +66,15 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		return (NULL);
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
-	new = (char *)ft_calloc((len_s1 + len_s2 + 1), sizeof(char));
+	new = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(char));
 	if (new == NULL)
 		return (NULL);
-	ft_strlcpy(new, s1, len_s1);
+	ft_strlcpy(new, s1, len_s1 + 1);
 	ft_strlcat(new, s2, len_s1 + len_s2 + 1);
 	return (new);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	ft_strlcpy(char *dst, char *src, size_t size)
 {
 	size_t	len_src;
 	size_t	i;
@@ -85,16 +85,17 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	i = 0;
 	if (size > 0)
 	{
-		while (i < (size) && (src[i] || src[i] == 0))
+		while (i < (size) && src[i])
 		{
 			dst[i] = src[i];
 			i++;
 		}
+		dst[i] = '\0';
 	}
 	return (len_src);
 }
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+size_t	ft_strlcat(char *dst, char *src, size_t size)
 {
 	size_t	i;
 	size_t	len_dst;
@@ -105,7 +106,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	if (size && len_dst < size - 1)
 	{
 		i = 0;
-		while ((len_dst + i < size - 1) && (src[i] || src[i] == 0))
+		while ((len_dst + i < size - 1) && src[i])
 		{
 			dst[len_dst + i] = src[i];
 			i++;
