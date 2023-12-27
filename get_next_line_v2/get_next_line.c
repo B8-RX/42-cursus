@@ -47,33 +47,43 @@ char	*ft_update_memo_buff(char *memo_buff, char *buff, size_t last_index)
 	return (new);
 }
 
+char	*ft_update_buff(char *memo_buff, char *buff, int lf)
+{
+	char	*new;
+	size_t	size_line;
+
+	if (lf)
+		size_line = ft_strlen(memo_buff)
+			- ft_strlen(ft_strchr(memo_buff, '\n')) + 1;
+	else
+		size_line = ft_strlen(memo_buff) + ft_strlen(buff);
+	free(buff);
+	new = ft_substr(memo_buff, 0, size_line);
+	return (new);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*memo_buff;
 	char		*buff;
-	size_t		last_index;
 
 	if (!memo_buff)
 		memo_buff = ft_strjoin("", "");
 	buff = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buff)
 		return (free(memo_buff), NULL);
-	if (!read(fd, buff, BUFFER_SIZE) && memo_buff[ft_strlen(memo_buff)] == '\0')
+	if (!read(fd, buff, BUFFER_SIZE) && (*memo_buff == '\0'))
 		return (free(buff), free(memo_buff), NULL);
-	last_index = 0;
-	memo_buff = ft_update_memo_buff(memo_buff, buff, last_index);
+	memo_buff = ft_update_memo_buff(memo_buff, buff, 0);
 	if (ft_strchr(buff, '\n'))
 	{
-		last_index = ft_strlen(memo_buff) - ft_strlen(ft_strchr(memo_buff, '\n')) + 1;
-		free(buff);
-		buff = ft_substr(memo_buff, 0, last_index);
+		buff = ft_update_buff(memo_buff, buff, 1);
+		memo_buff = ft_update_memo_buff(memo_buff, "", ft_strlen(buff));
 	}
 	else
 	{
-		last_index = ft_strlen(buff);
-		free(buff);
-		buff = ft_strjoin(memo_buff, "");
+		buff = ft_update_buff(memo_buff, buff, 0);
+		memo_buff = ft_update_memo_buff(memo_buff, "", ft_strlen(buff));
 	}
-	memo_buff = ft_update_memo_buff(memo_buff, "", last_index);
-	return (buff);	
+	return (buff);
 }

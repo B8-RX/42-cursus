@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 55
+#  define BUFFER_SIZE 5
 # endif // !BUFFER_SIZE
 
 # include <stdio.h>
@@ -30,9 +30,8 @@ size_t	ft_strlen(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
-void	*ft_free_memo(char *buff);
-int		ft_init_static_vars(char **memo_buff, int *memo_index);
 char	*ft_strchr(const char *s, int c);
-char	*ft_update_memo_buff(char *memo_buff, char *buff, size_t lf_index);
+char	*ft_update_memo_buff(char *memo_buff, char *buff, size_t last_index);
+char	*ft_update_buff(char *memo_buff, char *buff, int lf);
 
 #endif // !GET_NEXT_LINE_H
