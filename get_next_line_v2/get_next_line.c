@@ -67,12 +67,14 @@ char	*get_next_line(int fd)
 	static char	*memo_buff;
 	char		*buff;
 
+	if (fd < 0)
+		return (NULL);
 	if (!memo_buff)
 		memo_buff = ft_strjoin("", "");
 	buff = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buff)
 		return (free(memo_buff), NULL);
-	if (!read(fd, buff, BUFFER_SIZE) && (*memo_buff == '\0'))
+	if ((!read(fd, buff, BUFFER_SIZE) || !*buff) && (*memo_buff == '\0'))
 		return (free(buff), free(memo_buff), NULL);
 	memo_buff = ft_update_memo_buff(memo_buff, buff, 0);
 	if (ft_strchr(buff, '\n'))
