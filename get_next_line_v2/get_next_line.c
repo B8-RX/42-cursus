@@ -38,54 +38,54 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_update_static_buff(char *static_buff, char *buff, size_t last_index)
+char	*ft_update_stock(char *stock, char *buff, size_t size)
 {
-	char	*new;
+	char *new;
 
-	new = ft_strjoin((static_buff + last_index), buff);
-	free(static_buff);
+	new = ft_strjoin(stock + size, buff);
+	free(stock);
 	return (new);
 }
 
-char	*ft_update_buff(char *static_buff, char *buff, int found_lf)
+char	*ft_get_line(char *stock, char *buff)
 {
 	char	*new;
-	size_t	size_line;
+	size_t	len;
 
-	if (found_lf)
-		size_line = ft_strlen(static_buff)
-			- ft_strlen(ft_strchr(static_buff, '\n')) + 1;
+	if (ft_strchr(stock, '\n'))
+		len = ft_strlen(stock) - ft_strlen(ft_strchr(stock, '\n')) + 1;
 	else
-		size_line = ft_strlen(static_buff) + ft_strlen(buff);
+		len = ft_strlen(stock);
 	free(buff);
-	new = ft_substr(static_buff, 0, size_line);
+	new = ft_substr(stock, 0, len);
 	return (new);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*static_buff;
+	static char	*stock;
 	char		*buff;
+	ssize_t		read_bytes;
 
-	if (!static_buff)
-		static_buff = ft_strjoin("", "");
-	buff = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+
+	if (!stock)
+		stock = ft_strjoin("", "");
+	if (fd < 0)
+		return (NULL);
+	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
-	if (fd < 0)
-		return (free(buff), NULL);
-	if ((!read(fd, buff, BUFFER_SIZE) || !*buff) && *static_buff == '\0')
-		return (free(buff), NULL);
-	static_buff = ft_update_static_buff(static_buff, buff, 0);
-	if (ft_strchr(buff, '\n'))
+	read_bytes = 1;
+	buff[0] = '\0';
+	while (read_bytes > 0 && !ft_strchr(buff, '\n'))
 	{
-		buff = ft_update_buff(static_buff, buff, 1);
-		static_buff = ft_update_static_buff(static_buff, "", ft_strlen(buff));
+		read_bytes = read(fd, buff, BUFFER_SIZE);
+		if ((read_bytes == 0 || *buff == '\0') && *stock == '\0')
+			return (free(buff), NULL);
+		buff[read_bytes] = '\0';
+		stock = ft_update_stock(stock, buff, 0);
 	}
-	else
-	{
-		buff = ft_update_buff(static_buff, buff, 0);
-		static_buff = ft_update_static_buff(static_buff, "", ft_strlen(buff));
-	}
+	buff = ft_get_line(stock, buff);
+	stock = ft_update_stock(stock, "", ft_strlen(buff));
 	return (buff);
 }

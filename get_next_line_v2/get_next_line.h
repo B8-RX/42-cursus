@@ -24,14 +24,14 @@
 # include <stdarg.h>
 
 char	*get_next_line(int fd);		
-void	*ft_calloc(size_t nb, size_t n);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
-char	*ft_update_memo_buff(char *memo_buff, char *buff, size_t last_index);
-char	*ft_update_buff(char *memo_buff, char *buff, int lf);
+char	*ft_update_stock(char *stock, char *buff, size_t size);
+char	*ft_get_line(char *stock, char *buff);
+
 
 #endif // !GET_NEXT_LINE_H

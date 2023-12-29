@@ -23,7 +23,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		len = 0;
 	else if (len > ft_strlen(&s[start]))
 		len = ft_strlen(&s[start]);
-	new = ft_calloc(sizeof(char), (len + 1));
+	new = malloc(sizeof(char) * (len + 1));
 	if (new == NULL)
 		return (NULL);
 	i = 0;
@@ -32,27 +32,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		new[i] = s[start + i];
 		i++;
 	}
-	return (new);
-}
-
-void	*ft_calloc(size_t nb, size_t n)
-{
-	void	*new;
-	size_t	i;
-	size_t	total;
-
-	if (n && nb > (size_t)(-1) / n)
-		return (NULL);
-	total = nb * n;
-	new = malloc(total);
-	if (new == NULL)
-		return (NULL);
-	i = 0;
-	while (i < total)
-	{
-		((unsigned char *)new)[i] = 0;
-		i++;
-	}
+	new[i] = '\0';
 	return (new);
 }
 
