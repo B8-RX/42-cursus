@@ -12,7 +12,7 @@
 
 SOURCES = main.c 
 
-SOURCES_GNL = ../get_next_line/get_next_line.c ../get_next_line/get_next_line_utils.c
+SOURCES_GNL = ../../get_next_line/gnl_v2_single_static/get_next_line.c ../../get_next_line/gnl_v2_single_static/get_next_line_utils.c
 
 NAME = output_test_gnl.a
 
@@ -22,7 +22,7 @@ OBJECTS = ${SOURCES:.c=.o}
 
 OBJECTS_GNL = ${SOURCES_GNL:.c=.o}
 
-HEADER = ../get_next_line/get_next_line.h
+HEADER = ../../get_next_line/gnl_v2_single_static/get_next_line.h
 
 all :	${NAME}
 
@@ -33,18 +33,20 @@ ${NAME} :	${OBJECTS_GNL} ${OBJECTS}
 	ar -rsc ${NAME} ${OBJECTS} ${OBJECTS_GNL}
 		${CCFLAGS} ${NAME} -o run_test_gnl
 
-${OBJECTS_GNL} :
-ifneq ($(filter-out $@,$(MAKECMDGOALS)), ) 
-	@echo "NOT INIT"
-#BUFFER_SIZE = $(filter-out $@, $(MAKECMDGOALS))
-endif
-ifndef BUFFER_SIZE
-	@echo "INIT"
-	#${CCFLAGS} -D BUFFER_SIZE=${BUFFER_SIZE} -I ${HEADER} -c ${SOURCES_GNL}
-else
-	${CCFLAGS} -c ${OBJECTS_GNL}
-endif	
-	mv ./get_next_line.o ./get_next_line_utils.o ../get_next_line/
+
+${OBJECTS_GNL} : ${OBJECTS}
+	${CCFLAGS} -c ${SOURCES_GNL}
+	mv ./get_next_line.o ./get_next_line_utils.o ../../get_next_line/gnl_v2_single_static/
+
+# ifneq ($(filter-out $@,$(MAKECMDGOALS)), ) 
+# 	@echo "NOT INIT"
+# BUFFER_SIZE = $(filter-out $@, $(MAKECMDGOALS))
+# endif
+# ifndef BUFFER_SIZE
+# 	@echo "INIT"
+# 	${CCFLAGS} -D BUFFER_SIZE=${BUFFER_SIZE} -I ${HEADER} -c ${SOURCES_GNL}
+# else
+	# endif	
 
 clean :
 	rm -f ${OBJECTS} ${OBJECTS_GNL}
