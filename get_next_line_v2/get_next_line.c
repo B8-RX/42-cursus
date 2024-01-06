@@ -40,7 +40,7 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_update_stock(char *stock, char *buff, size_t size)
 {
-	char *new;
+	char	*new;
 
 	new = ft_strjoin(stock + size, buff);
 	free(stock);
@@ -48,7 +48,7 @@ char	*ft_update_stock(char *stock, char *buff, size_t size)
 	return (new);
 }
 
-char	*ft_get_line(char *stock, char *buff)
+char	*ft_get_line(char *stock)
 {
 	char	*new;
 	size_t	len;
@@ -57,8 +57,6 @@ char	*ft_get_line(char *stock, char *buff)
 		len = ft_strlen(stock) - ft_strlen(ft_strchr(stock, '\n')) + 1;
 	else
 		len = ft_strlen(stock);
-	free(buff);
-	buff = NULL;
 	new = ft_substr(stock, 0, len);
 	return (new);
 }
@@ -66,36 +64,16 @@ char	*ft_get_line(char *stock, char *buff)
 char	*get_next_line(int fd)
 {
 	static char	*stock;
-	char		*buff;
-	ssize_t		read_bytes;
 	char		*line;
-
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!stock)
 		stock = ft_strjoin("", "");
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
+	stock = ft_read_file(fd, stock);
+	if (!stock)
 		return (NULL);
-	buff[0] = '\0';
-	read_bytes = 1;
-	while (read_bytes > 0 && !ft_strchr(buff, '\n'))
-	{
-		read_bytes = read(fd, buff, BUFFER_SIZE);
-		if ((read_bytes <= 0 && !*stock) || read_bytes == -1)
-		{
-			free(buff);
-			free(stock);
-			buff = NULL;
-			stock = NULL;
-			return (NULL);
-		}
-		buff[read_bytes] = '\0';
-		stock = ft_update_stock(stock, buff, 0);
-	}
-	line = ft_get_line(stock, buff);
+	line = ft_get_line(stock);
 	stock = ft_update_stock(stock, "", ft_strlen(line));
-
 	return (line);
 }
