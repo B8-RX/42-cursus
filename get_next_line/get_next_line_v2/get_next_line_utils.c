@@ -99,28 +99,18 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 		return (len_dst + ft_strlen(src));
 }
 
-char	*ft_read_file(int fd, char *stock)
+char	*ft_strchr(const char *s, int c)
 {
-	char		*buff;
-	ssize_t		read_bytes;
+	int	i;
 
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
-		return (NULL);
-	buff[0] = '\0';
-	read_bytes = 1;
-	while (read_bytes > 0 && !ft_strchr(buff, '\n'))
+	i = 0;
+	while (*(s + i))
 	{
-		read_bytes = read(fd, buff, BUFFER_SIZE);
-		if ((read_bytes <= 0 && !*stock) || read_bytes == -1)
-		{
-			free(buff);
-			free(stock);
-			return (NULL);
-		}
-		buff[read_bytes] = '\0';
-		stock = ft_update_stock(stock, buff, 0);
+		if (*(unsigned char *)(s + i) == (unsigned char)c)
+			return ((char *)(s + i));
+		i++;
 	}
-	free(buff);
-	return (stock);
+	if (c == '\0')
+		return ((char *)(s + i));
+	return (NULL);
 }

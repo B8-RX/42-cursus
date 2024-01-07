@@ -30,8 +30,8 @@ char	*ft_strjoin(const char *s1, const char *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
-char	*ft_update_stock(char *stock, char *buff, size_t size);
-char	*ft_get_line(char *stock);
-char	*ft_read_file(int fd, char *stock);
+char	*ft_update_stash(char *stash, char *buff, size_t size);
+char	*ft_get_line(char *stash);
+char	*ft_read_file(int fd, char *stash);
 
 #endif // !GET_NEXT_LINE_H
