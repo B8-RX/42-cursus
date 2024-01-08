@@ -10,20 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd)static
 {
-	Stash_list	*Stash;
-	char		*line;
+	static Base_stash	*Stash;
+	int					current_fd;
 
-	if (fd <= 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!Stash);
-		ft_init_stash();
-	Stash = ft_read_file(fd, Stash);
+	if (!Stash)
+		Stash = ft_init_stash(fd);
 	if (!Stash)
 		return (NULL);
-	line = ft_get_line();
-	return (line);
+	current_fd = Stash -> fd;
+	printf("current_fd: %d\n", current_fd);
+	if (current_fd)
+		return ("OK");
+	else
+		return ("KO");
 }
+
+Base_stash	*ft_init_stash(int fd)
+{
+	Base_stash	*New;
+
+	New = malloc(sizeof(Base_stash));
+	if (!New)
+		return (NULL);
+	New -> fd = fd;
+	New -> buffer = NULL;
+	return  (New);
+}
+
+
+
