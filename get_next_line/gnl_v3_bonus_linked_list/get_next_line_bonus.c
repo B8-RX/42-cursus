@@ -152,5 +152,7 @@ Stash_list	*ft_init_stash(int fd)
 	*(New -> Fd_stash -> buffer) = '\0';
 	New -> next = NULL;
 	printf("FD %d CREATED\n", fd);
+	New -> Fd_stash -> buffer = NULL;
+	New -> next = NULL;
 	return  (New);
 }
