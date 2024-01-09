@@ -59,12 +59,27 @@ int	main(void)
 	printf("result 1: %s\n\n", line);
 	line = get_next_line(fd2);
 	printf("result 2: %s\n\n", line);
+<<<<<<< HEAD
 >>>>>>> d3ac247 (gnl_bonus: update the linked list in ft_check_fd_stash function, free memory, freeing linked_list if ft_check_fd_stash function return NULL)
 =======
 	printf("result %d: %s\n\n", ++i, line); // 4
 =======
 	printf("result %d: |%s|\n\n", ++i, line); // 4
 >>>>>>> 57db75a (gnl_bonus: work on the ft_read_file branch. Buffer update on each call is implemented. To do: cut and update the buffer, keeping the part after the linefeed if a linefeed is found during reading.)
+=======
+	line = get_next_line(fd3);
+	printf("result 3: %s\n\n", line);
+	line = get_next_line(fd3);
+	printf("result 3: %s\n\n", line);
+	line = get_next_line(fd2);
+	printf("result 2: %s\n\n", line);
+	line = get_next_line(fd3);
+	printf("result 3: %s\n\n", line);
+	line = get_next_line(fd1);
+	printf("result 1: %s\n\n", line);
+	line = get_next_line(fd2);
+	printf("result 2: %s\n\n", line);
+>>>>>>> d3ac247 (gnl_bonus: update the linked list in ft_check_fd_stash function, free memory, freeing linked_list if ft_check_fd_stash function return NULL)
 	// free(line);
 
 	line = get_next_line(fd3);
