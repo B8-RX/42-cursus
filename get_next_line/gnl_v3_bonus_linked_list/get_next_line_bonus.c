@@ -12,34 +12,82 @@
 
 #include "get_next_line_bonus.h"
 
-char	*get_next_line(int fd)static
+char	*get_next_line(int fd)
 {
-	static Base_stash	*Stash;
-	int					current_fd;
+	static Stash_list	*Stash;
+	Stash_list			*Current_fd_stash;
 
 	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!Stash)
 		Stash = ft_init_stash(fd);
-	if (!Stash)
+	Current_fd_stash = ft_check_fd_stash(&Stash, fd);
+	if (!Current_fd_stash)
+	{
+		free(Stash);
 		return (NULL);
-	current_fd = Stash -> fd;
-	printf("current_fd: %d\n", current_fd);
-	if (current_fd)
+	}
+	printf("current_fd: %d\n", Current_fd_stash -> Fd_stash -> fd);
+	if (Current_fd_stash -> Fd_stash -> fd)
 		return ("OK");
 	else
 		return ("KO");
 }
 
-Base_stash	*ft_init_stash(int fd)
+Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 {
-	Base_stash	*New;
+	Stash_list	*Current;
 
-	New = malloc(sizeof(Base_stash));
+	if (!*Stash)
+		return (NULL);
+	Current = *Stash;
+	while (Current != NULL)
+	{
+		if (Current -> Fd_stash -> fd == fd)
+		{
+			printf("fd stash found\n");
+			break;
+		}
+		Current = Current -> next;
+	}
+	if (!Current)
+	{
+		printf("FD NOT FOUND\n");
+		Current = malloc(sizeof(Stash_list));
+		if (!Current)
+			return (NULL);
+		Current -> Fd_stash = malloc(sizeof(Fd_stash));
+		if (!Current -> Fd_stash)
+		{
+			free(Current);
+			return (NULL);
+		}
+		Current -> Fd_stash -> fd = fd;
+		Current -> Fd_stash -> buffer = NULL;
+		Current -> next = NULL;
+		while ((*Stash) -> next != NULL)
+			*Stash = (*Stash) -> next;
+		(*Stash) -> next = Current;
+		printf("fd stash created\n");
+	}
+	return (Current);
+}
+
+Stash_list	*ft_init_stash(int fd)
+{
+	Stash_list	*New;
+
+	New = malloc(sizeof(Stash_list));
 	if (!New)
 		return (NULL);
-	New -> fd = fd;
-	New -> buffer = NULL;
+	New -> Fd_stash = malloc(sizeof(Fd_stash));
+	if (!New -> Fd_stash)
+	{
+		free(New);
+		return (NULL);
+	}
+	New -> Fd_stash -> fd = fd;
+	New -> Fd_stash -> buffer = NULL;
 	return  (New);
 }
 

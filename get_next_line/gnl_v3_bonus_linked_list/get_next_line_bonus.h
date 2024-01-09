@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE__BONUS_H
+#ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
@@ -23,18 +23,18 @@
 # include <unistd.h>
 # include <stdarg.h>
 
-typedef struct Fd_buffer {
+typedef struct Fd_stash {
 	int		fd;
 	char	*buffer;
-}
+} Fd_stash;
 
 typedef struct Base_stash {
-	Fd_stash			*Fd_buffer;
+	Fd_stash			*Fd_stash;
 	struct Base_stash	*next;
-}
+} Stash_list;
 
 char		*get_next_line(int fd);
-Base_stash	*ft_init_stash(int fd);
-
+Stash_list	*ft_init_stash(int fd);
+Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd);
 
 #endif // !GET_NEXT_LINE_H
