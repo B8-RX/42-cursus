@@ -17,19 +17,6 @@ char	*get_next_line(int fd)
 	static Stash_list	*Stash;
 	Stash_list			*Current_fd_stash;
 
-	if (fd == -2 && Stash)
-	{
-		Stash_list	*Temp;
-
-			while (Stash && Stash != NULL)
-			{
-				Temp = Stash;
-				free(Temp -> Fd_stash);
-				free(Temp);
-				Stash = Stash -> next;
-			}
-			return (NULL);
-	}
 	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!Stash)
@@ -38,23 +25,8 @@ char	*get_next_line(int fd)
 		Current_fd_stash = Stash;
 	}
 	else
-	{
 		Current_fd_stash = ft_check_fd_stash(&Stash, fd);
-		if (!Current_fd_stash)
-		{
-			Stash_list	*Temp;
-
-			while (Stash != NULL)
-			{
-				Temp = Stash;
-				free(Temp -> Fd_stash);
-				free(Temp);
-				Stash = Stash -> next;
-			}
-			return (NULL);
-		}
-	}
-	if (Current_fd_stash -> Fd_stash -> fd)
+	if (Current_fd_stash && Current_fd_stash -> Fd_stash -> fd)
 		return ("OK");
 	else
 		return ("KO");
