@@ -18,6 +18,19 @@ char	*get_next_line(int fd)
 	Stash_list			*Current_fd;
 	char				*line;
 
+	if (fd == -2 && Stash)
+	{
+		Stash_list	*Temp;
+
+			while (Stash && Stash != NULL)
+			{
+				Temp = Stash;
+				free(Temp -> Fd_stash);
+				free(Temp);
+				Stash = Stash -> next;
+			}
+			return (NULL);
+	}
 	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!Stash && !ft_init_stash(&Stash, fd))
@@ -112,7 +125,6 @@ Stash_list	*ft_get_file_stash(Stash_list **Stash, int fd)
 	{
 		if (Current -> Fd_stash -> fd == fd)
 			return (Current);
-		Current = Current -> next;
 	}
 	return (ft_create_file_stash(Stash, fd));
 }
