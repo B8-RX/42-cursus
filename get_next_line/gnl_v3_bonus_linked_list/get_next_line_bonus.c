@@ -18,6 +18,19 @@ char	*get_next_line(int fd)
 	Stash_list			*Current_fd_stash;
 	char				*line;
 
+	if (fd == -2 && Stash)
+	{
+		Stash_list	*Temp;
+
+			while (Stash && Stash != NULL)
+			{
+				Temp = Stash;
+				free(Temp -> Fd_stash);
+				free(Temp);
+				Stash = Stash -> next;
+			}
+			return (NULL);
+	}
 	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!Stash)
@@ -107,7 +120,6 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 	{
 		if (Current -> Fd_stash -> fd == fd)
 			return (Current);
-		Current = Current -> next;
 	}
 	if (!Current)
 	{
@@ -154,5 +166,6 @@ Stash_list	*ft_init_stash(int fd)
 	printf("FD %d CREATED\n", fd);
 	New -> Fd_stash -> buffer = NULL;
 	New -> next = NULL;
+	printf("FD %d SAVED\n", fd);
 	return  (New);
 }
