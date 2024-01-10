@@ -17,6 +17,19 @@ char	*get_next_line(int fd)
 	static Stash_list	*Stash;
 	Stash_list			*Current_fd_stash;
 
+	if (fd == -2 && Stash)
+	{
+		Stash_list	*Temp;
+
+			while (Stash && Stash != NULL)
+			{
+				Temp = Stash;
+				free(Temp -> Fd_stash);
+				free(Temp);
+				Stash = Stash -> next;
+			}
+			return (NULL);
+	}
 	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!Stash)
@@ -41,7 +54,6 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 	}
-	printf("current_fd: %d\n", Current_fd_stash -> Fd_stash -> fd);
 	if (Current_fd_stash -> Fd_stash -> fd)
 		return ("OK");
 	else
@@ -61,14 +73,14 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 	{
 		if (Current -> Fd_stash -> fd == fd)
 		{
-			printf("fd stash found\n");
+			printf("FD %d FOUND\n", fd);
 			break;
 		}
 		Current = Current -> next;
 	}
 	if (!Current)
 	{
-		printf("FD NOT FOUND\n");
+		printf("FD %d NOT FOUND\n", fd);
 		Current = malloc(sizeof(Stash_list));
 		if (!Current)
 			return (NULL);
@@ -105,6 +117,7 @@ Stash_list	*ft_init_stash(int fd)
 	New -> Fd_stash -> fd = fd;
 	New -> Fd_stash -> buffer = NULL;
 	New -> next = NULL;
+	printf("FD %d SAVED\n", fd);
 	return  (New);
 }
 
