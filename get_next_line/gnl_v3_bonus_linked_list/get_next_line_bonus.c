@@ -153,6 +153,6 @@ Stash_list	*ft_init_stash(int fd)
 	printf("FD %d CREATED\n", fd);
 	New -> Fd_stash -> buffer = NULL;
 	New -> next = NULL;
-	printf("FD %d SAVED\n", fd);
+	printf("FD %d CREATED\n", fd);
 	return  (New);
 }
