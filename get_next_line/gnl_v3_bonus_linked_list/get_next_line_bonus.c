@@ -100,7 +100,7 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 	while (Current != NULL)
 	{
 		if (Current -> Fd_stash -> fd == fd)
-			break;
+      break;
 		Current = Current -> next;
 	}
 	if (!Current)
@@ -147,6 +147,3 @@ Stash_list	*ft_init_stash(int fd)
 	printf("FD %d CREATED\n", fd);
 	return  (New);
 }
-
-
-

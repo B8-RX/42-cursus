@@ -24,7 +24,7 @@ int	main(void)
 	// free(line);
 	
 	line = get_next_line(fd3);
-	printf("result %d: %s\n\n", ++i, line); // 3
+  printf("result %d: %s\n\n", ++i, line); // 3
 	// free(line);
 	
 	line = get_next_line(fd1);
