@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -36,5 +36,12 @@ typedef struct Base_stash {
 char		*get_next_line(int fd);
 Stash_list	*ft_init_stash(int fd);
 Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd);
+Stash_list	*ft_read_file(Stash_list **Stash, int fd);
+size_t		ft_strlen(char *s);
+char		*ft_substr(char *s, unsigned int start, size_t len);
+char		*ft_strchr(char *s, int c);
+char		*ft_strjoin(char *s1, char *s2);
+size_t		ft_strlcpy(char *dst, char *src, size_t size);
+size_t		ft_strlcat(char *dst, char *src, size_t size);
 
 #endif // !GET_NEXT_LINE_H
