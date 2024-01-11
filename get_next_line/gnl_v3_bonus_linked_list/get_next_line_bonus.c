@@ -102,18 +102,16 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 Stash_list	*ft_get_file_stash(Stash_list **Stash, int fd)
 {
 	Stash_list	*Current;
-	Stash_list	*Updated_Stash;
 
 	if (!*Stash)
 		return (NULL);
-	Current = *Stash;
-	Updated_Stash = Current;
 	while (Current != NULL)
 	{
 		if (Current -> Fd_stash -> fd == fd)
 			return (Current);
 		Current = Current -> next;
 	}
+	return (ft_create_file_stash(Stash, fd));
 }
 
 Stash_list	*ft_create_file_stash(Stash_list **Stash, int fd)

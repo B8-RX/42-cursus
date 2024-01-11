@@ -79,19 +79,20 @@ int	main(void)
 =======
 	 
 	line = get_next_line(fd1);
-	printf("result %d: %s\n\n", ++i, line); // 1
+	printf("result %d: |%s|\n\n", ++i, line); // 1
 	// free(line);
 	
 	line = get_next_line(fd2);
-	printf("result %d: %s\n\n", ++i, line); // 2
+	printf("result %d: |%s|\n\n", ++i, line); // 2
 	// free(line);
 	
 >>>>>>> b7d415a (gnl_bonus: work on the ft_read_file branch. When initializing stash fd, assign an empty string to buffer fd. Todo: in ft_read_file function check that the linked lists have not lost a link when a list is freed.)
 	line = get_next_line(fd3);
-	printf("result %d: %s\n\n", ++i, line); // 3
+	printf("result %d: |%s|\n\n", ++i, line); // 3
 	// free(line);
 	
 	line = get_next_line(fd1);
+<<<<<<< HEAD
 <<<<<<< HEAD
 	printf("result 1: %s\n\n", line);
 	line = get_next_line(fd2);
@@ -99,23 +100,30 @@ int	main(void)
 >>>>>>> d3ac247 (gnl_bonus: update the linked list in ft_check_fd_stash function, free memory, freeing linked_list if ft_check_fd_stash function return NULL)
 =======
 	printf("result %d: %s\n\n", ++i, line); // 4
+=======
+	printf("result %d: |%s|\n\n", ++i, line); // 4
+>>>>>>> 57db75a (gnl_bonus: work on the ft_read_file branch. Buffer update on each call is implemented. To do: cut and update the buffer, keeping the part after the linefeed if a linefeed is found during reading.)
 	// free(line);
 
-	line = get_next_line(fd1);
-	printf("result %d: %s\n\n", ++i, line); // 5
+	line = get_next_line(fd3);
+	printf("result %d: |%s|\n\n", ++i, line); // 5
 	// free(line);
 	// 
 	// line = get_next_line(fd3);
-	// printf("result %d: %s\n\n", ++i, line); // 6
+	// printf("result %d: |%s|\n\n", ++i, line); // 6
 	// // free(line);
 	// 
 	// line = get_next_line(fd1);
-	// printf("result %d: %s\n\n", ++i, line); // 7
+	// printf("result %d: |%s|\n\n", ++i, line); // 7
 	// // free(line);
 	// 
 	// line = get_next_line(fd2);
+<<<<<<< HEAD
 	// printf("result %d: %s\n\n", ++i, line); // 8
 >>>>>>> b7d415a (gnl_bonus: work on the ft_read_file branch. When initializing stash fd, assign an empty string to buffer fd. Todo: in ft_read_file function check that the linked lists have not lost a link when a list is freed.)
+=======
+	// printf("result %d: |%s|\n\n", ++i, line); // 8
+>>>>>>> 57db75a (gnl_bonus: work on the ft_read_file branch. Buffer update on each call is implemented. To do: cut and update the buffer, keeping the part after the linefeed if a linefeed is found during reading.)
 	// free(line);
 
 	line = get_next_line(fd3);
