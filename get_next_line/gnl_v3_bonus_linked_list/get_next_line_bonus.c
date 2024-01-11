@@ -16,6 +16,7 @@ char	*get_next_line(int fd)
 {
 	static Stash_list	*Stash;
 	Stash_list			*Current_fd_stash;
+	char				*line;
 
 	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -28,7 +29,21 @@ char	*get_next_line(int fd)
 	if (!Current_fd_stash)
 		return (NULL);
 	Stash = ft_read_file(&Stash, fd);
-	return (Current_fd_stash -> Fd_stash -> buffer);
+	line = ft_get_line(Current_fd_stash);
+	return (line);
+}
+
+char	*ft_get_line(Stash_list *Stash)
+{
+	char	*line;
+	char	*buffer;
+
+	buffer = Stash -> Fd_stash -> buffer;
+	if (ft_strchr(buffer, '\n'))
+		line = ft_substr(buffer, 0, ft_strlen(buffer) - ft_strlen(ft_strchr(buffer, '\n')) + 1 );
+	else
+		line = ft_substr(buffer, 0, ft_strlen(buffer));
+	return (line);
 }
 
 Stash_list	*ft_read_file(Stash_list **Stash, int fd)
