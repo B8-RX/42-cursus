@@ -24,20 +24,11 @@ char	*get_next_line(int fd)
 		printf("FD %d NOT EXIST\n", fd);
 		Stash = ft_init_stash(fd);
 	}
-	if (ft_check_fd_stash(&Stash, fd))
-		Stash = ft_read_file(&Stash, fd);
-	else
+	Current_fd_stash = ft_check_fd_stash(&Stash, fd);
+	if (!Current_fd_stash)
 		return (NULL);
-	Current_fd_stash = Stash;
-	int i;
-
-	i = 0;
-	while (Current_fd_stash != NULL)
-	{
-		printf("list %d, fd : %d, buffer: |%s|\n", ++i, Current_fd_stash -> Fd_stash -> fd, Current_fd_stash -> Fd_stash -> buffer);
-		Current_fd_stash = Current_fd_stash -> next;
-	}
-	return ("OK");
+	Stash = ft_read_file(&Stash, fd);
+	return (Current_fd_stash -> Fd_stash -> buffer);
 }
 
 Stash_list	*ft_read_file(Stash_list **Stash, int fd)
@@ -100,7 +91,7 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 	while (Current != NULL)
 	{
 		if (Current -> Fd_stash -> fd == fd)
-			break;
+			return (Current);
 		Current = Current -> next;
 	}
 	if (!Current)
@@ -123,8 +114,9 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 		Current -> next = NULL;
 		Updated_Stash -> next = Current;
 		printf("FD %d CREATED\n", fd);
+		return (Updated_Stash -> next);
 	}
-	return (Current);
+	return (NULL);
 }
 
 Stash_list	*ft_init_stash(int fd)
@@ -147,6 +139,3 @@ Stash_list	*ft_init_stash(int fd)
 	printf("FD %d CREATED\n", fd);
 	return  (New);
 }
-
-
-
