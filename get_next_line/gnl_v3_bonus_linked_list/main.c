@@ -24,7 +24,11 @@ int	main(void)
 	// free(line);
 	
 	line = get_next_line(fd3);
+<<<<<<< HEAD
 	printf("result %d: |%s|\n\n", ++i, line); // 3
+=======
+  printf("result %d: %s\n\n", ++i, line); // 3
+>>>>>>> b6051e32ea4bd1a56667382e710a3ba0c1d7e504
 	// free(line);
 	
 	line = get_next_line(fd1);
