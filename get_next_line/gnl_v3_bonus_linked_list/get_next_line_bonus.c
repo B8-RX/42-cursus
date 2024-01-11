@@ -29,8 +29,25 @@ char	*get_next_line(int fd)
 	if (!Current_fd_stash)
 		return (NULL);
 	Stash = ft_read_file(&Stash, fd);
+	if (!Stash)
+		return (NULL);
 	line = ft_get_line(Current_fd_stash);
+	Stash = ft_update_fd_stash(&Stash, fd, ft_strlen(line));
 	return (line);
+}
+
+Stash_list	*ft_update_fd_stash(Stash_list **Stash, int fd, int line_lengh)
+{
+	char		*old;
+	Stash_list	*Current_fd_stash;
+
+	Current_fd_stash = ft_check_fd_stash(Stash, fd);
+	old =  Current_fd_stash -> Fd_stash -> buffer;
+	printf("old |%s|\n", old);
+	free(Current_fd_stash -> Fd_stash -> buffer);
+	Current_fd_stash -> Fd_stash -> buffer = ft_substr(old + line_lengh, 0, ft_strlen(old) - line_lengh);
+	printf("(Current -> Fd_stash -> buffer: |%s| \n", Current_fd_stash -> Fd_stash -> buffer);
+	return (*Stash);
 }
 
 char	*ft_get_line(Stash_list *Stash)
@@ -54,7 +71,7 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 	Stash_list	*Current_fd_stash;
 
 	Current_fd_stash = ft_check_fd_stash(Stash, fd); 
-	temp_buffer = malloc(sizeof(BUFFER_SIZE));
+	temp_buffer = malloc(BUFFER_SIZE);
 	if (!temp_buffer)
 		return (NULL);
 	stash_buffer = Current_fd_stash -> Fd_stash -> buffer;
@@ -62,28 +79,42 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 	while (read_bytes && !ft_strchr(temp_buffer, '\n'))
 	{
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
+		printf("read_bytes %zu\n", read_bytes);
 		if ((read_bytes == 0 
 			&&	*stash_buffer == '\0')
 			||	read_bytes == -1)
 		{
-			Stash_list	*temp_fd_stash;
-			
-			Current_fd_stash = *Stash;
-			temp_fd_stash = Current_fd_stash;
+			Stash_list	*last;
+			Stash_list	*Current;
+			printf("FREEING...\n");
+			Current = *Stash;
+			last = *Stash;
 			free(temp_buffer);
-			while (Current_fd_stash != NULL)
+			if (Current -> Fd_stash -> fd == fd)
 			{
-				if (Current_fd_stash -> Fd_stash -> fd == fd)
+				*Stash = Current -> next;
+				free(Current -> Fd_stash -> buffer);
+				free(Current -> Fd_stash);
+				free(Current);
+				return (NULL);
+			}
+			while (Current != NULL)
+			{
+				if (Current -> Fd_stash -> fd == fd)
 				{
-					temp_fd_stash = Current_fd_stash -> next;
-					free(Current_fd_stash -> Fd_stash -> buffer);
-					free(Current_fd_stash -> Fd_stash);
-					free(Current_fd_stash);
+					last -> next = Current -> next;
+					free(Current -> Fd_stash -> buffer);
+					free(Current -> Fd_stash);
+					free(Current);
 					return (NULL);
 				}
-				if (Current_fd_stash -> next -> Fd_stash -> fd != fd)
-					temp_fd_stash = Current_fd_stash -> next;
-				Current_fd_stash = Current_fd_stash -> next;
+				if (Current -> next -> Fd_stash -> fd != fd)
+				{
+					Current = Current -> next;
+					last = Current;
+				}
+				else
+					Current = Current -> next;
 			}
 			return (NULL);
 		}
@@ -98,7 +129,7 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 {
 	Stash_list	*Current;
 	Stash_list	*Updated_Stash;
-
+		
 	if (!*Stash)
 		return (NULL);
 	Current = *Stash;
@@ -137,7 +168,7 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 Stash_list	*ft_init_stash(int fd)
 {
 	Stash_list	*New;
-
+	
 	New = malloc(sizeof(Stash_list));
 	if (!New)
 		return (NULL);
