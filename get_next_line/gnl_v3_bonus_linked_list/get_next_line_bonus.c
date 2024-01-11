@@ -107,6 +107,7 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 	{
 		if (Current -> Fd_stash -> fd == fd)
 			return (Current);
+		Current = Current -> next;
 	}
 	if (!Current)
 	{
