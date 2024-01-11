@@ -112,6 +112,7 @@ Stash_list	*ft_get_file_stash(Stash_list **Stash, int fd)
 	{
 		if (Current -> Fd_stash -> fd == fd)
 			return (Current);
+		Current = Current -> next;
 	}
 	return (ft_create_file_stash(Stash, fd));
 }
