@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 55 
 # endif // !BUFFER_SIZE
 
 # include <stdio.h>
@@ -44,5 +44,6 @@ char		*ft_strjoin(char *s1, char *s2);
 size_t		ft_strlcpy(char *dst, char *src, size_t size);
 size_t		ft_strlcat(char *dst, char *src, size_t size);
 char		*ft_get_line(Stash_list *Stash);
+Stash_list	*ft_update_fd_stash(Stash_list **Stash, int fd, int len);
 
 #endif // !GET_NEXT_LINE_H
