@@ -18,23 +18,17 @@ char	*get_next_line(int fd)
 	Stash_list			*Current_fd_stash;
 	char				*line;
 
-	printf("\n==========================================================\n\n");
-
 	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!Stash)
-	{
-		printf("STATIC STASH NOT INIT\n");
 		Stash = ft_init_stash(fd);
-	}
-	Current_fd_stash = ft_check_fd_stash(&Stash, fd);
+	Current_fd_stash = ft_get_fd_stash(&Stash, fd);
 	if (!Current_fd_stash)
 		return (NULL);
 	if (!ft_read_file(&Stash, fd))
 		return (NULL);
 	line = ft_get_line(Current_fd_stash);
 	Stash = ft_update_fd_stash(&Stash, fd, ft_strlen(line));
-	printf("\n==========================================================\n\n");
 	return (line);
 }
 
@@ -44,7 +38,7 @@ Stash_list	*ft_update_fd_stash(Stash_list **Stash, int fd, int line_lengh)
 	char		*updated_buffer;
 	Stash_list	*Current_fd_stash;
 
-	Current_fd_stash = ft_check_fd_stash(Stash, fd);
+	Current_fd_stash = ft_get_fd_stash(Stash, fd);
 	old_buffer =  Current_fd_stash -> Fd_stash -> buffer;
 	updated_buffer = ft_strjoin(old_buffer + line_lengh, ""); 
 	
@@ -74,10 +68,12 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 	char		*stash_buffer;
 	Stash_list	*Current_fd_stash;
 
-	Current_fd_stash = ft_check_fd_stash(Stash, fd); 
+	Current_fd_stash = ft_get_fd_stash(Stash, fd); 
 	temp_buffer = malloc(BUFFER_SIZE + 1);
 	if (!temp_buffer)
+	{
 		return (NULL);
+	}
 	temp_buffer[0]= '\0';
 	stash_buffer = Current_fd_stash -> Fd_stash -> buffer;
 	read_bytes = 1;
@@ -90,7 +86,6 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 		{
 			Stash_list	*last;
 			Stash_list	*Current;
-			printf("RELEASE LINK FD %d......\n", fd);
 			Current = *Stash;
 			last = *Stash;
 			free(temp_buffer);
@@ -120,16 +115,16 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 				else
 					Current = Current -> next;
 			}
-			return (NULL);
 		}
 		temp_buffer[read_bytes] = '\0';
 		stash_buffer = ft_strjoin(stash_buffer, temp_buffer);
 	}
-	Current_fd_stash -> Fd_stash -> buffer = ft_substr(stash_buffer, 0, ft_strlen(stash_buffer));
+	free(Current_fd_stash -> Fd_stash -> buffer);
+	Current_fd_stash -> Fd_stash -> buffer = ft_strjoin(stash_buffer, "");
 	return (*Stash);
 }
 
-Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
+Stash_list	*ft_get_fd_stash(Stash_list **Stash, int fd)
 {
 	Stash_list	*Current;
 	Stash_list	*Updated_Stash;
@@ -146,7 +141,6 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 	}
 	if (!Current)
 	{
-		printf("LINK FD %d NOT FOUND \n", fd);
 		Current = malloc(sizeof(Stash_list));
 		if (!Current)
 			return (NULL);
@@ -160,10 +154,15 @@ Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd)
 			Updated_Stash = Updated_Stash -> next;
 		Current -> Fd_stash -> fd = fd;
 		Current -> Fd_stash -> buffer = malloc(1);
+		if (!(Current -> Fd_stash -> buffer))
+		{
+			free(Current -> Fd_stash);
+			free(Current);
+			return (NULL);
+		}
 		*(Current -> Fd_stash -> buffer) = '\0';
 		Current -> next = NULL;
 		Updated_Stash -> next = Current;
-		printf("LINK FD %d CREATED\n", fd);
 		return (Updated_Stash -> next);
 	}
 	return (NULL);
@@ -184,9 +183,13 @@ Stash_list	*ft_init_stash(int fd)
 	}
 	New -> Fd_stash -> fd = fd;
 	New -> Fd_stash -> buffer = malloc(1);
+	if (!(New -> Fd_stash -> buffer))
+	{
+		free(New -> Fd_stash);
+		free(New);
+		return (NULL);
+	}
 	*(New -> Fd_stash -> buffer) = '\0';
 	New -> next = NULL;
-	printf("STATIC STASH CREATED\n");
-	printf("LINK FD %d CREATED\n", fd);
 	return  (New);
 }

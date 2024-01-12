@@ -35,7 +35,7 @@ typedef struct Base_stash {
 
 char		*get_next_line(int fd);
 Stash_list	*ft_init_stash(int fd);
-Stash_list	*ft_check_fd_stash(Stash_list **Stash, int fd);
+Stash_list	*ft_get_fd_stash(Stash_list **Stash, int fd);
 Stash_list	*ft_read_file(Stash_list **Stash, int fd);
 size_t		ft_strlen(char *s);
 char		*ft_substr(char *s, unsigned int start, size_t len);
