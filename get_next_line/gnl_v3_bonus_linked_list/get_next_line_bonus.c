@@ -28,37 +28,39 @@ char	*get_next_line(int fd)
 	if (!ft_read_file(&Stash, fd))
 		return (NULL);
 	line = ft_get_line(Current_fd);
-	Stash = ft_update_file_stash(&Stash, fd, ft_strlen(line));
+	Current_fd = ft_update_file_stash(&Current_fd, "", ft_strlen(line));
 	return (line);
 }
 
-Stash_list	*ft_update_file_stash(Stash_list **Stash, int fd, int line_lengh)
+Stash_list	*ft_update_file_stash(Stash_list **Stash, char *buff, int line_lengh)
 {
 	char		*old_buffer;
 	char		*updated_buffer;
 	Stash_list	*Current_fd;
 
-	Current_fd = ft_get_file_stash(Stash, fd);
+	Current_fd = *Stash;
 	old_buffer =  Current_fd -> Fd_stash -> buffer;
 	updated_buffer = ft_strjoin(old_buffer + line_lengh, ""); 
 	
 	free(Current_fd -> Fd_stash -> buffer);
 	Current_fd -> Fd_stash -> buffer = NULL;
-	Current_fd -> Fd_stash -> buffer = ft_strjoin(updated_buffer, "");
+	Current_fd -> Fd_stash -> buffer = ft_strjoin(updated_buffer, buff);
 	free(updated_buffer);
-	return (*Stash);
+	return (Current_fd);
 }
 
 char	*ft_get_line(Stash_list *Stash)
 {
 	char	*line;
 	char	*buffer;
+	int		len;
 
 	buffer = Stash -> Fd_stash -> buffer;
 	if (ft_strchr(buffer, '\n'))
-		line = ft_substr(buffer, 0, ft_strlen(buffer) - ft_strlen(ft_strchr(buffer, '\n')) + 1 );
+		len = ft_strlen(buffer) - ft_strlen(ft_strchr(buffer, '\n')) + 1 ;
 	else
-		line = ft_substr(buffer, 0, ft_strlen(buffer));
+		len = ft_strlen(buffer);
+	line = ft_substr(buffer, 0, len);
 	return (line);
 }
 
@@ -66,7 +68,7 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 {
 	ssize_t		read_bytes;
 	char		*temp_buffer;
-	char		*stash_buffer;
+	char		*temp_stash;
 	Stash_list	*Current_fd;
 
 	Current_fd = ft_get_file_stash(Stash, fd); 
@@ -74,14 +76,13 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 	if (!temp_buffer)
 		return (NULL);
 	temp_buffer[0]= '\0';
-	stash_buffer = NULL;
-	stash_buffer = Current_fd -> Fd_stash -> buffer; 
+	temp_stash = Current_fd -> Fd_stash -> buffer;
 	read_bytes = 1;
 	while (read_bytes && !ft_strchr(temp_buffer, '\n'))
 	{
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
 		if ((read_bytes == 0 
-			&&	*stash_buffer == '\0')
+			&&	*temp_stash == '\0')
 			||	read_bytes == -1)
 		{
 			free(temp_buffer);
@@ -90,12 +91,10 @@ Stash_list	*ft_read_file(Stash_list **Stash, int fd)
 			return (NULL);
 		}
 		temp_buffer[read_bytes] = '\0';
-		stash_buffer = ft_strjoin(stash_buffer, temp_buffer);
+		Current_fd = ft_update_file_stash(&Current_fd, temp_buffer, 0);
+		temp_stash = Current_fd -> Fd_stash -> buffer;
 	}
 	free(temp_buffer);
-	free(Current_fd -> Fd_stash -> buffer);
-	Current_fd -> Fd_stash -> buffer = ft_strjoin(stash_buffer, "");
-	free(stash_buffer);
 	return (*Stash);
 }
 
