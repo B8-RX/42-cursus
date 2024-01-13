@@ -34,8 +34,8 @@ typedef struct Base_stash {
 } Stash_list;
 
 char		*get_next_line(int fd);
-Stash_list	*ft_init_stash(int fd);
-Stash_list	*ft_get_fd_stash(Stash_list **Stash, int fd);
+Stash_list	*ft_init_stash(Stash_list **Stash, int fd);
+Stash_list	*ft_get_file_stash(Stash_list **Stash, int fd);
 Stash_list	*ft_read_file(Stash_list **Stash, int fd);
 size_t		ft_strlen(char *s);
 char		*ft_substr(char *s, unsigned int start, size_t len);
@@ -44,6 +44,8 @@ char		*ft_strjoin(char *s1, char *s2);
 size_t		ft_strlcpy(char *dst, char *src, size_t size);
 size_t		ft_strlcat(char *dst, char *src, size_t size);
 char		*ft_get_line(Stash_list *Stash);
-Stash_list	*ft_update_fd_stash(Stash_list **Stash, int fd, int len);
+Stash_list	*ft_update_file_stash(Stash_list **Stash, int fd, int len);
+int			ft_release_file_stash(Stash_list **Stash, int fd);
+Stash_list	*ft_create_file_stash(Stash_list **Stash, int fd);
 
 #endif // !GET_NEXT_LINE_H
