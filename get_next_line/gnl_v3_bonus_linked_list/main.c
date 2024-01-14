@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/30 16:03:11 by ssghioua          #+#    #+#             */
+/*   Updated: 2023/12/30 16:03:14 by ssghioua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
@@ -9,8 +20,6 @@ int	main(void)
 
 	i = 0;
 	fd1 = open("../../tests_GNL/my_tests_gnl/fable_small.txt", O_RDONLY);
-	// fd2 = open("../../tests_GNL/my_tests_gnl/file_test_nl.txt", O_RDONLY);
-	// fd3 = open("../../tests_GNL/my_tests_gnl/file_test_no_nl.txt", O_RDONLY);
 	line = get_next_line(fd1);
 	i = 0;
 	while (line != NULL)
@@ -19,10 +28,5 @@ int	main(void)
 		free(line);
 		line = get_next_line(fd1);
 	}
-	// i = 0;
-	// line = get_next_line(fd1);
-	// printf("result %d: |%s|\n", ++i, line);
-	// free(line);	
-	
 	return (0);
 }

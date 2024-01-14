@@ -14,204 +14,114 @@
 
 char	*get_next_line(int fd)
 {
-	static Stash_list	*Stash;
-	Stash_list			*Current_fd;
+	static t_stash_list	*stash;
+	t_stash_list		*current_fd;
 	char				*line;
+	int					i;
 
 	if (fd < 0 || !BUFFER_SIZE || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!Stash && !ft_init_stash(&Stash, fd))
-		return (NULL);	
-	Current_fd = ft_get_file_stash(&Stash, fd);
-	if (!Current_fd)
+	if (!stash && !ft_init_stash(&stash, fd))
 		return (NULL);
-	if (!ft_read_file(&Stash, fd))
+	current_fd = ft_get_file_stash(&stash, fd);
+	if (!current_fd)
 		return (NULL);
-	line = ft_get_line(Current_fd);
-	Current_fd = ft_update_stash(&Current_fd, "", ft_strlen(line));
+	if (!ft_read_file(&stash, fd))
+		return (NULL);
+	line = ft_get_line(current_fd);
+	i = 0;
+	while (line[i])
+		i++;
+	current_fd = ft_update_stash(&current_fd, "", i);
 	return (line);
 }
 
-Stash_list	*ft_update_stash(Stash_list **Stash, char *buff, int line_lengh)
+t_stash_list	*ft_read_file(t_stash_list **stash, int fd)
 {
-	char		*old_buffer;
-	char		*updated_buffer;
-	Stash_list	*Current_fd;
+	ssize_t			read_bytes;
+	char			*temp_buffer;
+	char			*temp_stash;
+	t_stash_list	*current_fd;
 
-	Current_fd = *Stash;
-	old_buffer =  Current_fd -> Fd_stash -> buffer;
-	updated_buffer = ft_strjoin(old_buffer + line_lengh, buff); 
-	
-	free(Current_fd -> Fd_stash -> buffer);
-	Current_fd -> Fd_stash -> buffer = NULL;
-	Current_fd -> Fd_stash -> buffer = ft_strjoin(updated_buffer, buff);
-	free(updated_buffer);
-	updated_buffer = NULL;
-	return (*Stash);
-}
-
-char	*ft_get_line(Stash_list *Stash)
-{
-	char	*line;
-	char	*buffer;
-	int		len;
-
-	buffer = Stash -> Fd_stash -> buffer;
-	if (ft_strchr(buffer, '\n'))
-		len = ft_strlen(buffer) - ft_strlen(ft_strchr(buffer, '\n')) + 1 ;
-	else
-		len = ft_strlen(buffer);
-	line = ft_substr(buffer, 0, len);
-	return (line);
-}
-
-Stash_list	*ft_read_file(Stash_list **Stash, int fd)
-{
-	ssize_t		read_bytes;
-	char		*temp_buffer;
-	char		*temp_stash;
-	Stash_list	*Current_fd;
-
-	Current_fd = ft_get_file_stash(Stash, fd); 
+	current_fd = ft_get_file_stash(stash, fd);
 	temp_buffer = malloc(BUFFER_SIZE + 1);
 	if (!temp_buffer)
 		return (NULL);
-	temp_buffer[0]= '\0';
-	temp_stash = Current_fd -> Fd_stash -> buffer; 
+	temp_buffer[0] = '\0';
+	temp_stash = current_fd -> fd_stash -> buffer;
 	read_bytes = 1;
 	while (read_bytes && !ft_strchr(temp_buffer, '\n'))
 	{
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
-		if ((read_bytes == 0 
-			&&	*temp_stash == '\0')
-			||	read_bytes == -1)
-		{
-			free(temp_buffer);
-			temp_buffer = NULL;
-			while (!ft_release_file_stash(Stash, fd))
-				ft_release_file_stash(Stash, fd);
-			return (NULL);
-		}
+		if ((read_bytes == 0
+				&& *temp_stash == '\0') || read_bytes == -1)
+			return (free(temp_buffer), ft_release_file_stash(stash, fd));
 		temp_buffer[read_bytes] = '\0';
-		Current_fd = ft_update_stash(&Current_fd, temp_buffer, 0);
-		temp_stash = Current_fd -> Fd_stash -> buffer;
+		current_fd = ft_update_stash(&current_fd, temp_buffer, 0);
+		temp_stash = current_fd -> fd_stash -> buffer;
 	}
 	free(temp_buffer);
-	temp_buffer = NULL;
-	return (*Stash);
+	return (*stash);
 }
 
-Stash_list	*ft_get_file_stash(Stash_list **Stash, int fd)
+t_stash_list	*ft_update_stash(t_stash_list **stash, char *buff, int len)
 {
-	Stash_list	*Current;
+	char			*old_buffer;
+	char			*updated_buffer;
+	t_stash_list	*current_fd;
 
-	if (!*Stash)
-		return (NULL);
-	Current = *Stash;
-	while (Current != NULL)
-	{
-		if (Current -> Fd_stash -> fd == fd)
-			return (Current);
-		Current = Current -> next;
-	}
-	return (ft_create_file_stash(Stash, fd));
+	current_fd = *stash;
+	old_buffer = current_fd -> fd_stash -> buffer;
+	updated_buffer = ft_strjoin(old_buffer + len, buff);
+	free(current_fd -> fd_stash -> buffer);
+	current_fd -> fd_stash -> buffer = NULL;
+	current_fd -> fd_stash -> buffer = ft_strjoin(updated_buffer, "");
+	free(updated_buffer);
+	updated_buffer = NULL;
+	return (current_fd);
 }
 
-Stash_list	*ft_create_file_stash(Stash_list **Stash, int fd)
+t_stash_list	*ft_get_file_stash(t_stash_list **stash, int fd)
 {
-	Stash_list	*Current;
-	Stash_list	*Updated_Stash;
+	t_stash_list	*current;
 
-	Updated_Stash = *Stash;
-	Current = malloc(sizeof(Stash_list));
-	if (!Current)
+	if (!*stash)
 		return (NULL);
-	Current -> Fd_stash = malloc(sizeof(Fd_stash));
-	if (!Current -> Fd_stash)
+	current = *stash;
+	while (current != NULL)
 	{
-		free(Current);
-		Current = NULL;
-		return (NULL);
+		if (current -> fd_stash -> fd == fd)
+			return (current);
+		current = current -> next;
 	}
-	while (Updated_Stash -> next != NULL)
-		Updated_Stash = Updated_Stash -> next;
-	Current -> Fd_stash -> fd = fd;
-	Current -> Fd_stash -> buffer = malloc(1);
-	if (!(Current -> Fd_stash -> buffer))
-	{
-		free(Current -> Fd_stash);
-		free(Current);
-		Current = NULL;
-		return (NULL);
-	}
-	*(Current -> Fd_stash -> buffer) = '\0';
-	Current -> next = NULL;
-	Updated_Stash -> next = Current;
-	return (Updated_Stash -> next);
+	return (ft_create_file_stash(stash, fd));
 }
 
-int	ft_release_file_stash(Stash_list **Stash, int fd)
+void	*ft_release_file_stash(t_stash_list **stash, int fd)
 {
-	Stash_list	*last;
-	Stash_list	*Current;
-	Current = *Stash;
-	last = *Stash;
-	if (Current -> Fd_stash -> fd == fd)
+	t_stash_list	*last;
+	t_stash_list	*current;
+
+	current = *stash;
+	last = *stash;
+	if (current -> fd_stash -> fd == fd)
+		*stash = current -> next;
+	else
 	{
-		*Stash = Current -> next;
-		free(Current -> Fd_stash -> buffer);
-		free(Current -> Fd_stash);
-		free(Current);
-		Current = NULL;
-		return (1);
-	}
-	while (Current != NULL)
-	{
-		if (Current -> Fd_stash -> fd == fd)
+		while (current != NULL)
 		{
-			last -> next = Current -> next;
-			free(Current -> Fd_stash -> buffer);
-			free(Current -> Fd_stash);
-			free(Current);
-			Current = NULL;
-			return (1);
+			if (current -> fd_stash -> fd == fd)
+				break ;
+			else if (current -> next -> fd_stash -> fd != fd)
+			{
+				current = current -> next;
+				last = current;
+			}
+			else
+				current = current -> next;
 		}
-		if (Current -> next -> Fd_stash -> fd != fd)
-		{
-			Current = Current -> next;
-			last = Current;
-		}
-		else
-			Current = Current -> next;
+		last -> next = current -> next;
 	}
-	return (-1);
-}
-
-Stash_list	*ft_init_stash(Stash_list **Stash, int fd)
-{
-	Stash_list	*New;
-	
-	New = malloc(sizeof(Stash_list));
-	if (!New)
-		return (NULL);
-	New -> Fd_stash = malloc(sizeof(Fd_stash));
-	if (!New -> Fd_stash)
-	{
-		free(New);
-		New = NULL;
-		return (NULL);
-	}
-	New -> Fd_stash -> fd = fd;
-	New -> Fd_stash -> buffer = malloc(1);
-	if (!(New -> Fd_stash -> buffer))
-	{
-		free(New -> Fd_stash);
-		free(New);
-		New = NULL;
-		return (NULL);
-	}
-	*(New -> Fd_stash -> buffer) = '\0';
-	New -> next = NULL;
-	*Stash = New;
-	return  (*Stash);
+	return (free(current -> fd_stash -> buffer),
+		free(current -> fd_stash), free(current), NULL);
 }
