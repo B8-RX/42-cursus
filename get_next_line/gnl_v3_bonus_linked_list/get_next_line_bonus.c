@@ -44,7 +44,7 @@ Stash_list	*ft_update_stash(Stash_list **Stash, char *buff, int line_lengh)
 	
 	free(Current_fd -> Fd_stash -> buffer);
 	Current_fd -> Fd_stash -> buffer = NULL;
-	Current_fd -> Fd_stash -> buffer = ft_strjoin(updated_buffer, "");
+	Current_fd -> Fd_stash -> buffer = ft_strjoin(updated_buffer, buff);
 	free(updated_buffer);
 	updated_buffer = NULL;
 	return (*Stash);
