@@ -44,7 +44,7 @@ char		*ft_strjoin(char *s1, char *s2);
 size_t		ft_strlcpy(char *dst, char *src, size_t size);
 size_t		ft_strlcat(char *dst, char *src, size_t size);
 char		*ft_get_line(Stash_list *Stash);
-Stash_list	*ft_update_file_stash(Stash_list **Stash, char *buff, int len);
+Stash_list	*ft_update_stash(Stash_list **Stash, char *buff, int len);
 int			ft_release_file_stash(Stash_list **Stash, int fd);
 Stash_list	*ft_create_file_stash(Stash_list **Stash, int fd);
 
