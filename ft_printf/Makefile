@@ -16,7 +16,7 @@ NAME = libftprintf.a
 
 CCFLAGS = cc -Wall -Werror -Wextra
 
-HEADER = libftprintf.h
+HEADER = ft_printf.h
 
 OBJECTS = ${SOURCES:.c=.o}
 
