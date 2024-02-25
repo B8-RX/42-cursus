@@ -12,36 +12,92 @@
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(char *s)
+t_fd_stash_list	*ft_init_stash(t_fd_stash_list **stash, int fd)
 {
-	size_t	i;
+	t_fd_stash_list	*new;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	new = malloc(sizeof(t_fd_stash_list));
+	if (!new)
+		return (NULL);
+	new->fd_stash = malloc(sizeof(t_fd_stash));
+	if (!new->fd_stash)
+		return (free(new), NULL);
+	new->fd_stash->fd = fd;
+	new->fd_stash->buffer = malloc(1);
+	if (!(new->fd_stash->buffer))
+		return (free(new->fd_stash), free(new), NULL);
+	*(new->fd_stash->buffer) = '\0';
+	new->next = NULL;
+	*stash = new;
+	return (*stash);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+t_fd_stash_list	*ft_handle_fd(t_fd_stash_list **stash, int fd)
+{
+	t_fd_stash_list	*current;
+
+	if (!*stash)
+		return (NULL);
+	current = *stash;
+	while (current != NULL)
+	{
+		if (current->fd_stash->fd == fd)
+			return (current);
+		current = current->next;
+	}
+	return (ft_create_file_stash(stash, fd));
+}
+
+void	ft_release_stash_list(t_fd_stash_list **stash, int fd)
+{
+	t_fd_stash_list	*last;
+	t_fd_stash_list	*current;
+
+	current = *stash;
+	last = *stash;
+	if (current->fd_stash->fd == fd)
+	{
+		*stash = current->next;
+		return (free(current->fd_stash->buffer),
+			free(current->fd_stash), free(current));
+	}
+	while (current != NULL)
+	{
+		if (current->fd_stash->fd == fd)
+		{
+			last->next = current->next;
+			return (free(current->fd_stash->buffer),
+				free(current->fd_stash), free(current));
+		}
+		current = current->next;
+		if (last->next->fd_stash->fd != fd)
+			last = current;
+	}
+}
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*new;
-	size_t	i;
+	int		i;
+	int		j;
 
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (len > ft_strlen(&s[start]))
-		len = ft_strlen(&s[start]);
-	new = malloc(sizeof(char) * (len + 1));
-	if (new == NULL)
+	if (!s2)
 		return (NULL);
 	i = 0;
-	while (i < len && s[start + i])
-	{
-		new[i] = s[start + i];
+	while (s1[i] != '\0')
 		i++;
-	}
+	j = 0;
+	while (s2[j] != '\0')
+		j++;
+	new = (char *)malloc((i + j + 1) * sizeof(char));
+	if (new == NULL)
+		return (NULL);
+	i = -1;
+	while (s1[++i] != '\0')
+		new[i] = s1[i];
+	j = -1;
+	while (s2[++j] != '\0')
+		new[i++] = s2[j];
 	new[i] = '\0';
 	return (new);
 }
@@ -60,67 +116,4 @@ char	*ft_strchr(char *s, int c)
 	if (c == '\0')
 		return ((char *)(s + i));
 	return (NULL);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char			*new;
-	size_t			len_s1;
-	size_t			len_s2;
-
-	if (!s1 || !s2)
-		return (NULL);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	new = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(char));
-	if (new == NULL)
-		return (NULL);
-	ft_strlcpy(new, s1, len_s1 + 1);
-	ft_strlcat(new, s2, len_s1 + len_s2 + 1);
-	return (new);
-}
-
-size_t	ft_strlcpy(char *dst, char *src, size_t size)
-{
-	size_t	len_src;
-	size_t	i;
-
-	if (!dst || !src)
-		return (0);
-	len_src = ft_strlen(src);
-	i = 0;
-	if (size > 0)
-	{
-		while (i < (size - 1) && src[i])
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (len_src);
-}
-
-size_t	ft_strlcat(char *dst, char *src, size_t size)
-{
-	size_t	i;
-	size_t	len_dst;
-
-	if (!dst && size == 0)
-		return (0);
-	len_dst = ft_strlen(dst);
-	if (size && len_dst < size - 1)
-	{
-		i = 0;
-		while ((len_dst + i < size - 1) && src[i])
-		{
-			dst[len_dst + i] = src[i];
-			i++;
-		}
-		dst[len_dst + i] = '\0';
-	}
-	if (len_dst >= size)
-		return (size + ft_strlen(src));
-	else
-		return (len_dst + ft_strlen(src));
 }
