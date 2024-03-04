@@ -18,6 +18,8 @@ int	ft_printf(const char *format, ...)
 	int			i;
 	int			total_len;
 
+	if (!format)
+		return (-1);
 	total_len = 0;
 	printf_props = malloc(sizeof(t_printf));
 	if (!printf_props)
