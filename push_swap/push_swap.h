@@ -1,15 +1,22 @@
+#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-typedef struct stack_a {
+typedef struct s_stack {
 	int	nbr;
-	struct stack_a	previous;
-	struct stack_a	next;
-} t_stack_a;
+	struct s_stack	*previous;
+	struct s_stack	*next;
+}	t_stack;
 
-typedef struct stack_b {
-	int	nbr;
-	struct stack_b	previous;
-	struct stack_b	next;
-} t_stack_b;
+
+t_stack	*ft_handle_args(int args_len, char **args, t_stack **stack);
+char	**ft_handle_second_arg(char **argv);
+int		ft_count_words(char *arg);
+int		ft_is_digit(char c);
+void	ft_print_error(void);
+
+
+
+
 
 
