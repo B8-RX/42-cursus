@@ -19,6 +19,7 @@ int	main(int argc, char **argv)
 	int		*sorted_entries;
 
 	stack_a = NULL;
+	sorted_entries = NULL;
 	if (argc == 1)
 		return (0);
 	ft_handle_args(argc, argv, &stack_a);
@@ -32,77 +33,32 @@ int	main(int argc, char **argv)
 
 t_stack	*ft_handle_args(int argc, char **argv, t_stack **stack_a)
 {
+	char	**tmp;
+	int		i;
 
+	tmp = NULL;
 	if (argc == 2)
-		ft_handle_second_arg(argv);
-	
-
+		tmp = ft_handle_second_arg(argv);
+	i = 0;
+	if (tmp)
+	{
+		while (tmp[i])
+		{
+			printf("word: |%s|\n", tmp[i]);
+			free(tmp[i]);
+			i++;
+		}
+		free(tmp);			
+	}
 	return (*stack_a);
-}
-
-int	ft_is_digit(char c)
-{
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (-1);
-}
-
-void	ft_print_error(void)
-{
-	write(2, "Error\n", 6);
 }
 
 char	**ft_handle_second_arg(char **argv)
 {
-	char	**array_args;  
-	char	*arg;
-	int		total_words;
-	int		i;
-	int		j;
-	int		array_index;
-	int		args_index;
+	char	*args;
 
-	arg = argv[1];
-	total_words = ft_count_words(arg);
-	array_args = malloc(total_words * sizeof(char*) + 1);
-	if (!array_args)
-		return (NULL);
-	i = 0;
-	array_index = 0;
-	args_index = 0;
-	while (arg[i] != '\0' && total_words > 0)
-	{
-		while (arg[i] == ' ')
-			i++;
-		j = 0;
-		while (arg[i + j] != '\0')
-		{
-			if (ft_is_digit(arg[i + j]) == -1 && arg[i + j] != ' ')
-			{
-				ft_print_error();
-				return (NULL);
-			}
-			j++;
-		}
-		array_args[array_index] = malloc (j + 1);
-		if (!array_args[array_index])
-		{
-			j = 0;
-			while (array_args[j])
-				free(array_args[j++]);
-			free(array_args);
-		}
-		while ( arg[i] && arg[i] != ' ')
-		{
-			array_args[array_index][args_index] = arg[i];
-			i++;
-			args_index++;
-		}
-		printf("word: %s\n", array_args[array_index]);
-		array_index++;
-		total_words--;
-	}
-	return (array_args);
+	args = argv[1];
+	return (ft_split(args, ' '));
 }
 
 int	ft_count_words(char *arg)
