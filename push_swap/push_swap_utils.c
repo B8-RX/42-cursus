@@ -35,68 +35,49 @@ int	ft_count_spaces(char *str)
 	return (i);
 }
 
-int	ft_count_num_len(char *arg)
+int	ft_count_value_len(char *value)
 {
 	int	j;
 
 	j = 0;
-		while (arg[j] && arg[j] != ' ')
+		while (value[j] && value[j] != ' ')
 		{
-			if (!ft_is_digit(arg[j]))
+			if (!ft_is_digit(value[j]))
 				return (0);
 			j++;
 		}
 	return (j);
 }
 
-char	**ft_split(char *str, char separator)
-{	
+void	ft_print_values_lst(t_stack **stack)
+{
+	t_stack	*curr;
 
-	char	**array_args;  
-	int		total_words;
-	int		i;
-	int		j;
-	int		array_index;
-	int		args_index;
-
-	total_words = ft_count_words(str);
-	array_args = malloc(total_words * sizeof(char*) + sizeof(void*));
-	if (!array_args)
-		return (NULL);
-	array_args[total_words] = NULL;
-	i = 0;
-	array_index = 0;
-	while (str[i] != '\0' && total_words > 0)
+	curr = *stack;
+	if (!curr)
+		return;
+	if (curr -> next == NULL)
 	{
-		
-		while (str[i] == separator)
-			i+= ft_count_spaces(str + i);
-		j = ft_count_num_len(str + i);
-		if (!j)
-			return (ft_print_error(), NULL);
-		array_args[array_index] = malloc (j + 1);
-		if (!array_args[array_index])
-		{
-			printf("ERROR MALLOC\n");
-			j = 0;
-			while (array_args[j])
-			{
-				free(array_args[j]);
-				j++;
-			}
-			free(array_args);
-			return (NULL);
-		}
-		args_index = 0;
-		while ( str[i] && str[i] != separator)
-		{
-			array_args[array_index][args_index] = str[i];
-			i++;
-			args_index++;
-		}
-		array_args[array_index][args_index] = '\0';
-		array_index++;
-		total_words--;
+		printf("value: %d\n", curr -> value);
+		printf("index: %d\n", curr -> index);
 	}
-	return (array_args);
+	while (curr -> next)
+	{
+		printf("value: %d\n", curr -> value);
+		printf("index: %d\n", curr -> index);
+		curr = curr -> next;
+	}
 }
+
+t_stack	*ft_get_last_lst(t_stack *stack)
+{
+	t_stack	*curr_stack;
+
+	curr_stack = stack;
+	if (curr_stack -> next != NULL)
+		while (curr_stack -> next)
+			curr_stack = curr_stack -> next;
+	return (curr_stack);
+}
+
+
