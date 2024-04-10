@@ -31,11 +31,11 @@ int		ft_is_digit(char c);
 char	*ft_print_error(void);
 void	ft_print_values_lst(t_stack **stack);
 int		ft_count_spaces(char *str);
-int		ft_count_value_len(char *value);
+int		ft_get_len_value(char *value);
 char	**ft_split(char *str, char splitter);
-void	*ft_free_parent_array(char **parent_array);
+void	*ft_free_array_str(char **array);
 void	ft_free_stack(t_stack *stack);
-int		ft_push_value(char *parent_array, char *value, char splitter);
+int		ft_append_child(char *child, char *value, char splitter);
 
 
 

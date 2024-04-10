@@ -15,61 +15,58 @@
 char	**ft_split(char *str, char splitter)
 {
 
-	char	**parent_array;  
-	int		i;
+	char	**array;  
 	int		child;
+	int		words;
 
-	if (ft_count_words(str, splitter) == -1)
-		return (ft_print_error(), NULL);
-	parent_array = malloc(ft_count_words(str, splitter) * sizeof(char*) + sizeof(void*));
-	if (!parent_array)
+	words = ft_count_words(str, splitter);
+	array = malloc(words * sizeof(char*) + sizeof(void*));
+	if (!array)
 		return (NULL);
-	i = 0;
+	array[words] = NULL;
 	child = 0;
-	while (str[i] != '\0')
+	while (*str != '\0')
 	{	
-		i+= ft_count_spaces(str + i);
-		if (ft_count_value_len(str + i))
-			parent_array[child] = malloc (ft_count_value_len(str + i) + 1);
-		if (!parent_array[child])
-			return (ft_free_parent_array(parent_array));
-		i += ft_push_value(parent_array[child], str + i, splitter);
-		child++;
+		str += ft_count_spaces(str);
+		if (*str != '\0')
+		{
+			array[child] = malloc(ft_get_len_value(str) + 1);
+			if (!array[child])
+				return (ft_free_array_str(array));
+			str += ft_append_child(array[child], str, splitter);
+			child++;
+		}
 	}
-	parent_array[child] = NULL;
-	return (parent_array);
+	return (array);
 }
 
-int	ft_push_value(char *parent_array, char *value, char splitter)
+int	ft_append_child(char *child, char *value, char splitter)
 {
-	int	child;
 	int	i;
 
 	i = 0;
-	child = 0;
-	while ( value[i] && value[i] != splitter)
+	while (value[i] && value[i] != splitter)
 	{
-		parent_array[child] = value[i];
+		child[i] = value[i];
 		i++;
-		child++;
 	}
-	parent_array[child] = '\0';
+	child[i] = '\0';
 	return (i);
 }
 
-void	*ft_free_parent_array(char **parent_array)
+void	*ft_free_array_str(char **array)
 {
 
 	int	i;
 
 	printf("FREE PARENT ARRAY\n");
 	i = 0;
-	while (parent_array[i])
+	while (array[i])
 	{
-		free(parent_array[i]);
+		free(array[i]);
 		i++;
 	}
-	free(parent_array);
+	free(array);
 	return (NULL);
 }
 
@@ -80,20 +77,16 @@ int	ft_count_words(char *str, char splitter)
 	
 	i = 0;
 	words = 0;
-	if (!str || (*str != splitter && !ft_is_digit(*str)))    
-		return (-1);
 	while (str[i] != '\0')
 	{
 		while (str[i] == splitter)
 			i++;
-		if (ft_is_digit(str[i]))
+		if (str[i])
 		{
-			while (ft_is_digit(str[i]))
+			while (str[i] && str[i] != splitter)
 				i++;
 			words++;
-		}	
-		if (str[i] != '\0' && !ft_is_digit(str[i]) && str[i] != splitter)
-			return (-1);
+		}
 	}
 	return words;
 }
