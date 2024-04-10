@@ -35,17 +35,13 @@ int	ft_count_spaces(char *str)
 	return (i);
 }
 
-int	ft_count_value_len(char *value)
+int	ft_get_len_value(char *value)
 {
 	int	j;
 
 	j = 0;
-		while (value[j] && value[j] != ' ')
-		{
-			if (!ft_is_digit(value[j]))
-				return (0);
-			j++;
-		}
+	while (value[j] && value[j] != ' ')
+		j++;
 	return (j);
 }
 
