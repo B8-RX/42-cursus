@@ -19,11 +19,9 @@ int	main(int argc, char **argv)
 	int		*sorted_entries;
 
 	sorted_entries = NULL;
-	if (!ft_init_stack(&stack_a))
-		return (0);
 	if (argc == 1)
 		return (0);
-	stack_a = ft_handle_args(argc, argv, &stack_a);
+	stack_a = ft_handle_args(argc, argv);
 	// if (stack_a)
 		// sorted_entries = ft_sort_input(&stack);
 	// else
@@ -32,17 +30,9 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-t_stack	*ft_init_stack(t_stack **stack)
+t_stack	*ft_handle_args(int argc, char **argv)
 {
-	*stack = malloc (sizeof(t_stack));
-	if (!*stack)
-		return (NULL);
-	(*stack) -> next = NULL;
-	return (*stack);
-}
-
-t_stack	*ft_handle_args(int argc, char **argv, t_stack **stack)
-{
+	t_stack	*stack;
 	char	**args;
 	int		i;
 
@@ -55,18 +45,33 @@ t_stack	*ft_handle_args(int argc, char **argv, t_stack **stack)
 	while (args && args[++i])
 	{
 		printf("word: |%s|\n", args[i]);
-		// stack = ft_add_back_lst(stack, i);	
+		ft_add_lst_back(&stack, i);
 		if (argc == 2 && args)
 			free(args[i]);
 	}
 	if (argc == 2 && args)
 		free(args);
-	// ft_print_values_lst(stack);
-	return (*stack);
+	ft_print_values_lst(stack);
+	return (stack);
 }
 
-t_stack	**ft_add_back_lst(t_stack **stack, int value)
+t_stack	**ft_add_lst_front(t_stack **stack, int value)
 {
+	t_stack	*new;
+
+	new = malloc (sizeof(t_stack));
+	if (!new)
+		return (NULL);
+	new -> next = *stack;
+	new -> value = value + 10;
+	new -> index = value;
+	*stack = new;
+	return (stack);
+}
+
+t_stack	**ft_add_lst_back(t_stack **stack, int value)
+{
+
 	t_stack	*new;
 	t_stack *curr;
 
@@ -74,12 +79,20 @@ t_stack	**ft_add_back_lst(t_stack **stack, int value)
 	new = malloc (sizeof(t_stack));
 	if (!new)
 		return (NULL);
-	new -> value = value + 15;
+	new -> value = value + 10;
 	new -> index = value;
-	while (curr -> next)
-		curr = curr -> next;
-	curr = new;
-	curr -> next = NULL;
+	new -> next = NULL;
+	if (!curr)
+	{
+		curr = new;
+		*stack = curr;
+	}	
+	else
+	{
+		while (curr -> next)
+			curr = curr -> next;
+		curr -> next = new;
+	}
 	return (stack);
 }
 
@@ -90,10 +103,11 @@ void	ft_free_stack(t_stack *stack)
 	while (stack -> next)
 	{
 		tmp = stack;
-		printf("FREE LINK tmp-> value: |%d|\n", tmp -> value); 
+		printf("FREE lst stack -> value: |%d|\n", tmp -> value); 
 		stack = stack -> next;
 		free(tmp);
 	}
+	printf("FREE lst stack -> value: |%d|\n", stack -> value); 
 	free(stack);	
 }
 
