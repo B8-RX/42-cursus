@@ -23,13 +23,14 @@ typedef struct s_stack {
 
 
 t_stack	*ft_init_stack(t_stack **stack);
-t_stack	*ft_handle_args(int args_len, char **args, t_stack **stack);
+t_stack	*ft_handle_args(int args_len, char **args);
 t_stack	*ft_get_last_lst(t_stack *stack);
-t_stack	**ft_add_back_lst(t_stack **stack, int value);
+t_stack	**ft_add_lst_back(t_stack **stack, int value);
+t_stack	**ft_add_lst_front(t_stack **stack, int value);
 int		ft_count_words(char *str, char splitter);
 int		ft_is_digit(char c);
 char	*ft_print_error(void);
-void	ft_print_values_lst(t_stack **stack);
+void	ft_print_values_lst(t_stack *stack);
 int		ft_count_spaces(char *str);
 int		ft_get_len_value(char *value);
 char	**ft_split(char *str, char splitter);

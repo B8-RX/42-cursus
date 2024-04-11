@@ -45,24 +45,25 @@ int	ft_get_len_value(char *value)
 	return (j);
 }
 
-void	ft_print_values_lst(t_stack **stack)
+void	ft_print_values_lst(t_stack *stack)
 {
 	t_stack	*curr;
 
-	curr = *stack;
+	curr = stack;
 	if (!curr)
 		return;
-	if (curr -> next == NULL)
-	{
-		printf("value: %d\n", curr -> value);
-		printf("index: %d\n", curr -> index);
-	}
 	while (curr -> next)
 	{
+		printf("=================================================\n");
 		printf("value: %d\n", curr -> value);
 		printf("index: %d\n", curr -> index);
 		curr = curr -> next;
 	}
+	printf("=================================================\n");
+	printf("value: %d\n", curr -> value);
+	printf("index: %d\n", curr -> index);
+	printf("===================PRINT VALUES=======================\n");
+
 }
 
 t_stack	*ft_get_last_lst(t_stack *stack)
