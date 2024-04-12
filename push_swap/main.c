@@ -26,7 +26,8 @@ int	main(int argc, char **argv)
 		// sorted_entries = ft_sort_input(&stack);
 	// else
 		// return ft_print_error();
-	ft_free_stack(stack_a);
+	if (stack_a)
+		ft_free_stack(stack_a);
 	return (0);
 }
 
@@ -35,8 +36,10 @@ t_stack	*ft_handle_args(int argc, char **argv)
 	t_stack	*stack;
 	char	**args;
 	int		i;
+	int		value;
 
 	args = NULL;
+	stack = NULL;
 	if (argc == 2)
 		args = ft_split(argv[1], ' ');
 	else
@@ -44,8 +47,9 @@ t_stack	*ft_handle_args(int argc, char **argv)
 	i = -1;
 	while (args && args[++i])
 	{
-		printf("word: |%s|\n", args[i]);
-		ft_add_lst_back(&stack, i);
+		if (!ft_is_digit(args[i]))
+			return (ft_print_error(), NULL);
+		ft_add_lst_front(&stack, ft_atoi(args[i]), i);
 		if (argc == 2 && args)
 			free(args[i]);
 	}
@@ -55,43 +59,55 @@ t_stack	*ft_handle_args(int argc, char **argv)
 	return (stack);
 }
 
-t_stack	**ft_add_lst_front(t_stack **stack, int value)
+t_stack	**ft_add_lst_front(t_stack **stack, int value, int index)
 {
 	t_stack	*new;
+	t_stack	*tmp;
+	t_stack	*curr;
 
 	new = malloc (sizeof(t_stack));
 	if (!new)
 		return (NULL);
+	new -> value = value;
+	new -> index = index;
 	new -> next = *stack;
-	new -> value = value + 10;
-	new -> index = value;
+	tmp = new;
+	while (new -> next)
+	{
+		curr = new;
+		new = new -> next;
+		new -> previous = curr;
+	}
+	tmp -> previous = new;
+	new = tmp;
 	*stack = new;
 	return (stack);
 }
 
-t_stack	**ft_add_lst_back(t_stack **stack, int value)
+t_stack	**ft_add_lst_back(t_stack **stack, int value, int index)
 {
 
 	t_stack	*new;
 	t_stack *curr;
+	t_stack	*tmp;
 
 	curr = *stack;
 	new = malloc (sizeof(t_stack));
 	if (!new)
 		return (NULL);
-	new -> value = value + 10;
-	new -> index = value;
+	new -> value = value;
+	new -> index = index;
 	new -> next = NULL;
-	if (!curr)
-	{
-		curr = new;
-		*stack = curr;
-	}	
+	if (!*stack)
+		*stack = new;
 	else
 	{
+		tmp = curr;
 		while (curr -> next)
 			curr = curr -> next;
+		new -> previous = curr;
 		curr -> next = new;
+		tmp -> previous = new;
 	}
 	return (stack);
 }
