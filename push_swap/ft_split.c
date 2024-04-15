@@ -59,7 +59,6 @@ void	*ft_free_array_str(char **array)
 
 	int	i;
 
-	printf("FREE PARENT ARRAY\n");
 	i = 0;
 	while (array[i])
 	{

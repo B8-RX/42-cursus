@@ -23,11 +23,14 @@ int	main(int argc, char **argv)
 		return (0);
 	stack_a = ft_handle_args(argc, argv);
 	// if (stack_a)
-		// sorted_entries = ft_sort_input(&stack);
+	// 	sorted_entries = ft_sort_input(&stack);
 	// else
 		// return ft_print_error();
 	if (stack_a)
+	{
+		ft_print_values_lst(stack_a);
 		ft_free_stack(stack_a);
+	}
 	return (0);
 }
 
@@ -36,7 +39,6 @@ t_stack	*ft_handle_args(int argc, char **argv)
 	t_stack	*stack;
 	char	**args;
 	int		i;
-	int		value;
 
 	args = NULL;
 	stack = NULL;
@@ -48,66 +50,91 @@ t_stack	*ft_handle_args(int argc, char **argv)
 	while (args && args[++i])
 	{
 		if (!ft_is_digit(args[i]))
-			return (ft_print_error(), NULL);
-		ft_add_lst_front(&stack, ft_atoi(args[i]), i);
+		{
+			if (argc == 2)
+				ft_free_array_str(args);	
+			return (NULL);
+		}
+		ft_add_lst_back(&stack, ft_atoi(args[i]), i);
 		if (argc == 2 && args)
 			free(args[i]);
 	}
 	if (argc == 2 && args)
 		free(args);
-	ft_print_values_lst(stack);
 	return (stack);
 }
 
-t_stack	**ft_add_lst_front(t_stack **stack, int value, int index)
+t_stack	*ft_get_lst_by_index(t_stack *stack, int index)
+{
+	t_stack	*lst;
+
+	lst = stack;
+	if (!stack)
+		return (NULL);
+	while (lst -> index != index)
+		lst = lst -> next;
+	return (lst);
+}
+
+t_stack	**ft_add_lst_back(t_stack **stack, int value, int last_index)
 {
 	t_stack	*new;
-	t_stack	*tmp;
-	t_stack	*curr;
+	t_stack *last;
+	int		i;
 
 	new = malloc (sizeof(t_stack));
 	if (!new)
 		return (NULL);
 	new -> value = value;
-	new -> index = index;
-	new -> next = *stack;
-	tmp = new;
-	while (new -> next)
-	{
-		curr = new;
-		new = new -> next;
-		new -> previous = curr;
-	}
-	tmp -> previous = new;
-	new = tmp;
-	*stack = new;
-	return (stack);
-}
-
-t_stack	**ft_add_lst_back(t_stack **stack, int value, int index)
-{
-
-	t_stack	*new;
-	t_stack *curr;
-	t_stack	*tmp;
-
-	curr = *stack;
-	new = malloc (sizeof(t_stack));
-	if (!new)
-		return (NULL);
-	new -> value = value;
-	new -> index = index;
-	new -> next = NULL;
+	new -> index = last_index;
 	if (!*stack)
 		*stack = new;
 	else
 	{
-		tmp = curr;
-		while (curr -> next)
-			curr = curr -> next;
-		new -> previous = curr;
-		curr -> next = new;
-		tmp -> previous = new;
+		last = ft_get_lst_by_index(*stack, last_index - 1);	
+		last -> next = new;
+		new -> previous = last;
+		new -> next = *stack;
+		(*stack) -> previous = new;
+	}
+	return (stack);
+}
+
+t_stack	**ft_add_lst_front(t_stack **stack, int value, int last_index)
+{
+	t_stack	*new;
+	t_stack	*last;
+
+	new = malloc (sizeof(t_stack));
+	if (!new)
+		return (NULL);
+	new -> value = value;
+	new -> index = 0;
+	if (*stack)
+	{
+		(*stack) -> previous = new;
+		new -> next = *stack;
+		ft_update_stack_index(*stack, last_index);
+		last = ft_get_lst_by_index(*stack, last_index);
+		new -> previous = last;
+		last -> next = new;
+	}
+	*stack = new;
+	return (stack);
+}
+
+t_stack	*ft_update_stack_index(t_stack *stack, int last_index)
+{
+	t_stack	*curr;
+	int		i;
+
+	i = 1;
+	curr = stack;
+	curr -> index = i;
+	while (++i <= last_index)
+	{
+		curr = curr -> next;
+		curr -> index = i;
 	}
 	return (stack);
 }
@@ -115,16 +142,32 @@ t_stack	**ft_add_lst_back(t_stack **stack, int value, int index)
 void	ft_free_stack(t_stack *stack)
 {
 	t_stack	*tmp;
+	t_stack	*curr;
+	int		last_index;
+	int		i;
 
-	while (stack -> next)
+	if (stack)
+	last_index = stack -> previous -> index;
+	curr = stack;
+	i = 0;
+	while (i < last_index)
 	{
-		tmp = stack;
-		printf("FREE lst stack -> value: |%d|\n", tmp -> value); 
-		stack = stack -> next;
+		printf("///////////////////////===>\n");
+		printf("FREE stack -> index : |%d|\n", curr -> index); 
+		tmp = curr;
+		printf("FREE stack -> value: |%d|\n", tmp -> value); 
+		curr = curr -> next;
 		free(tmp);
+		i++;
 	}
-	printf("FREE lst stack -> value: |%d|\n", stack -> value); 
-	free(stack);	
+	if (curr)
+		{
+		printf("///////////////////////===>\n");
+		printf("FREE stack -> index : |%d|\n", curr -> index); 
+		printf("FREE stack -> value: |%d|\n", curr -> value); 
+		printf("///////////////////////===>\n");
+		free(curr);	
+	}
 }
 
 
@@ -134,16 +177,16 @@ TODO
 
 
  # verifier le nombre d'argument (argc)
-	ok* si le nombre d'argument == 1 ===> return (0)
+	ok- si le nombre d'argument == 1 ===> return (0)
 
 
  # traiter les arguments ====> ft_handle_args().
-	(en cas d'erreur de format, afficher un message d'erreur sur le stderror)
 	ok- si le nombre d'arguments == 2  ===> ft_handle_second_args()
 	ok- split les arguments  ====> ft_split_args()
-	- transformer les nombres en format char* en int  ====> ft_atoi()
+	ok- transformer les nombres en format char* en int  ====> ft_atoi()
+	ok- assigner chaque arguments dans la liste circulaire (stack a) ==> ft_add_lst_back() ou ft_add_lst_front()
+	ok- (en cas d'erreur de format, afficher un message d'erreur sur le stderror)
 	- verifier qu'il n'y a pas de doublons  ===> ft_check_if_duplicate_nbr()
-	- assigner chaque arguments dans la liste circulaire (stack a) ==> ft_put_entries_in_stack()
  
  # trier les arguments par ordre croissant  ====> ft_sort_input()
 	-
