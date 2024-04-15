@@ -24,7 +24,7 @@ typedef struct s_stack {
 
 t_stack	*ft_init_stack(t_stack **stack);
 t_stack	*ft_update_stack_index(t_stack *stack, int last_index);
-t_stack	*ft_handle_args(int args_len, char **args);
+t_stack	*ft_handle_args(t_stack **stack_a, int args_len, char **args);
 t_stack	**ft_add_lst_back(t_stack **stack, int value, int index);
 t_stack	**ft_add_lst_front(t_stack **stack, int value, int index);
 t_stack	*ft_get_lst_by_index(t_stack *stack, int index);
