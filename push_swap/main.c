@@ -19,13 +19,15 @@ int	main(int argc, char **argv)
 	int		*sorted_entries;
 
 	sorted_entries = NULL;
+	stack_a = NULL;
 	if (argc == 1)
 		return (0);
-	stack_a = ft_handle_args(argc, argv);
+	if (!ft_handle_args(&stack_a, argc, argv))
+		return (ft_print_error(), 0);
 	// if (stack_a)
 	// 	sorted_entries = ft_sort_input(&stack);
 	// else
-		// return ft_print_error();
+		// return (ft_print_error());
 	if (stack_a)
 	{
 		ft_print_values_lst(stack_a);
@@ -34,16 +36,14 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-t_stack	*ft_handle_args(int argc, char **argv)
+t_stack	*ft_handle_args(t_stack **stack, int argc, char **argv)
 {
-	t_stack	*stack;
 	char	**args;
 	int		i;
 
 	args = NULL;
-	stack = NULL;
 	if (argc == 2)
-		args = ft_split(argv[1], ' ');
+		args = ft_split(argv[1], 32);
 	else
 		args = argv + 1;
 	i = -1;
@@ -55,13 +55,12 @@ t_stack	*ft_handle_args(int argc, char **argv)
 				ft_free_array_str(args);	
 			return (NULL);
 		}
-		ft_add_lst_back(&stack, ft_atoi(args[i]), i);
-		if (argc == 2 && args)
-			free(args[i]);
+		if (!ft_add_lst_back(stack, ft_atoi(args[i]), i))
+			break;
 	}
 	if (argc == 2 && args)
-		free(args);
-	return (stack);
+		ft_free_array_str(args);
+	return (*stack);
 }
 
 t_stack	*ft_get_lst_by_index(t_stack *stack, int index)
