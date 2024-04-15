@@ -98,11 +98,13 @@ int	ft_get_len_value(char *value)
 void	ft_print_values_lst(t_stack *stack)
 {
 	t_stack	*curr;
-
+	int		i;
+	
 	curr = stack;
 	if (!curr)
 		return;
-	while (curr -> next)
+	i = 0;
+	while (i++ <= (curr -> index))
 	{
 		printf("=================================================\n");
 		printf("curr value: %d\n", curr -> value);
@@ -110,27 +112,11 @@ void	ft_print_values_lst(t_stack *stack)
 		printf("///////////////////////===>\n");
 		printf("previous value: %d\n", curr -> previous -> value);
 		printf("previous index: %d\n", curr -> previous -> index);
+		printf("///////////////////////===>\n");
+		printf("next value: %d\n", curr -> next -> value);
+		printf("next index: %d\n", curr -> next -> index);
 		curr = curr -> next;
 	}
-	printf("=================================================\n");
-	printf("curr value: %d\n", curr -> value);
-	printf("curr index: %d\n", curr -> index);
-	printf("///////////////////////===>\n");
-	printf("previous value: %d\n", curr -> previous -> value);
-	printf("previous index: %d\n", curr -> previous -> index);
 	printf("===================PRINT VALUES=======================\n");
 
 }
-
-t_stack	*ft_get_last_lst(t_stack *stack)
-{
-	t_stack	*curr_stack;
-
-	curr_stack = stack;
-	if (curr_stack -> next != NULL)
-		while (curr_stack -> next)
-			curr_stack = curr_stack -> next;
-	return (curr_stack);
-}
-
-
