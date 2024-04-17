@@ -16,31 +16,36 @@
 
 typedef struct s_stack {
 	int				value;
-	int				index;
+	size_t			index;
 	struct s_stack	*previous;
 	struct s_stack	*next;
 }	t_stack;
 
 
 t_stack	*ft_init_stack(t_stack **stack);
-t_stack	*ft_update_stack_index(t_stack *stack, int last_index);
 t_stack	*ft_handle_args(t_stack **stack_a, int args_len, char **args);
-t_stack	**ft_add_lst_back(t_stack **stack, int value, int index);
-t_stack	**ft_add_lst_front(t_stack **stack, int value, int index);
-t_stack	*ft_get_lst_by_index(t_stack *stack, int index);
+t_stack	**ft_add_lst_back(t_stack **stack, int value);
+t_stack	**ft_add_lst_front(t_stack **stack, int value);
+t_stack	*ft_get_lst_by_index(t_stack *stack, size_t index);
+void	ft_sort_stack(t_stack **stack);
+void	ft_update_stack_index(t_stack *stack);
+
+char	**ft_split(char *str, char splitter);
 int		ft_count_words(char *str, char splitter);
-int		ft_is_digit(char *str);
-char	*ft_print_error(void);
-void	ft_print_values_lst(t_stack *stack);
 int		ft_count_spaces(char *str);
 int		ft_get_len_value(char *value);
-char	**ft_split(char *str, char splitter);
 void	*ft_free_array_str(char **array);
-void	ft_free_stack(t_stack *stack);
 int		ft_append_child(char *child, char *value, char splitter);
+
+void	ft_free_stack(t_stack *stack);
+char	*ft_print_error(void);
+void	ft_print_values_lst(t_stack *stack);
+void	ft_sa(t_stack *stack_a);
+void	ft_sb(t_stack *stack_a);
+
 int		ft_atoi(const char *str);
 size_t	ft_strlen(const char *str);
-
+int		ft_is_digit(char *str);
 
 
 
