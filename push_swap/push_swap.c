@@ -95,7 +95,7 @@ t_stack	**ft_add_lst_back(t_stack **stack, int value)
 	}
 	else
 	{
-		new -> index = (*stack) -> previous -> index;
+		new -> index = ((*stack) -> previous -> index) + 1;
 		last = (*stack) -> previous;	
 		last -> next = new;
 		new -> previous = last;
@@ -119,31 +119,15 @@ t_stack	**ft_add_lst_front(t_stack **stack, int value)
 	new -> previous = new;
 	if (*stack)
 	{
+		last = (*stack) -> previous;
+		last -> next = new;
 		(*stack) -> previous = new;
 		new -> next = *stack;
-		ft_update_stack_index(*stack);
-		last = (*stack) -> previous;
 		new -> previous = last;
-		last -> next = new;
+		ft_update_stack_index(new, last -> index);
 	}
 	*stack = new;
 	return (stack);
-}
-
-void	ft_update_stack_index(t_stack *stack)
-{
-	t_stack	*curr;
-	size_t	i;
-
-	i = 1;
-	curr = stack;
-	curr -> index = i;
-	while (++i <= curr -> index)
-	{
-		printf("curr index: %ld\n", i);
-		curr = curr -> next;
-		curr -> index = i;
-	}
 }
 
 void	ft_free_stack(t_stack *stack)
@@ -156,6 +140,7 @@ void	ft_free_stack(t_stack *stack)
 	last_index = stack -> previous -> index;
 	curr = stack;
 	i = 0;
+	printf("FUNCTION FREE STACK\n");
 	while (i++ < last_index)
 	{
 		printf("///////////////////////===>\n");
