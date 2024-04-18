@@ -100,11 +100,11 @@ void	ft_print_values_lst(t_stack *stack)
 	t_stack	*curr;
 	size_t	i;
 
+	printf("FUNCTION PRINT VALUES\n");
 	curr = stack;
 	if (!curr)
 		return;
 	i = 0;
-	printf("=================================================\n");
 	while (i++ <= (stack -> previous -> index))
 	{
 		printf("=================================================\n");
@@ -119,33 +119,30 @@ void	ft_print_values_lst(t_stack *stack)
 		curr = curr -> next;
 	}
 	printf("=================================================\n");
+	printf("FUNCTION PRINT VALUES //////\n");
 }
 
-void	ft_sort_stack(t_stack **stack_a)
+t_stack	*ft_sort_stack(t_stack *stack_a)
 {
-	// t_stack	*stack_b;
+	t_stack	*stack_b;
 	t_stack	*tmp;
 	int		small_value;
 	int		high_value;
 	size_t	total_length;
 	size_t	current_index;
 
-	// stack_b = malloc (sizeof(t_stack));
-	// if (!stack_b)
-	// 	return (NULL);
+	stack_b = NULL;
 	printf("FUNCTION SORT\n");
-	tmp = *stack_a;
+	tmp = stack_a;
 	total_length = 1;
 	small_value = tmp -> value;
 	high_value = tmp -> value;
-	printf("stack_a -> index: %ld|\n", (*stack_a) -> index);
-	printf("stack_a -> previous -> index: %ld|\n", (*stack_a) -> previous -> index);
-	while ((tmp -> index) < ((*stack_a) -> previous -> index))
+	while ((tmp -> index) < (stack_a -> previous -> index))
 	{
 		total_length++;
 		tmp = tmp -> next;
 	}
-	tmp = *stack_a;
+	tmp = stack_a;
 	current_index = 0;
 	while (current_index < total_length)
 	{
@@ -155,12 +152,15 @@ void	ft_sort_stack(t_stack **stack_a)
 			high_value = tmp -> next -> value;
 		tmp = tmp -> next;
 		current_index++;
-		// if (tmp -> index == (*stack_a) -> previous -> index)
-		// 	current_index = 0;
 	}
-	printf("\nSMALLEST VALUE: %d\n", small_value);
-	printf("HIGHEST VALUE: %d\n", high_value);
-	printf("TOTAL LENGTH: %zu|\n\n", total_length);
+	printf("\nSMALLEST VALUE: %d\nHIGHEST VALUE: %d\nTOTAL LENGTH: %zu\n",
+		small_value,
+		high_value,
+		total_length);
+	ft_pb(&stack_a, &stack_b);
+	ft_pb(&stack_a, &stack_b);
+	ft_free_stack(stack_b);
+	return (stack_a);
 }
 
 void	ft_update_stack_index(t_stack *stack, size_t last_index)
@@ -177,29 +177,6 @@ void	ft_update_stack_index(t_stack *stack, size_t last_index)
 		i++;
 	}
 }
-
-
-/* 
-	TODO :
-		-CREATE THE SORTING FUNCTIONS:
-			*sa, sb, ss
-			*pa, pb
-			*ra, rb, rr
-			*rra, rrb, rrr
-
-			sa = (swap a) swipe the two first elements of stack a.
-			sb = (swap b) // // // of stack b.
-			ss = trigger sa and sb
-			pa = (push a) from stack a to stack b
-			pb = (push b) from stack b to stack a
-			ra = (rotate a) the first element of stack a become the last
-			rb = (rotate b) the first element of stack b become the last
-			rr = trigger ra and rb
-			rra = (reverse rotate a) the last element of stack a become the first
-			rrb = (reverse rotate b) the last element of stack a become the first
-			rrr = trigger rra and rrb
-
-*/
 
 void	ft_sa(t_stack *stack_a)
 {
@@ -222,15 +199,15 @@ void	ft_sb(t_stack *stack_b)
 	first_elem -> value = first_elem -> next -> value;
 	first_elem -> next -> value = tmp_value;
 }
-//
-// void	ft_pb(t_stack *stack_a, t_stack *stack_b)
-// {
-// 	size_t	last_index;
-//
-// 	last_index = ft_get_last_index(stack_b);
-// 	ft_add_lst_front(&stack_b, stack_a -> value, last_index);
-// }
-//
+
+void	ft_pb(t_stack **stack_a, t_stack **stack_b)
+{
+	ft_unshift_lst(stack_b, (*stack_a) -> value);
+	// ft_shift_lst(stack_a);
+}
+
+// void	ft_shift_lst(t_stack *stack)
+
 // size_t	ft_get_last_index(t_stack *stack)
 // {
 // 	size_t	i;
@@ -242,3 +219,27 @@ void	ft_sb(t_stack *stack_b)
 // 	}
 // 	return (i);
 // }
+
+
+/* 
+	TODO :
+		-CREATE THE SORTING FUNCTIONS:
+			*sa, sb, ss
+			*pa, pb
+			*ra, rb, rr
+			*rra, rrb, rrr
+
+			sa = (swap a) swipe the two first elements of stack a.
+			sb = (swap b) // // // of stack b.
+			ss = trigger sa and sb
+			pa = (push a) push the first elem from stack b to stack a
+			pb = (push b) // // // from stack a to stack b
+			ra = (rotate a) the first element of stack a become the last
+			rb = (rotate b) the first element of stack b become the last
+			rr = trigger ra and rb
+			rra = (reverse rotate a) the last element of stack a become the first
+			rrb = (reverse rotate b) the last element of stack a become the first
+			rrr = trigger rra and rrb
+
+*/
+

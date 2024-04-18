@@ -66,6 +66,7 @@ void	*ft_free_array_str(char **array)
 		i++;
 	}
 	free(array);
+	array = NULL;
 	return (NULL);
 }
 
