@@ -28,7 +28,7 @@ t_stack	**ft_add_lst_back(t_stack **stack, int value);
 t_stack	**ft_add_lst_front(t_stack **stack, int value);
 t_stack	*ft_get_lst_by_index(t_stack *stack, size_t index);
 void	ft_sort_stack(t_stack **stack);
-void	ft_update_stack_index(t_stack *stack);
+void	ft_update_stack_index(t_stack *stack, size_t last_index);
 
 char	**ft_split(char *str, char splitter);
 int		ft_count_words(char *str, char splitter);

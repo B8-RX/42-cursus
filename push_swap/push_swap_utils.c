@@ -133,11 +133,13 @@ void	ft_sort_stack(t_stack **stack_a)
 	// stack_b = malloc (sizeof(t_stack));
 	// if (!stack_b)
 	// 	return (NULL);
-	printf("TEST SORT: %d\n", (*stack_a) -> value);
+	printf("FUNCTION SORT\n");
 	tmp = *stack_a;
 	total_length = 1;
 	small_value = tmp -> value;
 	high_value = tmp -> value;
+	printf("stack_a -> index: %ld|\n", (*stack_a) -> index);
+	printf("stack_a -> previous -> index: %ld|\n", (*stack_a) -> previous -> index);
 	while ((tmp -> index) < ((*stack_a) -> previous -> index))
 	{
 		total_length++;
@@ -156,10 +158,26 @@ void	ft_sort_stack(t_stack **stack_a)
 		// if (tmp -> index == (*stack_a) -> previous -> index)
 		// 	current_index = 0;
 	}
-	printf("\n\nSMALLEST VALUE: %d\n", small_value);
+	printf("\nSMALLEST VALUE: %d\n", small_value);
 	printf("HIGHEST VALUE: %d\n", high_value);
-	printf("TOTAL LENGTH: %zu|\n", total_length);
+	printf("TOTAL LENGTH: %zu|\n\n", total_length);
 }
+
+void	ft_update_stack_index(t_stack *stack, size_t last_index)
+{
+	t_stack	*curr;
+	size_t	i;
+
+	i = 0;
+	curr = stack;
+	while (i <= last_index + 1)
+	{
+		curr -> index = i;
+		curr = curr -> next;
+		i++;
+	}
+}
+
 
 /* 
 	TODO :
