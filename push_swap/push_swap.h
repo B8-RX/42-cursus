@@ -43,6 +43,8 @@ char	*ft_print_error(void);
 void	ft_print_values_lst(t_stack *stack);
 void	ft_sa(t_stack *stack_a);
 void	ft_sb(t_stack *stack_a);
+void	ft_ra(t_stack **stack_b);
+void	ft_rb(t_stack **stack_b);
 void	ft_pb(t_stack **stack_a, t_stack **stack_b);
 void	ft_pa(t_stack **stack_a, t_stack **stack_b);
 

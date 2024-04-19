@@ -159,7 +159,9 @@ t_stack	*ft_sort_stack(t_stack **stack_a)
 		total_length);
 	ft_pb(stack_a, &stack_b);
 	ft_pb(stack_a, &stack_b);
-	ft_pa(stack_a, &stack_b);
+	// ft_pb(stack_a, &stack_b);
+	ft_ra(stack_a);
+	// ft_pa(stack_a, &stack_b);
 	ft_free_stack(stack_b);
 	return (*stack_a);
 	}
@@ -186,6 +188,23 @@ void	ft_sb(t_stack *stack_b)
 	first_elem -> next -> value = tmp_value;
 }
 
+void	ft_ra(t_stack **stack_a)
+{
+	int	tmp_value;
+
+	tmp_value = (*stack_a) -> value;
+	ft_shift_lst(stack_a);
+	ft_push_lst(stack_a, tmp_value);
+}
+
+void	ft_rb(t_stack **stack_b)
+{
+	int	tmp_value;
+
+	tmp_value = (*stack_b) -> value;
+	ft_shift_lst(stack_b);
+	ft_push_lst(stack_b, tmp_value);
+}
 void	ft_pb(t_stack **stack_a, t_stack **stack_b)
 {
 	int	value;
