@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 		return (0);
 	if (!ft_handle_args(&stack_a, argc, argv))
 		return (ft_print_error(), 0);
-	if (!ft_sort_stack(stack_a))
+	if (!ft_sort_stack(&stack_a))
 		return (ft_print_error(), 0);
 	if (stack_a)
 	{
@@ -56,8 +56,11 @@ t_stack	*ft_handle_args(t_stack **stack_a, int argc, char **argv)
 			ft_free_stack(*stack_a);
 			return (NULL);
 		}
-		if (!ft_unshift_lst(stack_a, ft_atoi(args[i])))
+		if (!ft_push_lst(stack_a, ft_atoi(args[i])))
+		{
+			printf("ERROR HANDLE_ARGS FT_PUSH\n");
 			break;
+		}
 		i++;
 	}
 	if (argc == 2)
@@ -124,7 +127,7 @@ t_stack	*ft_unshift_lst(t_stack **stack, int value)
 		(*stack) -> previous = new;
 		new -> next = *stack;
 		new -> previous = last;
-		ft_update_stack_index(new, last -> index);
+		ft_update_stack_index(new);
 	}
 	*stack = new;
 	return (*stack);
@@ -134,17 +137,15 @@ void	ft_free_stack(t_stack *stack)
 {
 	t_stack	*tmp;
 	t_stack	*curr;
-	size_t	last_index;
-	size_t	i;
+	t_stack	*last;
 
 	printf("FUNCTION FREE STACK\n");
-	last_index = 0;
 	curr = stack;
-	i = 0;
 	if (stack)
 	{
-		last_index = stack -> previous -> index;
-		while (i++ < last_index)
+		last = stack -> previous;
+		last -> next = NULL;
+		while (curr -> next)
 		{
 			printf("///////////////////////===>\n");
 			tmp = curr;

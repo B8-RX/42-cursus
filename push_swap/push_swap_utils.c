@@ -122,7 +122,7 @@ void	ft_print_values_lst(t_stack *stack)
 	printf("FUNCTION PRINT VALUES //////\n");
 }
 
-t_stack	*ft_sort_stack(t_stack *stack_a)
+t_stack	*ft_sort_stack(t_stack **stack_a)
 {
 	t_stack	*stack_b;
 	t_stack	*tmp;
@@ -133,16 +133,16 @@ t_stack	*ft_sort_stack(t_stack *stack_a)
 
 	stack_b = NULL;
 	printf("FUNCTION SORT\n");
-	tmp = stack_a;
+	tmp = *stack_a;
 	total_length = 1;
 	small_value = tmp -> value;
 	high_value = tmp -> value;
-	while ((tmp -> index) < (stack_a -> previous -> index))
+	while ((tmp -> index) < ((*stack_a) -> previous -> index))
 	{
 		total_length++;
 		tmp = tmp -> next;
 	}
-	tmp = stack_a;
+	tmp = *stack_a;
 	current_index = 0;
 	while (current_index < total_length)
 	{
@@ -157,26 +157,12 @@ t_stack	*ft_sort_stack(t_stack *stack_a)
 		small_value,
 		high_value,
 		total_length);
-	ft_pb(&stack_a, &stack_b);
-	ft_pb(&stack_a, &stack_b);
+	ft_pb(stack_a, &stack_b);
+	ft_pb(stack_a, &stack_b);
+	ft_pa(stack_a, &stack_b);
 	ft_free_stack(stack_b);
-	return (stack_a);
-}
-
-void	ft_update_stack_index(t_stack *stack, size_t last_index)
-{
-	t_stack	*curr;
-	size_t	i;
-
-	i = 0;
-	curr = stack;
-	while (i <= last_index + 1)
-	{
-		curr -> index = i;
-		curr = curr -> next;
-		i++;
+	return (*stack_a);
 	}
-}
 
 void	ft_sa(t_stack *stack_a)
 {
@@ -202,24 +188,56 @@ void	ft_sb(t_stack *stack_b)
 
 void	ft_pb(t_stack **stack_a, t_stack **stack_b)
 {
-	ft_unshift_lst(stack_b, (*stack_a) -> value);
-	// ft_shift_lst(stack_a);
+	int	value;
+
+	value = (*stack_a) -> value;
+	ft_unshift_lst(stack_b, value);
+	ft_shift_lst(stack_a);
 }
 
-// void	ft_shift_lst(t_stack *stack)
+void	ft_pa(t_stack **stack_a, t_stack **stack_b)
+{
+	int	value;
 
-// size_t	ft_get_last_index(t_stack *stack)
-// {
-// 	size_t	i;
-//
-// 	i = 0;
-// 	while ()
-// 	{
-//
-// 	}
-// 	return (i);
-// }
+	value = (*stack_b) -> value;
+	ft_unshift_lst(stack_a, value);
+	ft_shift_lst(stack_b);
+}
 
+void	ft_shift_lst(t_stack **stack)
+{
+	t_stack	*prev;
+	t_stack	*next;
+
+	next = NULL;
+	if ((*stack) -> next != *stack)
+	{
+		prev = (*stack) -> previous;
+		next = (*stack) -> next;
+		next -> previous = prev;
+		prev -> next = next;
+	}
+	free(*stack);
+	*stack = next;	
+	ft_update_stack_index(*stack);
+}
+
+void	ft_update_stack_index(t_stack *stack)
+{
+	t_stack	*curr;
+	size_t	i;
+	
+	i = 0;
+	curr = stack;
+	if (!stack)
+		return;
+	do
+	{
+		curr -> index = i;
+		curr = curr -> next;
+		i++;
+	} while (curr != stack);
+}
 
 /* 
 	TODO :
