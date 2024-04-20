@@ -37,9 +37,11 @@ int	main(int argc, char **argv)
 t_stack	*ft_handle_args(t_stack **stack_a, int argc, char **argv)
 {
 	char	**args;
+	t_stack	*new;
 	size_t	i;
 
 	args = NULL;
+	new = NULL;
 	if (argc == 2)
 		args = ft_split(argv[1], 32);
 	else
@@ -56,11 +58,13 @@ t_stack	*ft_handle_args(t_stack **stack_a, int argc, char **argv)
 			ft_free_stack(*stack_a);
 			return (NULL);
 		}
-		if (!ft_push_lst(stack_a, ft_atoi(args[i])))
-		{
-			printf("ERROR HANDLE_ARGS FT_PUSH\n");
+		new = ft_init_lst(ft_atoi(args[i]));
+		if (!new)
 			break;
-		}
+		if (!ft_push_lst(stack_a, new))
+			break;
+		// if (!ft_unshift_lst(stack_a, new))
+			// break;
 		i++;
 	}
 	if (argc == 2)
@@ -68,34 +72,28 @@ t_stack	*ft_handle_args(t_stack **stack_a, int argc, char **argv)
 	return (*stack_a);
 }
 
-t_stack	*ft_get_lst_by_index(t_stack *stack, size_t index)
+t_stack	*ft_init_lst(int value)
 {
 	t_stack	*lst;
 
-	lst = stack;
-	if (!stack)
+	lst = malloc (sizeof(t_stack));
+	if (!lst)
 		return (NULL);
-	while (lst -> index != index)
-		lst = lst -> next;
+	lst -> index = 0;
+	lst -> value = value;
+	lst -> next = lst;
+	lst -> previous = lst;
 	return (lst);
 }
 
-t_stack	*ft_push_lst(t_stack **stack, int value)
+t_stack	*ft_push_lst(t_stack **stack, t_stack *new)
 {
-	t_stack	*new;
 	t_stack *last;
 
-	new = malloc (sizeof(t_stack));
 	if (!new)
 		return (NULL);
-	new -> value = value;
 	if (!*stack)
-	{
-		new -> next = new;
-		new -> previous = new;
-		new -> index = 0;
 		*stack = new;
-	}
 	else
 	{
 		new -> index = ((*stack) -> previous -> index) + 1;
@@ -108,18 +106,12 @@ t_stack	*ft_push_lst(t_stack **stack, int value)
 	return (*stack);
 }
 
-t_stack	*ft_unshift_lst(t_stack **stack, int value)
+t_stack	*ft_unshift_lst(t_stack **stack, t_stack *new)
 {
-	t_stack	*new;
 	t_stack	*last;
 
-	new = malloc (sizeof(t_stack));
 	if (!new)
 		return (NULL);
-	new -> value = value;
-	new -> index = 0;
-	new -> next = new;
-	new -> previous = new;
 	if (*stack)
 	{
 		last = (*stack) -> previous;
@@ -131,6 +123,18 @@ t_stack	*ft_unshift_lst(t_stack **stack, int value)
 	}
 	*stack = new;
 	return (*stack);
+}
+
+t_stack	*ft_get_lst_by_index(t_stack *stack, size_t index)
+{
+	t_stack	*lst;
+
+	lst = stack;
+	if (!stack)
+		return (NULL);
+	while (lst -> index != index)
+		lst = lst -> next;
+	return (lst);
 }
 
 void	ft_free_stack(t_stack *stack)
