@@ -28,6 +28,7 @@ t_stack	*ft_handle_args(t_stack **stack_a, int args_len, char **args);
 t_stack	*ft_push_lst(t_stack **stack, t_stack *lst);
 t_stack	*ft_unshift_lst(t_stack **stack, t_stack *lst);
 void	ft_shift_lst(t_stack **stack);
+void	ft_pop_lst(t_stack **stack);
 t_stack	*ft_get_lst_by_index(t_stack *stack, size_t index);
 t_stack	*ft_sort_stack(t_stack **stack);
 void	ft_update_stack_index(t_stack *stack);
@@ -47,6 +48,7 @@ void	ft_sb(t_stack **stack_a);
 void	ft_ss(t_stack **stack_a, t_stack **stack_b);
 void	ft_ra(t_stack **stack_b);
 void	ft_rb(t_stack **stack_b);
+void	ft_rr(t_stack **stack_a, t_stack **stack_b);
 void	ft_pb(t_stack **stack_a, t_stack **stack_b);
 void	ft_pa(t_stack **stack_a, t_stack **stack_b);
 
