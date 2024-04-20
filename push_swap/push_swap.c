@@ -141,15 +141,13 @@ void	ft_free_stack(t_stack *stack)
 {
 	t_stack	*tmp;
 	t_stack	*curr;
-	t_stack	*last;
+	// t_stack	*last;
 
 	printf("FUNCTION FREE STACK\n");
 	curr = stack;
 	if (stack)
 	{
-		last = stack -> previous;
-		last -> next = NULL;
-		while (curr -> next)
+		while (curr -> next != stack)
 		{
 			printf("///////////////////////===>\n");
 			tmp = curr;
