@@ -163,9 +163,11 @@ t_stack	*ft_sort_stack(t_stack **stack_a)
 	// ft_sb(&stack_b);
 	// ft_ss(stack_a, &stack_b);
 	// ft_pb(stack_a, &stack_b);
-	ft_ra(stack_a);
-	ft_rb(&stack_b);
+	// ft_ra(stack_a);
+	// ft_rb(&stack_b);
 	// ft_pa(stack_a, &stack_b);
+	ft_rr(stack_a, &stack_b);
+	ft_pop_lst(stack_a);
 	ft_free_stack(stack_b);
 	return (*stack_a);
 	}
@@ -258,6 +260,36 @@ void	ft_rb(t_stack **stack_b)
 	ft_update_stack_index(*stack_b);
 }
 
+void	ft_rr(t_stack **stack_a, t_stack **stack_b)
+{
+	ft_ra(stack_a);
+	ft_rb(stack_b);
+}
+
+// void	ft_rra(t_stack **stack_a)
+// {
+// 	int	value;
+//
+// 	value = *stack_a -> previous;
+// 	ft_pop_lst(stack_a);
+// }
+
+void	ft_pop_lst(t_stack **stack)
+{
+	t_stack	*curr;
+	t_stack	*last;
+	t_stack	*prev;
+
+	curr = *stack;
+	while (curr -> next != *stack)
+		curr = curr -> next;
+	last = curr;
+	prev = last -> previous;
+	(*stack) -> previous = prev;
+	prev -> next = *stack;
+	free(last);
+}
+
 void	ft_pb(t_stack **stack_a, t_stack **stack_b)
 {
 	int	value;
@@ -301,14 +333,14 @@ void	ft_update_stack_index(t_stack *stack)
 			*ra, rb, rr
 			*rra, rrb, rrr
 
-			sa = (swap a) swipe the two first elements of stack a.
-			sb = (swap b) // // // of stack b.
-			ss = trigger sa and sb
-			pa = (push a) push the first elem from stack b to stack a
-			pb = (push b) // // // from stack a to stack b
-			ra = (rotate a) the first element of stack a become the last
-			rb = (rotate b) the first element of stack b become the last
-			rr = trigger ra and rb
+		ok	sa = (swap a) swipe the two first elements of stack a.
+		ok	sb = (swap b) // // // of stack b.
+		ok	ss = trigger sa and sb
+		ok	pa = (push a) push the first elem from stack b to stack a
+		ok	pb = (push b) // // // from stack a to stack b
+		ok	ra = (rotate a) the first element of stack a become the last
+		ok	rb = (rotate b) the first element of stack b become the last
+		ok	rr = trigger ra and rb
 			rra = (reverse rotate a) the last element of stack a become the first
 			rrb = (reverse rotate b) the last element of stack a become the first
 			rrr = trigger rra and rrb
