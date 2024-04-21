@@ -43,6 +43,9 @@ int		ft_append_child(char *child, char *value, char splitter);
 void	ft_free_stack(t_stack *stack);
 char	*ft_print_error(void);
 void	ft_print_values_lst(t_stack *stack);
+size_t	ft_get_stack_len(t_stack *stack);
+int		ft_get_sm_value(t_stack *stack);
+int		ft_get_bg_value(t_stack *stack);
 
 void	ft_sa(t_stack **stack_a);
 void	ft_sb(t_stack **stack_a);

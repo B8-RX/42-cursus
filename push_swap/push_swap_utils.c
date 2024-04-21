@@ -95,77 +95,77 @@ int	ft_get_len_value(char *value)
 	return (j);
 }
 
-void	ft_print_values_lst(t_stack *stack)
-{
-	t_stack	*curr;
-	size_t	i;
 
-	printf("FUNCTION PRINT VALUES\n");
-	curr = stack;
-	if (!curr)
-		return;
-	i = 0;
-	while (i++ <= (stack -> previous -> index))
+size_t	ft_get_stack_len(t_stack *stack)
+{
+	size_t	len;
+	t_stack	*tmp;
+
+	tmp = stack;
+	len = 1;
+	while (tmp -> next != stack)
 	{
-		printf("=================================================\n");
-		printf("curr index: %ld\n", curr -> index);
-		printf("curr value: %d\n", curr -> value);
-		printf("///////////////////////===>\n");
-		printf("previous index: %ld\n", curr -> previous -> index);
-		printf("previous value: %d\n", curr -> previous -> value);
-		printf("///////////////////////===>\n");
-		printf("next index: %ld\n", curr -> next -> index);
-		printf("next value: %d\n", curr -> next -> value);
-		curr = curr -> next;
+		len++;
+		tmp = tmp -> next;
 	}
-	printf("=================================================\n");
-	printf("FUNCTION PRINT VALUES //////\n");
+	return (len);
+}
+
+int	ft_get_sm_value(t_stack *stack)
+{
+	t_stack	*tmp;
+	int		small_val;
+
+	tmp = stack;
+	small_val = tmp -> value;
+	while (tmp -> next != stack)
+	{
+		if (tmp -> value > tmp -> next -> value)
+			small_val = tmp -> next -> value;
+		tmp = tmp -> next;
+	}
+	return (small_val);
+}
+
+int	ft_get_bg_value(t_stack *stack)
+{
+	t_stack	*tmp;
+	int		high_val;
+
+	tmp = stack;
+	high_val = tmp -> value;
+	while (tmp -> next != stack)
+	{
+		if (tmp -> value < tmp -> next -> value)
+			high_val = tmp -> next -> value;
+		tmp = tmp -> next;
+	}
+	return (high_val);
 }
 
 t_stack	*ft_sort_stack(t_stack **stack_a)
 {
 	t_stack	*stack_b;
-	t_stack	*tmp;
 	int		small_value;
 	int		high_value;
-	size_t	total_length;
-	size_t	current_index;
+	size_t	stack_len;
 
 	stack_b = NULL;
 	printf("FUNCTION SORT\n");
-	tmp = *stack_a;
-	total_length = 1;
-	small_value = tmp -> value;
-	high_value = tmp -> value;
-	while ((tmp -> index) < ((*stack_a) -> previous -> index))
-	{
-		total_length++;
-		tmp = tmp -> next;
-	}
-	tmp = *stack_a;
-	current_index = 0;
-	while (current_index < total_length)
-	{
-		if (small_value > tmp -> next -> value)
-			small_value = tmp -> next -> value;
-		if (high_value < tmp -> next -> value)
-			high_value = tmp -> next -> value;
-		tmp = tmp -> next;
-		current_index++;
-	}
+	stack_len = ft_get_stack_len(*stack_a);
+	small_value = ft_get_sm_value(*stack_a);
+	high_value = ft_get_bg_value(*stack_a);
 	printf("\nSMALLEST VALUE: %d\nHIGHEST VALUE: %d\nTOTAL LENGTH: %zu\n",
 		small_value,
 		high_value,
-		total_length);
-	ft_pb(stack_a, &stack_b);
-	ft_pb(stack_a, &stack_b);
+		stack_len);
 	// ft_sa(stack_a);
 	// ft_sb(&stack_b);
 	// ft_ss(stack_a, &stack_b);
-	// ft_pb(stack_a, &stack_b);
 	// ft_ra(stack_a);
 	// ft_rb(&stack_b);
 	// ft_pa(stack_a, &stack_b);
+	// ft_pb(stack_a, &stack_b);
 	// ft_rr(stack_a, &stack_b);
 	// ft_rra(stack_a);
 	// ft_rrb(&stack_b);
@@ -173,183 +173,6 @@ t_stack	*ft_sort_stack(t_stack **stack_a)
 	ft_free_stack(stack_b);
 	return (*stack_a);
 	}
-
-void	ft_shift_lst(t_stack **stack)
-{
-	t_stack	*prev;
-	t_stack	*next;
-
-	next = NULL;
-	if ((*stack) -> next != *stack)
-	{
-		prev = (*stack) -> previous;
-		next = (*stack) -> next;
-		next -> previous = prev;
-		prev -> next = next;
-	}
-	free(*stack);
-	*stack = next;	
-	ft_update_stack_index(*stack);
-}
-
-void	ft_sa(t_stack **stack_a)
-{
-	t_stack	*prev;
-	t_stack	*second;
-	t_stack	*first;
-
-	first = *stack_a;
-	second = *stack_a;
-	if (first -> next != first)
-	{
-		prev = first -> previous;
-		second = first -> next;
-		prev -> next = second;
-		second -> previous = prev;
-		first -> next = second -> next;
-		first -> previous = second;
-		second -> next = first;
-	}
-	*stack_a = second;
-	ft_update_stack_index(*stack_a);
-}
-
-void	ft_sb(t_stack **stack_b)
-{
-	t_stack	*first;
-	t_stack	*second;
-	t_stack	*prev;
-
-	first = *stack_b;
-	second = *stack_b;
-	if (first -> next != first)
-	{
-		prev = first -> previous;
-		second = first -> next;
-		prev -> next = second;
-		second -> previous = prev;
-		first -> next = second -> next;
-		first -> previous = second;
-		second -> next = first;
-	}
-	*stack_b = second;
-	ft_update_stack_index(*stack_b);
-}
-
-void	ft_ss(t_stack **stack_a, t_stack **stack_b)
-{
-	ft_sa(stack_a);
-	ft_sb(stack_b);
-}
-
-void	ft_ra(t_stack **stack_a)
-{
-	int	value;
-
-	value = (*stack_a) -> value;
-	ft_shift_lst(stack_a);
-	ft_push_lst(stack_a, ft_init_lst(value));
-	ft_update_stack_index(*stack_a);
-}
-
-void	ft_rb(t_stack **stack_b)
-{
-	int	value;
-
-	value = (*stack_b) -> value;
-	ft_shift_lst(stack_b);
-	ft_push_lst(stack_b, ft_init_lst(value));
-	ft_update_stack_index(*stack_b);
-}
-
-void	ft_rr(t_stack **stack_a, t_stack **stack_b)
-{
-	ft_ra(stack_a);
-	ft_rb(stack_b);
-}
-
-void	ft_rra(t_stack **stack_a)
-{
-	int	value;
-
-	value = (*stack_a) -> previous -> value;
-	ft_pop_lst(stack_a);
-	ft_unshift_lst(stack_a, ft_init_lst(value));
-}
-
-void	ft_rrb(t_stack **stack_b)
-{
-	int	value;
-
-	value = (*stack_b) -> previous -> value;
-	ft_pop_lst(stack_b);
-	ft_unshift_lst(stack_b, ft_init_lst(value));
-}
-
-void	ft_rrr(t_stack **stack_a, t_stack **stack_b)
-{
-	int	value_a;
-	int	value_b;
-
-	value_a = (*stack_a) -> previous -> value;
-	value_b = (*stack_b) -> previous -> value;
-	ft_pop_lst(stack_a);
-	ft_pop_lst(stack_b);
-	ft_unshift_lst(stack_a, ft_init_lst(value_a));
-	ft_unshift_lst(stack_b, ft_init_lst(value_b));
-}
-
-void	ft_pop_lst(t_stack **stack)
-{
-	t_stack	*curr;
-	t_stack	*last;
-	t_stack	*prev;
-
-	curr = *stack;
-	while (curr -> next != *stack)
-		curr = curr -> next;
-	last = curr;
-	prev = last -> previous;
-	(*stack) -> previous = prev;
-	prev -> next = *stack;
-	free(last);
-}
-
-void	ft_pb(t_stack **stack_a, t_stack **stack_b)
-{
-	int	value;
-
-	value = (*stack_a) -> value;
-	ft_unshift_lst(stack_b, ft_init_lst(value));
-	ft_shift_lst(stack_a);
-}
-
-void	ft_pa(t_stack **stack_a, t_stack **stack_b)
-{
-	int	value;
-
-	value = (*stack_b) -> value;
-	ft_unshift_lst(stack_a, ft_init_lst(value));
-	ft_shift_lst(stack_b);
-}
-
-void	ft_update_stack_index(t_stack *stack)
-{
-	t_stack	*curr;
-	size_t	i;
-	
-	i = 0;
-	curr = stack;
-	if (!stack)
-		return;
-	do
-	{
-		curr -> index = i;
-		curr = curr -> next;
-		i++;
-	} while (curr != stack);
-}
-
 /* 
 	TODO :
 		-CREATE THE SORTING FUNCTIONS:
@@ -366,9 +189,9 @@ void	ft_update_stack_index(t_stack *stack)
 		ok	ra = (rotate a) the first element of stack a become the last
 		ok	rb = (rotate b) the first element of stack b become the last
 		ok	rr = trigger ra and rb
-			rra = (reverse rotate a) the last element of stack a become the first
-			rrb = (reverse rotate b) the last element of stack a become the first
-			rrr = trigger rra and rrb
+		ok	rra = (reverse rotate a) the last element of stack a become the first
+		ok	rrb = (reverse rotate b) the last element of stack a become the first
+		ok	rrr = trigger rra and rrb
 
 */
 
