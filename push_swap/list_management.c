@@ -12,13 +12,14 @@
 
 #include "./push_swap.h"
 
-t_stack	*ft_init_lst(int value)
+t_stack	*ft_init_lst(int value, char stack_name)
 {
 	t_stack	*lst;
 
 	lst = malloc (sizeof(t_stack));
 	if (!lst)
 		return (NULL);
+	lst -> stack_name = stack_name;
 	lst -> index = 0;
 	lst -> value = value;
 	lst -> next = lst;
@@ -60,6 +61,7 @@ void	ft_pop_lst(t_stack **stack)
 	(*stack) -> previous = prev;
 	prev -> next = *stack;
 	free(last);
+	last = NULL;
 }
 
 t_stack	*ft_unshift_lst(t_stack **stack, t_stack *new)
