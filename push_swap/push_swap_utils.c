@@ -166,8 +166,10 @@ t_stack	*ft_sort_stack(t_stack **stack_a)
 	// ft_ra(stack_a);
 	// ft_rb(&stack_b);
 	// ft_pa(stack_a, &stack_b);
-	ft_rr(stack_a, &stack_b);
-	ft_pop_lst(stack_a);
+	// ft_rr(stack_a, &stack_b);
+	// ft_rra(stack_a);
+	// ft_rrb(&stack_b);
+	// ft_rrr(stack_a, &stack_b);
 	ft_free_stack(stack_b);
 	return (*stack_a);
 	}
@@ -266,13 +268,36 @@ void	ft_rr(t_stack **stack_a, t_stack **stack_b)
 	ft_rb(stack_b);
 }
 
-// void	ft_rra(t_stack **stack_a)
-// {
-// 	int	value;
-//
-// 	value = *stack_a -> previous;
-// 	ft_pop_lst(stack_a);
-// }
+void	ft_rra(t_stack **stack_a)
+{
+	int	value;
+
+	value = (*stack_a) -> previous -> value;
+	ft_pop_lst(stack_a);
+	ft_unshift_lst(stack_a, ft_init_lst(value));
+}
+
+void	ft_rrb(t_stack **stack_b)
+{
+	int	value;
+
+	value = (*stack_b) -> previous -> value;
+	ft_pop_lst(stack_b);
+	ft_unshift_lst(stack_b, ft_init_lst(value));
+}
+
+void	ft_rrr(t_stack **stack_a, t_stack **stack_b)
+{
+	int	value_a;
+	int	value_b;
+
+	value_a = (*stack_a) -> previous -> value;
+	value_b = (*stack_b) -> previous -> value;
+	ft_pop_lst(stack_a);
+	ft_pop_lst(stack_b);
+	ft_unshift_lst(stack_a, ft_init_lst(value_a));
+	ft_unshift_lst(stack_b, ft_init_lst(value_b));
+}
 
 void	ft_pop_lst(t_stack **stack)
 {

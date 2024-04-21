@@ -43,12 +43,16 @@ int		ft_append_child(char *child, char *value, char splitter);
 void	ft_free_stack(t_stack *stack);
 char	*ft_print_error(void);
 void	ft_print_values_lst(t_stack *stack);
+
 void	ft_sa(t_stack **stack_a);
 void	ft_sb(t_stack **stack_a);
 void	ft_ss(t_stack **stack_a, t_stack **stack_b);
 void	ft_ra(t_stack **stack_b);
 void	ft_rb(t_stack **stack_b);
 void	ft_rr(t_stack **stack_a, t_stack **stack_b);
+void	ft_rra(t_stack **stack_a);
+void	ft_rrb(t_stack **stack_b);
+void	ft_rrr(t_stack **stack_a, t_stack **stack_b);
 void	ft_pb(t_stack **stack_a, t_stack **stack_b);
 void	ft_pa(t_stack **stack_a, t_stack **stack_b);
 
