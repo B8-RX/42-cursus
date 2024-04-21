@@ -58,7 +58,7 @@ t_stack	*ft_handle_args(t_stack **stack_a, int argc, char **argv)
 			ft_free_stack(*stack_a);
 			return (NULL);
 		}
-		new = ft_init_lst(ft_atoi(args[i]));
+		new = ft_init_lst(ft_atoi(args[i]), 'A');
 		if (!new)
 			break;
 		if (!ft_push_lst(stack_a, new))

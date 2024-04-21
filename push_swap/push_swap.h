@@ -15,6 +15,7 @@
 #include <stdlib.h>
 
 typedef struct s_stack {
+	char			stack_name;
 	int				value;
 	size_t			index;
 	struct s_stack	*previous;
@@ -23,7 +24,7 @@ typedef struct s_stack {
 
 
 t_stack	*ft_init_stack(t_stack **stack);
-t_stack	*ft_init_lst(int value);
+t_stack	*ft_init_lst(int value, char stack_name);
 t_stack	*ft_handle_args(t_stack **stack_a, int args_len, char **args);
 t_stack	*ft_push_lst(t_stack **stack, t_stack *lst);
 t_stack	*ft_unshift_lst(t_stack **stack, t_stack *lst);

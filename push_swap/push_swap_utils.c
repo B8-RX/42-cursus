@@ -149,6 +149,7 @@ t_stack	*ft_sort_stack(t_stack **stack_a)
 	int		small_value;
 	int		high_value;
 	size_t	stack_len;
+	size_t	i;
 
 	stack_b = NULL;
 	printf("FUNCTION SORT\n");
@@ -159,6 +160,9 @@ t_stack	*ft_sort_stack(t_stack **stack_a)
 		small_value,
 		high_value,
 		stack_len);
+	i = 0;
+	while (i++ < (stack_len / 2))
+		ft_pb(stack_a, &stack_b);
 	// ft_sa(stack_a);
 	// ft_sb(&stack_b);
 	// ft_ss(stack_a, &stack_b);

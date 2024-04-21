@@ -22,6 +22,7 @@ void	ft_print_values_lst(t_stack *stack)
 	if (!curr)
 		return;
 	i = 0;
+	printf("STACK NAME:%c\n", stack -> stack_name);
 	while (i++ <= (stack -> previous -> index))
 	{
 		printf("=================================================\n");
@@ -43,25 +44,26 @@ void	ft_free_stack(t_stack *stack)
 {
 	t_stack	*tmp;
 	t_stack	*curr;
-
-	// printf("FUNCTION FREE STACK\n");
+	
+	printf("FUNCTION FREE STACK\n");
+	printf("STACK NAME:%c\n", stack -> stack_name);
 	curr = stack;
 	if (stack)
 	{
 		while (curr -> next != stack)
 		{
-			// printf("///////////////////////===>\n");
+			printf("///////////////////////===>\n");
 			tmp = curr;
-			// printf("FREE stack -> index: |%ld|\n", tmp -> index); 
-			// printf("FREE stack -> value: |%d|\n", tmp -> value); 
+			printf("FREE stack -> index: |%ld|\n", tmp -> index); 
+			printf("FREE stack -> value: |%d|\n", tmp -> value); 
 			curr = curr -> next;
 			free(tmp);
 			tmp = NULL;
 		}
-		// printf("///////////////////////===>\n");
-		// printf("+FREE stack -> index: |%ld|\n", curr -> index); 
-		// printf("+FREE stack -> value: |%d|\n", curr -> value); 
-		// printf("///////////////////////===>\n");
+		printf("///////////////////////===>\n");
+		printf("+FREE stack -> index: |%ld|\n", curr -> index); 
+		printf("+FREE stack -> value: |%d|\n", curr -> value); 
+		printf("///////////////////////===>\n");
 	}
 	free(curr);	
 	curr = NULL;
