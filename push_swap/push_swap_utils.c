@@ -120,7 +120,7 @@ int	ft_get_sm_value(t_stack *stack)
 	small_val = tmp -> value;
 	while (tmp -> next != stack)
 	{
-		if (tmp -> value > tmp -> next -> value)
+		if (small_val > tmp -> next -> value)
 			small_val = tmp -> next -> value;
 		tmp = tmp -> next;
 	}
@@ -136,7 +136,7 @@ int	ft_get_bg_value(t_stack *stack)
 	high_val = tmp -> value;
 	while (tmp -> next != stack)
 	{
-		if (tmp -> value < tmp -> next -> value)
+		if (high_val < tmp -> next -> value)
 			high_val = tmp -> next -> value;
 		tmp = tmp -> next;
 	}
