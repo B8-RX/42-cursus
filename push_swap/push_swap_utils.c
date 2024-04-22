@@ -12,7 +12,7 @@
 
 #include "./push_swap.h"
 
-int	ft_is_digit(char *str)
+int	ft_is_digit(const char *str)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ char	*ft_print_error(void)
 	return (NULL);
 }
 
-int	ft_count_spaces(char *str)
+int	ft_count_spaces(const char *str)
 {
 	int	i;
 
@@ -85,7 +85,7 @@ int	ft_atoi(const char *str)
 	return (res * parity); 
 }
 
-int	ft_get_len_value(char *value)
+int	ft_get_len_value(const char *value)
 {
 	int	j;
 
@@ -143,7 +143,7 @@ int	ft_get_bg_value(t_stack *stack)
 	return (high_val);
 }
 
-t_stack	*ft_sort_stack(t_stack **stack_a)
+t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 {
 	t_stack	*stack_b;
 	int		small_value;
@@ -161,8 +161,12 @@ t_stack	*ft_sort_stack(t_stack **stack_a)
 		high_value,
 		stack_len);
 	i = 0;
-	while (i++ < (stack_len / 2))
-		ft_pb(stack_a, &stack_b);
+	if (stack_len > 3)
+		while (i++ < 3)
+			ft_pb(stack_a, &stack_b);
+
+	// TESTS :
+
 	// ft_sa(stack_a);
 	// ft_sb(&stack_b);
 	// ft_ss(stack_a, &stack_b);
@@ -174,7 +178,11 @@ t_stack	*ft_sort_stack(t_stack **stack_a)
 	// ft_rra(stack_a);
 	// ft_rrb(&stack_b);
 	// ft_rrr(stack_a, &stack_b);
-	ft_free_stack(stack_b);
+	if (stack_b)
+	{
+		ft_print_stacks(*stack_a, stack_b);
+		ft_free_stack(stack_b);
+	}
 	return (*stack_a);
 	}
 /* 
