@@ -69,29 +69,30 @@ void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 		{
 			if (larger_stack == 'A')
 			{
-				printf("|%-7d-", stack_a -> value);
-				printf("-%7c|\n", ' ');
+				printf("\n\n");
+				printf("|%-7d", stack_a -> value);
+				printf("%7c|\n", ' ');
 				stack_a = stack_a -> next;
 			}
 			else
 			{
-				printf("|%-7c-", ' ');
-				printf("-%7d|\n", stack_b -> value);
+				printf("|%-7c", ' ');
+				printf("%7d|\n", stack_b -> value);
 				stack_b = stack_b -> next;
 			}
 			diff_index--;
 		}
 		else 
 		{
-			printf("|%-7d-", stack_a -> value);
-			printf("-%7d|\n", stack_b -> value);
+			printf("|%-7d", stack_a -> value);
+			printf("%7d|\n", stack_b -> value);
 			stack_a = stack_a -> next;
 			stack_b = stack_b -> next;
 		}
 		larger_index--;
 	}
-	printf("%-8s=", " A");
-	printf("=%8s\n", "B ");
+	printf("%-7s", " A");
+	printf("%7s\n", "B ");
 }
 
 
