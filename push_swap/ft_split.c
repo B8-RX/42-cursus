@@ -12,7 +12,7 @@
 
 #include "./push_swap.h"
 
-char	**ft_split(char *str, char splitter)
+char	**ft_split(char *str, const char splitter)
 {
 
 	char	**array;  
@@ -40,7 +40,7 @@ char	**ft_split(char *str, char splitter)
 	return (array);
 }
 
-int	ft_append_child(char *child, char *value, char splitter)
+int	ft_append_child(char *child, const char *value, const char splitter)
 {
 	int	i;
 
@@ -70,7 +70,7 @@ void	*ft_free_array_str(char **array)
 	return (NULL);
 }
 
-int	ft_count_words(char *str, char splitter)
+int	ft_count_words(const char *str, const char splitter)
 {
 	int		i;
 	int		words;

@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 		return (0);
 	if (!ft_handle_args(&stack_a, argc, argv))
 		return (ft_print_error(), 0);
-	if (!ft_sort_stack(&stack_a))
+	if (!ft_prepare_sort_stack(&stack_a))
 		return (ft_print_error(), 0);
 	if (stack_a)
 	{
@@ -63,8 +63,6 @@ t_stack	*ft_handle_args(t_stack **stack_a, int argc, char **argv)
 			break;
 		if (!ft_push_lst(stack_a, new))
 			break;
-		// if (!ft_unshift_lst(stack_a, new))
-			// break;
 		i++;
 	}
 	if (argc == 2)
