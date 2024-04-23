@@ -45,17 +45,7 @@ int	ft_count_spaces(const char *str)
 	return (i);
 }
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	ft_atoi(const char *str)
+int	ft_atoi_2(const char *str)
 {
 	long	res;
 	int		parity;
@@ -152,14 +142,14 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 	size_t	i;
 
 	stack_b = NULL;
-	printf("FUNCTION SORT\n");
+	ft_printf("FUNCTION SORT\n");
 	stack_len = ft_get_stack_len(*stack_a);
 	small_value = ft_get_sm_value(*stack_a);
 	high_value = ft_get_bg_value(*stack_a);
-	printf("\nSMALLEST VALUE: %d\nHIGHEST VALUE: %d\nTOTAL LENGTH: %zu\n",
+	ft_printf("\nSMALLEST VALUE: %d\nHIGHEST VALUE: %d\nTOTAL LENGTH: %u\n",
 		small_value,
 		high_value,
-		stack_len);
+		(unsigned int)stack_len);
 	i = 0;
 	if (stack_len > 3)
 		while (i++ < 3)
@@ -185,25 +175,3 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 	}
 	return (*stack_a);
 	}
-/* 
-	TODO :
-		-CREATE THE SORTING FUNCTIONS:
-			*sa, sb, ss
-			*pa, pb
-			*ra, rb, rr
-			*rra, rrb, rrr
-
-		ok	sa = (swap a) swipe the two first elements of stack a.
-		ok	sb = (swap b) // // // of stack b.
-		ok	ss = trigger sa and sb
-		ok	pa = (push a) push the first elem from stack b to stack a
-		ok	pb = (push b) // // // from stack a to stack b
-		ok	ra = (rotate a) the first element of stack a become the last
-		ok	rb = (rotate b) the first element of stack b become the last
-		ok	rr = trigger ra and rb
-		ok	rra = (reverse rotate a) the last element of stack a become the first
-		ok	rrb = (reverse rotate b) the last element of stack a become the first
-		ok	rrr = trigger rra and rrb
-
-*/
-

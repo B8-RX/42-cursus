@@ -10,10 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-SOURCES = ./src/ft_printf.c ./src/ft_atoi.c ./src/ft_specifier_utils.c ./src/ft_handle_format.c ./src/ft_itoa.c ./src/ft_print_char.c ./src/ft_infill_utils.c ./src/ft_append_utils.c \
-./src/ft_print_str.c ./src/ft_print_str_utils.c ./src/ft_printf_utils.c ./src/ft_uitoa.c ./src/ft_ultoa.c ./src/bonus/ft_flags_utils_bonus.c\
+SRC_PATH = ./src/
 
-SOURCES_BONUS = ${SOURCES}
+OBJ_PATH = ./src/obj/
+
+SOURCES = ${wildcard ${SRC_PATH}*.c}
+
+SOURCES_BONUS = ${SOURCES} ./src/ft_flags_utils_bonus.c
 
 NAME = libftprintf.a
 
@@ -21,14 +24,14 @@ CCFLAGS = cc -Wall -Werror -Wextra
 
 HEADER = ./src/lib/ft_printf.h
 
-OBJECTS = ${SOURCES:.c=.o}
+OBJECTS = ${patsubst ${SRC_PATH}%.c,${OBJ_PATH}%.o,${SOURCES}}
 
-OBJECTS_BONUS = ${SOURCES_BONUS:.c=.o}
+OBJECTS_BONUS = ${patsubst ${SRC_PATH}%.c,${OBJ_PATH}%.o,${SOURCES_BONUS}}
 
 all : ${NAME}
 
-.c.o :
-	${CCFLAGS} -I ${HEADER} -c $< -o ${<:.c=.o}
+${OBJ_PATH}%.o : ${SRC_PATH}%.c 
+	${CCFLAGS} -I ${HEADER} -c $< -o $@
 
 ${NAME} : ${HEADER} ${OBJECTS}
 	ar -rsc ${NAME} ${OBJECTS}

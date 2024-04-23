@@ -18,26 +18,26 @@ void	ft_print_stack(t_stack *stack)
 	size_t	last_index;
 	t_stack	*curr_lst;
 
-	printf("FUNCTION PRINT VALUES\n");
+	ft_printf("FUNCTION PRINT VALUES\n");
 	i = 0;
 	last_index = stack -> previous -> index;
 	curr_lst = stack;
-	printf("STACK NAME:%c\n", stack -> stack_name);
+	ft_printf("STACK NAME:%c\n", stack -> stack_name);
 	while (i++ <= last_index)
 	{
-		printf("=================================================\n");
-		printf("curr_lst index: %ld\n", curr_lst -> index);
-		printf("curr_lst value: %d\n", curr_lst -> value);
-		printf("///////////////////////===>\n");
-		printf("previous index: %ld\n", curr_lst -> previous -> index);
-		printf("previous value: %d\n", curr_lst -> previous -> value);
-		printf("///////////////////////===>\n");
-		printf("next index: %ld\n", curr_lst -> next -> index);
-		printf("next value: %d\n", curr_lst -> next -> value);
+		ft_printf("=================================================\n");
+		ft_printf("curr_lst index: %u\n", (unsigned int)curr_lst -> index);
+		ft_printf("curr_lst value: %d\n", curr_lst -> value);
+		ft_printf("///////////////////////===>\n");
+		ft_printf("previous index: %u\n", (unsigned int)curr_lst -> previous -> index);
+		ft_printf("previous value: %d\n", curr_lst -> previous -> value);
+		ft_printf("///////////////////////===>\n");
+		ft_printf("next index: %u\n", (unsigned int)curr_lst -> next -> index);
+		ft_printf("next value: %d\n", curr_lst -> next -> value);
 		curr_lst = curr_lst -> next;
 	}
-	printf("=================================================\n");
-	printf("FUNCTION PRINT VALUES //////\n");
+	ft_printf("=================================================\n");
+	ft_printf("FUNCTION PRINT VALUES //////\n");
 }
 
 void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
@@ -69,30 +69,30 @@ void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 		{
 			if (larger_stack == 'A')
 			{
-				printf("\n\n");
-				printf("|%-7d", stack_a -> value);
-				printf("%7c|\n", ' ');
+				ft_printf("\n\n");
+				ft_printf("|%-7d", stack_a -> value);
+				ft_printf("%7c|\n", ' ');
 				stack_a = stack_a -> next;
 			}
 			else
 			{
-				printf("|%-7c", ' ');
-				printf("%7d|\n", stack_b -> value);
+				ft_printf("|%-7c", ' ');
+				ft_printf("%7d|\n", stack_b -> value);
 				stack_b = stack_b -> next;
 			}
 			diff_index--;
 		}
 		else 
 		{
-			printf("|%-7d", stack_a -> value);
-			printf("%7d|\n", stack_b -> value);
+			ft_printf("|%-7d", stack_a -> value);
+			ft_printf("%7d|\n", stack_b -> value);
 			stack_a = stack_a -> next;
 			stack_b = stack_b -> next;
 		}
 		larger_index--;
 	}
-	printf("%-7s", " A");
-	printf("%7s\n", "B ");
+	ft_printf("%-7s", " A");
+	ft_printf("%7s\n", "B ");
 }
 
 
@@ -102,26 +102,26 @@ void	ft_free_stack(t_stack *stack)
 	t_stack	*first_lst;
 	t_stack *curr_lst;
 	
-	printf("FUNCTION FREE STACK\n");
+	ft_printf("FUNCTION FREE STACK\n");
 	first_lst = stack;
 	if (stack)
 	{
-		printf("STACK NAME:%c\n", stack -> stack_name);
+		ft_printf("STACK NAME:%c\n", stack -> stack_name);
 		curr_lst = first_lst;
 		while (curr_lst -> next != first_lst)
 		{
-			// printf("///////////////////////===>\n");
+			// ft_printf("///////////////////////===>\n");
 			tmp = curr_lst;
-			// printf("FREE stack -> index: |%ld|\n", tmp -> index); 
-			// printf("FREE stack -> value: |%d|\n", tmp -> value); 
+			// ft_printf("FREE stack -> index: |%ld|\n", tmp -> index); 
+			// ft_printf("FREE stack -> value: |%d|\n", tmp -> value); 
 			curr_lst = curr_lst -> next;
 			free(tmp);
 			tmp = NULL;
 		}
-		// printf("///////////////////////===>\n");
-		// printf("+FREE stack -> index: |%ld|\n", curr_lst -> index); 
-		// printf("+FREE stack -> value: |%d|\n", curr_lst -> value); 
-		printf("///////////////////////===>\n");
+		// ft_printf("///////////////////////===>\n");
+		// ft_printf("+FREE stack -> index: |%ld|\n", curr_lst -> index); 
+		// ft_printf("+FREE stack -> value: |%d|\n", curr_lst -> value); 
+		ft_printf("///////////////////////===>\n");
 		free(curr_lst);	
 		curr_lst = NULL;
 	}
