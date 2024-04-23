@@ -15,7 +15,7 @@
 # define BASE_LOW "0123456789abcdef"
 # define BASE_UP "0123456789ABCDEF"
 # include <unistd.h>
-# include <stdio.h>
+// # include <stdio.h>
 # include <stdlib.h>
 # include <stdarg.h>
 

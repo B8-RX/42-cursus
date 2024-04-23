@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdlib.h>
+#include "./ft_printf_bonus/src/lib/ft_printf.h"
 
 typedef struct s_stack {
 	char			stack_name;
@@ -61,9 +62,9 @@ void	ft_rrr(t_stack **stack_a, t_stack **stack_b);
 void	ft_pb(t_stack **stack_a, t_stack **stack_b);
 void	ft_pa(t_stack **stack_a, t_stack **stack_b);
 
-int		ft_atoi(const char *str);
-size_t	ft_strlen(const char *str);
+int		ft_atoi_2(const char *str);
 int		ft_is_digit(const char *str);
+// size_t	ft_strlen(const char *str);
 
 
 
