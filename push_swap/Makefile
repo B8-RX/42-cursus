@@ -10,9 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC_PATH = ./src/
+SRC_PATH = ./src/push_swap/
 
-OBJ_PATH = ./src/obj/
+OBJ_PATH = ./src/push_swap/obj/
 
 SOURCES = ${wildcard ${SRC_PATH}*.c} 
 
@@ -28,7 +28,7 @@ EXE = run_test.out
 
 CCFLAGS = cc -Wall -Werror -Wextra
 
-HEADER = ${SRC_PATH}push_swap.h
+HEADER = ${SRC_PATH}lib/push_swap.h
 
 OBJECTS = $(patsubst $(SRC_PATH)%.c,$(OBJ_PATH)%.o,$(SOURCES))
 

@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-// #include <stdio.h>
 #include <stdlib.h>
-#include "./ft_printf_bonus/src/lib/ft_printf.h"
+#include "../../ft_printf_bonus/src/lib/ft_printf.h"
 
 typedef struct s_stack {
 	char			stack_name;
@@ -25,6 +24,7 @@ typedef struct s_stack {
 
 
 t_stack	*ft_init_stack(t_stack **stack);
+int		ft_populate_stack(t_stack **stack_a, int argc, char **args);
 t_stack	*ft_init_lst(int value, const char stack_name);
 t_stack	*ft_handle_args(t_stack **stack_a, int args_len, char **args);
 t_stack	*ft_push_lst(t_stack **stack, t_stack *lst);
@@ -43,7 +43,7 @@ void	*ft_free_array_str(char **array);
 int		ft_append_child(char *child, const char *value, const char splitter);
 
 void	ft_free_stack(t_stack *stack);
-char	*ft_print_error(void);
+int		ft_handle_error(t_stack *stack_a);
 void	ft_print_stack(t_stack *stack);
 void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b);
 size_t	ft_get_stack_len(t_stack *stack);

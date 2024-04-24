@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "./lib/push_swap.h"
 
 int	ft_is_digit(const char *str)
 {
@@ -24,15 +24,17 @@ int	ft_is_digit(const char *str)
 		if (str[i] >= 48 && str[i] <= 57)
 			i++;
 		else
-			return (0);
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
-char	*ft_print_error(void)
+int	ft_handle_error(t_stack *stack_a)
 {
+	if (stack_a)
+		ft_free_stack(stack_a);
 	write(2, "Error\n", 6);
-	return (NULL);
+	return (0);
 }
 
 int	ft_count_spaces(const char *str)
