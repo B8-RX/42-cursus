@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "./lib/push_swap.h"
 
 void	ft_print_stack(t_stack *stack)
 {
@@ -91,8 +91,12 @@ void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 		}
 		larger_index--;
 	}
-	ft_printf("%-7s", " A");
-	ft_printf("%7s\n", "B ");
+	ft_printf("%-9s", "###");
+	ft_printf("%7s\n", "###");
+	ft_printf("%-8s", "A");
+	ft_printf("%8s \n", "B");
+	ft_printf("%-9s", "###");
+	ft_printf("%7s\n", "###");
 }
 
 

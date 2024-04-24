@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "./lib/push_swap.h"
 
 t_stack	*ft_init_lst(int value, char stack_name)
 {

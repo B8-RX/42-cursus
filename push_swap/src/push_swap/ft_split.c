@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./push_swap.h"
+#include "./lib/push_swap.h"
 
 char	**ft_split(char *str, const char splitter)
 {
