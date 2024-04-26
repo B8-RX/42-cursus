@@ -147,7 +147,7 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 	static size_t	total_operations;
 
 	stack_b = NULL;
-	ft_printf("FUNCTION SORyyT\n");
+	ft_printf("FUNCTION SORT\n");
 	stack_len = ft_get_stack_len(*stack_a);
 	small_value = ft_get_sm_value(*stack_a);
 	high_value = ft_get_bg_value(*stack_a);
@@ -195,7 +195,7 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 			ft_print_stacks(*stack_a, stack_b);
 			ft_printf("### TOTAL OPERATIONS: [%u]\n", (unsigned int)total_operations);
 		}
-		stack_len--;
+		stack_len = ft_get_stack_len(*stack_a);
 	}
 	ft_printf("\t\t\t------------------------STACK B SORTED-------------------\n\n");
 	if (stack_b)
@@ -295,7 +295,7 @@ int	ft_match_condition_sb(t_stack *stack_b)
 	match_condition = 0;
 	if (!stack_b)
 		return (0);
-	if ((stack_b -> value) < (stack_b -> next -> value))
+	if ((stack_b -> value) < (stack_b -> next -> value) && (stack_b -> value) > (stack_b -> next -> next -> value))
 		match_condition = 1;
 	return (match_condition);
 }
@@ -306,13 +306,14 @@ size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operati
 	t_stack		*curr_a;
 	size_t		stack_len_a;
 	size_t		i;
+	int			j;
 
 	stack_len_a = ft_get_stack_len(*stack_a);
 	curr_b = *stack_b;
 	curr_a = *stack_a;
 	i = 0;
 	ft_printf("\n\\===============START SORTING STACK==============>\n");
-	while (!ft_is_sorted(curr_b) && total_operations < 100 )
+	while (!ft_is_sorted(curr_b))
 	{
 		if (ft_match_condition_rb(curr_b)) 
 		{
@@ -376,18 +377,17 @@ size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operati
 		}
 		else
 		{
-			int	j;
 			j = 0;
 			while ((curr_b -> value) < (curr_b -> next -> value))
 			{
 				ft_sb(&curr_b);
 				ft_rb(&curr_b);
 				total_operations += 2;
-				ft_printf("sub sub loop: %u\n", (unsigned int)++i);
+				ft_printf("sub sub loop: %u\n", (unsigned int)++j);
 				ft_printf("%10s" ,"=sb=\n");
 				ft_printf("%10s" ,"=rb=");
+				ft_print_stacks(curr_a, curr_b);
 			}
-			// ft_print_stacks(curr_a, curr_b);
 		}
 	}
 	*stack_b = curr_b;
