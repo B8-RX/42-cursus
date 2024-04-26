@@ -94,6 +94,8 @@ size_t	ft_get_stack_len(t_stack *stack)
 	t_stack	*tmp;
 
 	tmp = stack;
+	if (!stack)
+		return (0);
 	len = 1;
 	while (tmp -> next != stack)
 	{
@@ -137,11 +139,12 @@ int	ft_get_bg_value(t_stack *stack)
 
 t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 {
-	t_stack	*stack_b;
-	int		small_value;
-	int		high_value;
-	size_t	stack_len;
-	size_t	i;
+	t_stack			*stack_b;
+	int				small_value;
+	int				high_value;
+	size_t			stack_len;
+	size_t			i;
+	static size_t	total_operations;
 
 	stack_b = NULL;
 	ft_printf("FUNCTION SORT\n");
@@ -153,9 +156,247 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 		high_value,
 		(unsigned int)stack_len);
 	i = 0;
+	total_operations = 0;
 	if (stack_len > 3)
+	{
 		while (i++ < 3)
 			ft_pb(stack_a, &stack_b);
+		total_operations = 3;
+	}
+	ft_print_stacks(*stack_a, stack_b);
+	i = 0;
+	while (stack_len || !ft_is_sorted(stack_b))
+	{
+		ft_sort_stacks(stack_a, &stack_b, total_operations);
+		if (stack_len)
+		{
+			ft_printf("loop: %u\n", (unsigned int)++i);
+			if (ft_match_condition_sa(*stack_a))
+			{
+				if (ft_match_condition_sb(stack_b))
+				{
+					ft_ss(stack_a, &stack_b);					
+					total_operations += 2;
+					ft_printf("%10s\n" ,"=ss=");
+				}
+				else
+				{
+					ft_sa(stack_a);
+					total_operations++;
+					ft_printf("%10s\n" ,"=sa=");
+				}
+			}
+			ft_pb(stack_a, &stack_b);
+			total_operations++;
+			ft_printf("%10s\n", "=pb=");
+			ft_print_stacks(*stack_a, stack_b);
+			ft_printf("TOTAL OPERATION: %u\n", (unsigned int)total_operations);
+		}
+		stack_len--;
+	}
+	if (stack_b)
+	{
+		ft_print_stacks(*stack_a, stack_b);
+		ft_free_stack(stack_b);
+	}
+	ft_printf("TOTAL OPERATION: %u\n", (unsigned int)total_operations);
+	return (*stack_a);
+}
+
+int	ft_match_condition_rb(t_stack *stack_b)
+{
+	t_stack	*curr_b;
+	int		match_condition;
+
+	curr_b = stack_b;
+	match_condition = 0;
+	if (((curr_b -> next -> value) > (curr_b -> previous -> value)
+			&& (curr_b -> previous -> value) > (curr_b -> value))
+			|| ((curr_b -> value) < (curr_b -> next -> value)
+				&& (curr_b -> next -> value) < (curr_b -> previous -> value)))
+		match_condition = 1;
+	return (match_condition);
+}
+
+int	ft_match_condition_rrb(t_stack *stack_b)
+{
+	t_stack	*curr_b;
+	int		match_condition;
+
+	curr_b = stack_b;
+	match_condition = 0;
+	if (curr_b -> value < curr_b -> previous -> value || curr_b -> next -> value < curr_b -> previous -> value)
+		match_condition = 1;
+	return (match_condition);
+}
+
+int	ft_match_condition_ra(t_stack *stack_a)
+{
+	t_stack	*curr_a;
+	int		match_condition;
+
+	curr_a = stack_a;
+	match_condition = 0;
+	if ((curr_a -> value) < (curr_a -> next -> value)
+		&& (curr_a -> value) < (curr_a -> previous -> value)
+		&& (curr_a -> next -> value) > (curr_a -> previous -> value))
+		match_condition = 1;
+	return (match_condition);
+}
+
+int	ft_match_condition_rra(t_stack *stack_a)
+{
+	t_stack	*curr_a;
+	int		match_condition;
+
+	curr_a = stack_a;
+	match_condition = 0;
+	if (curr_a -> previous -> value != ft_get_bg_value(stack_a) && curr_a -> previous -> value > curr_a -> value
+		&& curr_a -> previous -> value > curr_a -> next -> value)
+		match_condition = 1;
+	return (match_condition);
+}
+
+int	ft_match_condition_sa(t_stack *stack_a)
+{
+	int	match_condition;
+
+	match_condition = 0;
+	if ((stack_a -> value < (stack_a -> next -> value)
+		&& (stack_a -> next -> value) < (stack_a -> previous -> value)))
+		match_condition = 1;
+	return (match_condition);
+}
+
+int	ft_match_condition_sb(t_stack *stack_b)
+{
+	int	match_condition;
+
+	match_condition = 0;
+	if ((stack_b -> value) < (stack_b -> next -> value))
+		match_condition = 1;
+	return (match_condition);
+}
+
+size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operations)
+{
+	t_stack		*curr_b;
+	t_stack		*curr_a;
+	size_t		stack_len_a;
+	size_t		i;
+
+	stack_len_a = ft_get_stack_len(*stack_a);
+	curr_b = *stack_b;
+	curr_a = *stack_a;
+	i = total_operations;
+	ft_printf("\n================START SORTING STACK=================>\n");
+	while (!ft_is_sorted(curr_b) && total_operations < 100 )
+	{
+		if (ft_match_condition_rb(curr_b)) 
+		{
+			if (ft_match_condition_ra(curr_a))
+			{				
+				ft_rr(&curr_a, &curr_b);
+				total_operations += 2;
+				ft_printf("/////////////////\n");
+				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("%10s", "=rr=");
+			}
+			else
+			{
+				ft_rb(&curr_b);
+				total_operations++;
+				ft_printf("/////////////////\n");
+				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("%10s", "=rb=");
+			}
+			ft_print_stacks(curr_a, curr_b);
+		}
+		else if (ft_match_condition_rrb(curr_b))
+		{
+			if (ft_match_condition_rra(curr_a))
+			{
+				ft_rrr(&curr_a, &curr_b);
+				total_operations += 2;
+				ft_printf("/////////////////\n");
+				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("%10s", "=rrr=");
+			}
+			else
+			{
+				ft_rrb(&curr_b);
+				total_operations++;
+				ft_printf("/////////////////\n");
+				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("%10s", "=rrb=");
+			}
+			ft_print_stacks(curr_a, curr_b);
+		}
+		else if (ft_match_condition_sb(curr_b))
+		{
+			if (ft_match_condition_sa(curr_a))
+			{
+				ft_ss(&curr_a, &curr_b);
+				total_operations += 2;
+				ft_printf("/////////////////\n");
+				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("%10s" ,"=ss=");
+			}
+			else
+			{
+				ft_sb(&curr_b);
+				total_operations++;
+				ft_printf("/////////////////\n");
+				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("%10s" ,"=sb=");
+			}		
+			ft_print_stacks(curr_a, curr_b);
+		}
+		else
+		{
+			int	j;
+			j = 0;
+			while ((curr_b -> value) < (curr_b -> next -> value))
+			{
+				ft_sb(&curr_b);
+				ft_rb(&curr_b);
+				total_operations += 2;
+				ft_printf("sub sub loop: %u\n", (unsigned int)++i);
+				ft_printf("%10s" ,"=sb=\n");
+				ft_printf("%10s" ,"=rb=");
+			}
+			// ft_print_stacks(curr_a, curr_b);
+		}
+	}
+	if (i == total_operations)
+	{
+		if (!ft_is_sorted(curr_b))
+			ft_printf("NOT SORTED\n");
+		else
+			ft_printf("ALREADY SORTED\n");
+	}
+	*stack_b = curr_b;
+	*stack_a = curr_a;
+	ft_printf("<===============END SORTING STACK=================\n\n");
+	return (total_operations);
+}
+
+int	ft_is_sorted(t_stack *stack)
+{
+	t_stack	*tmp;
+
+	tmp = stack;
+	if (!stack)
+		return (1);
+	while (tmp -> next != stack)
+	{
+		if (tmp -> value < tmp -> next -> value)
+			return (0);
+		tmp = tmp -> next;
+	}
+	return (1);
+}
+
 
 	// TESTS :
 
@@ -170,10 +411,3 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 	// ft_rra(stack_a);
 	// ft_rrb(&stack_b);
 	// ft_rrr(stack_a, &stack_b);
-	if (stack_b)
-	{
-		ft_print_stacks(*stack_a, stack_b);
-		ft_free_stack(stack_b);
-	}
-	return (*stack_a);
-	}

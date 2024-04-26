@@ -42,34 +42,34 @@ void	ft_print_stack(t_stack *stack)
 
 void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 {
-	size_t	last_index_a;
-	size_t	last_index_b;
-	size_t	diff_index;
-	char	larger_stack;
-	int		larger_index;
+	int		len_stack_a;
+	int		len_stack_b;
+	int		diff_len;
+	char	larger_stack_name;
+	int		larger_stack;
 
-	last_index_a = stack_a -> previous -> index;
-	last_index_b = stack_b -> previous -> index;
-	diff_index = 0;
-	if (last_index_a >= last_index_b)
+	len_stack_a = ft_get_stack_len(stack_a);
+	len_stack_b = ft_get_stack_len(stack_b);
+	diff_len = 0;
+	if (len_stack_a >= len_stack_b)
 	{
-		larger_stack = 'A'; 
-		larger_index = last_index_a;
-		diff_index = last_index_a - last_index_b;
+		larger_stack_name = 'A'; 
+		larger_stack = len_stack_a;
+		diff_len = len_stack_a - len_stack_b;
 	}
 	else
 	{
-		larger_stack = 'B';
-		larger_index = last_index_b;
-		diff_index = last_index_b - last_index_a;
+		larger_stack_name = 'B';
+		larger_stack = len_stack_b;
+		diff_len = len_stack_b - len_stack_a;
 	}
-	while (larger_index >= 0)
+	ft_printf("\n");
+	while (larger_stack > 0)
 	{
-		if (diff_index)
+		if (diff_len)
 		{
-			if (larger_stack == 'A')
+			if (larger_stack_name == 'A')
 			{
-				ft_printf("\n\n");
 				ft_printf("|%-7d", stack_a -> value);
 				ft_printf("%7c|\n", ' ');
 				stack_a = stack_a -> next;
@@ -80,7 +80,7 @@ void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 				ft_printf("%7d|\n", stack_b -> value);
 				stack_b = stack_b -> next;
 			}
-			diff_index--;
+			diff_len--;
 		}
 		else 
 		{
@@ -89,7 +89,7 @@ void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 			stack_a = stack_a -> next;
 			stack_b = stack_b -> next;
 		}
-		larger_index--;
+		larger_stack--;
 	}
 	ft_printf("%-9s", "###");
 	ft_printf("%7s\n", "###");
@@ -97,6 +97,7 @@ void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 	ft_printf("%8s \n", "B");
 	ft_printf("%-9s", "###");
 	ft_printf("%7s\n", "###");
+	ft_printf("\n");
 }
 
 
