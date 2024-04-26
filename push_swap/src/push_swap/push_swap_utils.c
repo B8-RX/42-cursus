@@ -147,7 +147,7 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 	static size_t	total_operations;
 
 	stack_b = NULL;
-	ft_printf("FUNCTION SORT\n");
+	ft_printf("FUNCTION SORyyT\n");
 	stack_len = ft_get_stack_len(*stack_a);
 	small_value = ft_get_sm_value(*stack_a);
 	high_value = ft_get_bg_value(*stack_a);
@@ -186,20 +186,30 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 					ft_printf("%10s\n" ,"=sa=");
 				}
 			}
-			ft_pb(stack_a, &stack_b);
-			total_operations++;
-			ft_printf("%10s\n", "=pb=");
+			if (stack_a)
+			{
+				ft_pb(stack_a, &stack_b);
+				total_operations++;
+				ft_printf("%10s\n", "=pb=");
+			}
 			ft_print_stacks(*stack_a, stack_b);
-			ft_printf("TOTAL OPERATION: %u\n", (unsigned int)total_operations);
+			ft_printf("### TOTAL OPERATIONS: [%u]\n", (unsigned int)total_operations);
 		}
 		stack_len--;
 	}
+	ft_printf("\t\t\t------------------------STACK B SORTED-------------------\n\n");
 	if (stack_b)
 	{
-		ft_print_stacks(*stack_a, stack_b);
-		ft_free_stack(stack_b);
+		while (stack_b)
+		{
+			ft_pa(stack_a, &stack_b);
+			total_operations++;
+			ft_printf("%10s\n", "=pa=");
+			ft_print_stacks(*stack_a, stack_b);
+		}
+		ft_pa(stack_a, &stack_b);
 	}
-	ft_printf("TOTAL OPERATION: %u\n", (unsigned int)total_operations);
+	ft_printf("TOTAL OPERATIONS: [%u]\n", (unsigned int)total_operations);
 	return (*stack_a);
 }
 
@@ -210,6 +220,8 @@ int	ft_match_condition_rb(t_stack *stack_b)
 
 	curr_b = stack_b;
 	match_condition = 0;
+	if (!stack_b)
+		return (0);
 	if (((curr_b -> next -> value) > (curr_b -> previous -> value)
 			&& (curr_b -> previous -> value) > (curr_b -> value))
 			|| ((curr_b -> value) < (curr_b -> next -> value)
@@ -225,6 +237,8 @@ int	ft_match_condition_rrb(t_stack *stack_b)
 
 	curr_b = stack_b;
 	match_condition = 0;
+	if (!stack_b)
+		return (0);
 	if (curr_b -> value < curr_b -> previous -> value || curr_b -> next -> value < curr_b -> previous -> value)
 		match_condition = 1;
 	return (match_condition);
@@ -237,6 +251,8 @@ int	ft_match_condition_ra(t_stack *stack_a)
 
 	curr_a = stack_a;
 	match_condition = 0;
+	if (!stack_a)
+		return (0);
 	if ((curr_a -> value) < (curr_a -> next -> value)
 		&& (curr_a -> value) < (curr_a -> previous -> value)
 		&& (curr_a -> next -> value) > (curr_a -> previous -> value))
@@ -251,6 +267,8 @@ int	ft_match_condition_rra(t_stack *stack_a)
 
 	curr_a = stack_a;
 	match_condition = 0;
+	if (!stack_a)
+		return (0);
 	if (curr_a -> previous -> value != ft_get_bg_value(stack_a) && curr_a -> previous -> value > curr_a -> value
 		&& curr_a -> previous -> value > curr_a -> next -> value)
 		match_condition = 1;
@@ -262,6 +280,8 @@ int	ft_match_condition_sa(t_stack *stack_a)
 	int	match_condition;
 
 	match_condition = 0;
+	if (!stack_a)
+		return (0);
 	if ((stack_a -> value < (stack_a -> next -> value)
 		&& (stack_a -> next -> value) < (stack_a -> previous -> value)))
 		match_condition = 1;
@@ -273,6 +293,8 @@ int	ft_match_condition_sb(t_stack *stack_b)
 	int	match_condition;
 
 	match_condition = 0;
+	if (!stack_b)
+		return (0);
 	if ((stack_b -> value) < (stack_b -> next -> value))
 		match_condition = 1;
 	return (match_condition);
@@ -288,8 +310,8 @@ size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operati
 	stack_len_a = ft_get_stack_len(*stack_a);
 	curr_b = *stack_b;
 	curr_a = *stack_a;
-	i = total_operations;
-	ft_printf("\n================START SORTING STACK=================>\n");
+	i = 0;
+	ft_printf("\n\\===============START SORTING STACK==============>\n");
 	while (!ft_is_sorted(curr_b) && total_operations < 100 )
 	{
 		if (ft_match_condition_rb(curr_b)) 
@@ -368,16 +390,9 @@ size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operati
 			// ft_print_stacks(curr_a, curr_b);
 		}
 	}
-	if (i == total_operations)
-	{
-		if (!ft_is_sorted(curr_b))
-			ft_printf("NOT SORTED\n");
-		else
-			ft_printf("ALREADY SORTED\n");
-	}
 	*stack_b = curr_b;
 	*stack_a = curr_a;
-	ft_printf("<===============END SORTING STACK=================\n\n");
+	ft_printf("<===============END SORTING STACK================/\n\n");
 	return (total_operations);
 }
 

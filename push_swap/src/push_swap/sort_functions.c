@@ -18,6 +18,8 @@ void	ft_sa(t_stack **stack_a)
 	t_stack	*second;
 	t_stack	*first;
 
+	if (!*stack_a)
+		return;
 	first = *stack_a;
 	second = *stack_a;
 	if (first -> next != first)
@@ -40,6 +42,8 @@ void	ft_sb(t_stack **stack_b)
 	t_stack	*second;
 	t_stack	*prev;
 
+	if (!*stack_b)
+		return;
 	first = *stack_b;
 	second = *stack_b;
 	if (first -> next != first)
@@ -58,6 +62,8 @@ void	ft_sb(t_stack **stack_b)
 
 void	ft_ss(t_stack **stack_a, t_stack **stack_b)
 {
+	if (!*stack_a || !*stack_b)
+		return;
 	ft_sa(stack_a);
 	ft_sb(stack_b);
 }
@@ -66,6 +72,8 @@ void	ft_ra(t_stack **stack_a)
 {
 	int	value;
 
+	if (!*stack_a)
+		return;
 	value = (*stack_a) -> value;
 	ft_shift_lst(stack_a);
 	ft_push_lst(stack_a, ft_init_lst(value, 'A'));
@@ -76,6 +84,8 @@ void	ft_rb(t_stack **stack_b)
 {
 	int	value;
 
+	if (!*stack_b)
+		return;
 	value = (*stack_b) -> value;
 	ft_shift_lst(stack_b);
 	ft_push_lst(stack_b, ft_init_lst(value, 'B'));
@@ -84,6 +94,8 @@ void	ft_rb(t_stack **stack_b)
 
 void	ft_rr(t_stack **stack_a, t_stack **stack_b)
 {
+	if (!*stack_a || !*stack_b)
+		return;
 	ft_ra(stack_a);
 	ft_rb(stack_b);
 }
@@ -91,7 +103,9 @@ void	ft_rr(t_stack **stack_a, t_stack **stack_b)
 void	ft_rra(t_stack **stack_a)
 {
 	int	value;
-
+	
+	if (!*stack_a)
+		return;
 	value = (*stack_a) -> previous -> value;
 	ft_pop_lst(stack_a);
 	ft_unshift_lst(stack_a, ft_init_lst(value, 'A'));
@@ -101,6 +115,8 @@ void	ft_rrb(t_stack **stack_b)
 {
 	int	value;
 
+	if (!*stack_b)
+		return;
 	value = (*stack_b) -> previous -> value;
 	ft_pop_lst(stack_b);
 	ft_unshift_lst(stack_b, ft_init_lst(value, 'B'));
@@ -111,6 +127,8 @@ void	ft_rrr(t_stack **stack_a, t_stack **stack_b)
 	int	value_a;
 	int	value_b;
 
+	if (!*stack_a || !*stack_b)
+		return;
 	value_a = (*stack_a) -> previous -> value;
 	value_b = (*stack_b) -> previous -> value;
 	ft_pop_lst(stack_a);
@@ -123,6 +141,8 @@ void	ft_pb(t_stack **stack_a, t_stack **stack_b)
 {
 	int	value;
 
+	if (!*stack_a)
+		return;
 	value = (*stack_a) -> value;
 	ft_unshift_lst(stack_b, ft_init_lst(value, 'B'));
 	ft_shift_lst(stack_a);
@@ -132,6 +152,8 @@ void	ft_pa(t_stack **stack_a, t_stack **stack_b)
 {
 	int	value;
 
+	if (!*stack_b)
+		return;
 	value = (*stack_b) -> value;
 	ft_unshift_lst(stack_a, ft_init_lst(value, 'A'));
 	ft_shift_lst(stack_b);

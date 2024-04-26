@@ -90,7 +90,7 @@ void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b)
 			stack_b = stack_b -> next;
 		}
 		larger_stack--;
-}
+	}
 	ft_printf("%-9s", "###");
 	ft_printf("%7s\n", "###");
 	ft_printf("%-8s", "A");
