@@ -22,7 +22,6 @@ typedef struct s_stack {
 	struct s_stack	*next;
 }	t_stack;
 
-
 t_stack	*ft_init_stack(t_stack **stack);
 int		ft_populate_stack(t_stack **stack_a, int argc, char **args);
 t_stack	*ft_init_lst(int value, const char stack_name);
@@ -63,7 +62,6 @@ void	ft_rrb(t_stack **stack_b);
 void	ft_rrr(t_stack **stack_a, t_stack **stack_b);
 void	ft_pb(t_stack **stack_a, t_stack **stack_b);
 void	ft_pa(t_stack **stack_a, t_stack **stack_b);
-
 
 int		ft_match_condition_rb(t_stack *stack_b);
 int		ft_match_condition_ra(t_stack *stack_a);
