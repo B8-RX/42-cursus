@@ -54,22 +54,6 @@ int	ft_append_child(char *child, const char *value, const char splitter)
 	return (i);
 }
 
-void	*ft_free_array_str(char **array)
-{
-
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-	array = NULL;
-	return (NULL);
-}
-
 int	ft_count_words(const char *str, const char splitter)
 {
 	int		i;

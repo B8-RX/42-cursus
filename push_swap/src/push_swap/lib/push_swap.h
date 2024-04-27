@@ -44,10 +44,10 @@ int		ft_get_len_value(const char *value);
 void	*ft_free_array_str(char **array);
 int		ft_append_child(char *child, const char *value, const char splitter);
 
-void	ft_free_stack(t_stack *stack);
+void	ft_free_linked_list(t_stack *stack);
 int		ft_handle_error(t_stack *stack_a);
 void	ft_print_stack(t_stack *stack);
-void	ft_print_stacks(t_stack *stack_a, t_stack *stack_b);
+void	ft_print_all_stacks(t_stack *stack_a, t_stack *stack_b);
 size_t	ft_get_stack_len(t_stack *stack);
 int		ft_get_sm_value(t_stack *stack);
 int		ft_get_bg_value(t_stack *stack);
@@ -68,6 +68,7 @@ void	ft_pa(t_stack **stack_a, t_stack **stack_b);
 int		ft_match_condition_rb(t_stack *stack_b);
 int		ft_match_condition_ra(t_stack *stack_a);
 int		ft_match_condition_rrb(t_stack *stack_b);
+int		ft_match_condition_rra(t_stack *stack_a);
 int		ft_match_condition_sa(t_stack *stack_a);
 int		ft_match_condition_sb(t_stack *stack_b);
 
