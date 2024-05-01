@@ -21,7 +21,6 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 	size_t			i;
 	static size_t	total_operations;
 	size_t			total_values;
-	size_t			test_total_moves;
 
 	stack_b = NULL;
 	stack_len = ft_get_stack_len(*stack_a);
@@ -34,21 +33,21 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 		(unsigned int)stack_len);
 	i = 0;
 	total_operations = 0;
-	if (stack_len > 3)
+	if (stack_len > 3 && !ft_is_sorted(*stack_a))
 	{
 		while (i++ < 3)
 			ft_pb(stack_a, &stack_b);
-		total_operations = 3;
+		total_operations += (i - 1) ;
 	}
-	test_total_moves = total_operations;
 	ft_print_all_stacks(*stack_a, stack_b);
+	// ft_print_stack(stack_b);
 	i = 0;
 	while (stack_len || !ft_is_sorted(stack_b))
 	{
-		test_total_moves += ft_sort_stacks(stack_a, &stack_b, total_operations);
+		total_operations += ft_sort_stacks(stack_a, &stack_b, total_operations);
 		if (stack_len)
 		{
-			ft_printf("loop: %u\n", (unsigned int)++i);
+			ft_printf("###########################loop: [%u]##############################\n", (unsigned int)++i);
 			if (ft_match_condition_sa(*stack_a))
 			{
 				if (ft_match_condition_sb(stack_b))
@@ -66,6 +65,14 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 			}
 			if (stack_a)
 			{
+				t_stack *tmp;
+
+				tmp = ft_found_best_start(&stack_b, (*stack_a)-> value);
+				// ft_printf("\n====return best_position %d====\n", tmp -> value);
+				// ft_print_stack(tmp);
+				// ft_print_stack(stack_b);
+				// ft_update_stack_index(stack_b, 1);
+				// stack_b = tmp;
 				ft_pb(stack_a, &stack_b);
 				total_operations++;
 				ft_printf("%10s\n", "=pb=");
@@ -82,14 +89,14 @@ t_stack	*ft_prepare_sort_stack(t_stack **stack_a)
 		{
 			ft_pa(stack_a, &stack_b);
 			total_operations++;
-			ft_printf("%10s\n", "=pa=");
-			ft_print_all_stacks(*stack_a, stack_b);
+			// ft_printf("%10s\n", "=pa=");
+			// ft_print_all_stacks(*stack_a, stack_b);
 		}
 		ft_pa(stack_a, &stack_b);
 	}
+	ft_print_all_stacks(*stack_a, stack_b);
 	ft_printf("### TOTAL VALUES: [%u]\n", (unsigned int)total_values);
 	ft_printf("TOTAL OPERATIONS: [%u]\n", (unsigned int)total_operations);
-	ft_printf("TEST TOTAL MOVES: [%u]\n", (unsigned int)test_total_moves);
 	return (*stack_a);
 }
 
@@ -116,16 +123,14 @@ size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operati
 			{				
 				ft_rr(&curr_a, &curr_b);
 				total_operations += 2;
-				ft_printf("/////////////////\n");
-				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("\\\\sub loop: %u//\n", (unsigned int)++i);
 				ft_printf("%10s", "=rr=");
 			}
 			else
 			{
 				ft_rb(&curr_b);
 				total_operations++;
-				ft_printf("/////////////////\n");
-				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("\\\\sub loop: %u//\n", (unsigned int)++i);
 				ft_printf("%10s", "=rb=");
 			}
 			ft_print_all_stacks(curr_a, curr_b);
@@ -136,16 +141,14 @@ size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operati
 			{
 				ft_rrr(&curr_a, &curr_b);
 				total_operations += 2;
-				ft_printf("/////////////////\n");
-				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("\\\\sub loop: %u//\n", (unsigned int)++i);
 				ft_printf("%10s", "=rrr=");
 			}
 			else
 			{
 				ft_rrb(&curr_b);
 				total_operations++;
-				ft_printf("/////////////////\n");
-				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("\\\\sub loop: %u//\n", (unsigned int)++i);
 				ft_printf("%10s", "=rrb=");
 			}
 			ft_print_all_stacks(curr_a, curr_b);
@@ -156,32 +159,39 @@ size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operati
 			{
 				ft_ss(&curr_a, &curr_b);
 				total_operations += 2;
-				ft_printf("/////////////////\n");
-				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("\\\\sub loop: %u//\n", (unsigned int)++i);
 				ft_printf("%10s" ,"=ss=");
 			}
 			else
 			{
 				ft_sb(&curr_b);
 				total_operations++;
-				ft_printf("/////////////////\n");
-				ft_printf("sub loop: %u\n", (unsigned int)++i);
+				ft_printf("\\\\sub loop: %u//\n", (unsigned int)++i);
 				ft_printf("%10s" ,"=sb=");
 			}		
 			ft_print_all_stacks(curr_a, curr_b);
 		}
 		else
-		{
+		{		
 			while ((curr_b -> value) < (curr_b -> next -> value))
 			{
+				ft_printf("~~~~~~~~~~~~~~~~~~\n");
+				ft_printf("~sub sub loop [%u]~\n",(unsigned int)++j);
+				ft_printf("~~~~~~~~~~~~~~~~~~\n");
 				ft_sb(&curr_b);
-				ft_rb(&curr_b);
-				total_operations += 2;
-				ft_printf("sub sub loop: %u\n", (unsigned int)++j);
 				ft_printf("%10s" ,"=sb=\n");
-				ft_printf("%10s" ,"=rb=");
 				ft_print_all_stacks(curr_a, curr_b);
+				if ((curr_b -> next -> value) < (curr_b -> next -> next -> value))
+				{
+					ft_rb(&curr_b);
+					ft_printf("%10s" ,"=rb=");
+					ft_print_all_stacks(curr_a, curr_b);
+				}
+				total_operations += 2;
+				ft_printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+				ft_printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n");
 			}
+			j = 0;
 		}
 	}
 	*stack_b = curr_b;
@@ -189,17 +199,3 @@ size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_operati
 	ft_printf("<===============END SORTING STACK================/\n\n");
 	return (i + j);
 }
-
-	// TESTS :
-
-	// ft_sa(stack_a);
-	// ft_sb(&stack_b);
-	// ft_ss(stack_a, &stack_b);
-	// ft_ra(stack_a);
-	// ft_rb(&stack_b);
-	// ft_pa(stack_a, &stack_b);
-	// ft_pb(stack_a, &stack_b);
-	// ft_rr(stack_a, &stack_b);
-	// ft_rra(stack_a);
-	// ft_rrb(&stack_b);
-	// ft_rrr(stack_a, &stack_b);

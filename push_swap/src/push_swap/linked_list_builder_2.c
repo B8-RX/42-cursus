@@ -27,12 +27,14 @@ t_stack	*ft_init_lst(int value, char stack_name)
 	return (lst);
 }
 
-void	ft_update_stack_index(t_stack *stack)
+void	ft_update_stack_index(t_stack *stack, int direction)
 {
 	t_stack	*curr;
 	size_t	i;
 	
 	i = 0;
+	if (direction == -1)
+		i = ft_get_stack_len(stack) - 1;
 	curr = stack;
 	if (!stack)
 		return;
@@ -40,6 +42,9 @@ void	ft_update_stack_index(t_stack *stack)
 	{
 		curr -> index = i;
 		curr = curr -> next;
-		i++;
+		if (direction == -1)
+			i--;
+		else
+			i++;
 	} while (curr != stack);
 }

@@ -35,15 +35,52 @@ void	ft_free_linked_list(t_stack *stack)
 	}
 }
 
-t_stack	*ft_get_lst_by_index(t_stack *stack, size_t index)
+t_stack	*ft_found_best_start(t_stack **stack_b, int value_a)
+{
+	t_stack *best_position;
+  	size_t	curr_index;
+	size_t	stack_len;
+	
+	curr_index = 0;
+	stack_len = ft_get_stack_len(*stack_b);
+	best_position = *stack_b;
+	if (value_a > ft_get_lst_by_index(stack_b, curr_index) -> value)
+		return (best_position);
+	curr_index++;
+	while ((value_a) < (ft_get_lst_by_index(stack_b, curr_index) -> value) && curr_index < stack_len)
+	{
+		if (curr_index * 2 < stack_len)
+			curr_index = curr_index * 2;
+		else if (curr_index + 1 < stack_len)
+			curr_index++;
+		else
+			break;
+	}
+	while (best_position -> index != curr_index && best_position -> next != *stack_b)
+	{
+		// ft_printf("59====loop value %d====\n", best_position -> value);
+		// ft_printf("60====loop index %u====\n", (unsigned int)best_position -> index);
+		// ft_printf("61====loop curr_index %u====\n", (unsigned int) curr_index);
+		best_position = best_position -> next;
+	}
+	ft_printf("\n64====best position value%d====\n", best_position -> value);
+	ft_printf("65==== index %u====\n", (unsigned int)best_position -> index);
+	return (best_position);
+}
+
+t_stack	*ft_get_lst_by_index(t_stack **stack, size_t index)
 {
 	t_stack	*lst;
 
-	lst = stack;
+	lst = *stack;
 	if (!stack)
 		return (NULL);
-	while (lst -> index != index)
+	while (lst -> next != *stack)
+	{
+		if (lst -> index == index)
+			break;
 		lst = lst -> next;
+	}
 	return (lst);
 }
 

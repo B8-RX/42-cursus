@@ -31,11 +31,12 @@ t_stack	*ft_push_lst(t_stack **stack, t_stack *lst);
 t_stack	*ft_unshift_lst(t_stack **stack, t_stack *lst);
 void	ft_shift_lst(t_stack **stack);
 void	ft_pop_lst(t_stack **stack);
-t_stack	*ft_get_lst_by_index(t_stack *stack, size_t index);
+t_stack	*ft_get_lst_by_index(t_stack **stack, size_t index);
 t_stack	*ft_prepare_sort_stack(t_stack **stack);
 size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_ope);
 int		ft_is_sorted(t_stack *stack);
-void	ft_update_stack_index(t_stack *stack);
+void	ft_update_stack_index(t_stack *stack, int direction);
+t_stack	*ft_found_best_start(t_stack **stack_b, int value_a);
 
 char	**ft_split(char *str, const char splitter);
 int		ft_count_words(const char *str, const char splitter);

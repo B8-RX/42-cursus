@@ -21,7 +21,6 @@ void	ft_rb(t_stack **stack_b)
 	value = (*stack_b) -> value;
 	ft_shift_lst(stack_b);
 	ft_push_lst(stack_b, ft_init_lst(value, 'B'));
-	ft_update_stack_index(*stack_b);
 }
 
 void	ft_rrb(t_stack **stack_b)
@@ -44,7 +43,6 @@ void	ft_ra(t_stack **stack_a)
 	value = (*stack_a) -> value;
 	ft_shift_lst(stack_a);
 	ft_push_lst(stack_a, ft_init_lst(value, 'A'));
-	ft_update_stack_index(*stack_a);
 }
 
 void	ft_rra(t_stack **stack_a)

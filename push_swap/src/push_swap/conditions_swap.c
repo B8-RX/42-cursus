@@ -19,8 +19,8 @@ int	ft_match_condition_sa(t_stack *stack_a)
 	match_condition = 0;
 	if (!stack_a)
 		return (0);
-	if ((stack_a -> value < (stack_a -> next -> value)
-		&& (stack_a -> next -> value) < (stack_a -> previous -> value)))
+	if ((stack_a -> value) > (stack_a -> next -> value)
+		&& (stack_a -> next -> value) < (stack_a -> previous -> value))
 		match_condition = 1;
 	return (match_condition);
 }

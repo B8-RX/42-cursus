@@ -39,8 +39,8 @@ int	ft_match_condition_ra(t_stack *stack_a)
 	if (!stack_a)
 		return (0);
 	if ((curr_a -> value) < (curr_a -> next -> value)
-		&& (curr_a -> value) < (curr_a -> previous -> value)
-		&& (curr_a -> next -> value) > (curr_a -> previous -> value))
+		&& (curr_a -> value) > (curr_a -> previous -> value)
+		&& (curr_a -> next -> value) < (curr_a -> previous -> value))
 		match_condition = 1;
 	return (match_condition);
 }
@@ -52,9 +52,10 @@ int	ft_match_condition_rrb(t_stack *stack_b)
 
 	curr_b = stack_b;
 	match_condition = 0;
-	if (!stack_b)
+	if (!stack_b || ft_get_stack_len(curr_b) < 3)
 		return (0);
-	if (curr_b -> value < curr_b -> previous -> value || curr_b -> next -> value < curr_b -> previous -> value)
+	if ((curr_b -> value) < (curr_b -> previous -> value)
+		|| (curr_b -> next -> value) < (curr_b -> previous -> value))
 		match_condition = 1;
 	return (match_condition);
 }
@@ -66,10 +67,11 @@ int	ft_match_condition_rra(t_stack *stack_a)
 
 	curr_a = stack_a;
 	match_condition = 0;
-	if (!stack_a)
+	if (!stack_a || ft_get_stack_len(curr_a) < 3)
 		return (0);
-	if (curr_a -> previous -> value != ft_get_bg_value(stack_a) && curr_a -> previous -> value > curr_a -> value
-		&& curr_a -> previous -> value > curr_a -> next -> value)
+	if ((curr_a -> previous -> value) != ft_get_bg_value(stack_a)
+		&& (curr_a -> value) > (curr_a -> previous -> value) 
+		&& (curr_a -> next -> value) > (curr_a -> previous -> value))
 		match_condition = 1;
 	return (match_condition);
 }

@@ -80,7 +80,7 @@ void	ft_print_stack(t_stack *stack)
 
 	ft_printf("FUNCTION PRINT VALUES\n");
 	i = 0;
-	last_index = stack -> previous -> index;
+	last_index = ft_get_stack_len(stack) - 1;
 	curr_lst = stack;
 	ft_printf("STACK NAME:%c\n", stack -> stack_name);
 	while (i++ <= last_index)
@@ -89,11 +89,12 @@ void	ft_print_stack(t_stack *stack)
 		ft_printf("curr_lst index: %u\n", (unsigned int)curr_lst -> index);
 		ft_printf("curr_lst value: %d\n", curr_lst -> value);
 		ft_printf("///////////////////////===>\n");
-		ft_printf("previous index: %u\n", (unsigned int)curr_lst -> previous -> index);
-		ft_printf("previous value: %d\n", curr_lst -> previous -> value);
-		ft_printf("///////////////////////===>\n");
 		ft_printf("next index: %u\n", (unsigned int)curr_lst -> next -> index);
 		ft_printf("next value: %d\n", curr_lst -> next -> value);
+		ft_printf("///////////////////////===>\n");
+		ft_printf("previous index: %u\n", (unsigned int)curr_lst -> previous -> index);
+		ft_printf("previous value: %d\n", curr_lst -> previous -> value);
+
 		curr_lst = curr_lst -> next;
 	}
 	ft_printf("=================================================\n");
