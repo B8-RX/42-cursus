@@ -28,15 +28,18 @@ int		ft_populate_stack(t_stack **stack_a, int argc, char **args);
 t_stack	*ft_init_lst(int value, const char stack_name);
 t_stack	*ft_handle_args(t_stack **stack_a, int args_len, char **args);
 t_stack	*ft_push_lst(t_stack **stack, t_stack *lst);
+t_stack	*ft_push_lst_tail(t_stack **stack_b, t_stack *lst);
 t_stack	*ft_unshift_lst(t_stack **stack, t_stack *lst);
 void	ft_shift_lst(t_stack **stack);
 void	ft_pop_lst(t_stack **stack);
 t_stack	*ft_get_lst_by_index(t_stack **stack, size_t index);
+t_stack	*ft_get_lst_by_value(t_stack **stack, int value);
 t_stack	*ft_prepare_sort_stack(t_stack **stack);
 size_t	ft_sort_stacks(t_stack **stack_a, t_stack **stack_b, size_t total_ope);
 int		ft_is_sorted(t_stack *stack);
 void	ft_update_stack_index(t_stack *stack, int direction);
 t_stack	*ft_found_best_start(t_stack **stack_b, int value_a);
+int		ft_position_in_neighbour(t_stack *stack, int value);
 
 char	**ft_split(char *str, const char splitter);
 int		ft_count_words(const char *str, const char splitter);

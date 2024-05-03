@@ -31,5 +31,17 @@ void	ft_pb(t_stack **stack_a, t_stack **stack_b)
 		return;
 	value = (*stack_a) -> value;
 	ft_shift_lst(stack_a);
-	ft_unshift_lst(stack_b, ft_init_lst(value, 'B'));
+	if (*stack_b)
+	{
+		ft_printf("==36 pb()==value stack_a [%d]\n", value);
+		ft_printf("==37 pb()==value stack_b [%d]\n", (*stack_b) -> value);
+	}
+	if (ft_get_stack_len(*stack_b) > 3 && (*stack_b) -> next -> value > value)
+	{
+		ft_printf("==41 pb()== match push tail \n");
+		ft_push_lst_tail(stack_b, ft_init_lst(value, 'B'));
+	}
+	else
+		ft_unshift_lst(stack_b, ft_init_lst(value, 'B'));
 }
+

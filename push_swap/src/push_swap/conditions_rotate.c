@@ -52,11 +52,12 @@ int	ft_match_condition_rrb(t_stack *stack_b)
 
 	curr_b = stack_b;
 	match_condition = 0;
-	if (!stack_b || ft_get_stack_len(curr_b) < 3)
+	if (!stack_b || (curr_b && ft_get_stack_len(curr_b) < 3))
 		return (0);
 	if ((curr_b -> value) < (curr_b -> previous -> value)
 		|| (curr_b -> next -> value) < (curr_b -> previous -> value))
 		match_condition = 1;
+	// ft_printf("==RRB ==== \n");
 	return (match_condition);
 }
 

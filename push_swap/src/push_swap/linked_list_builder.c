@@ -24,11 +24,28 @@ t_stack	*ft_push_lst(t_stack **stack, t_stack *new)
 	{
 		last = (*stack) -> previous;	
 		last -> next = new;
+		new -> index = (*stack) -> index + 1;
 		new -> previous = last;
 		new -> next = *stack;
 		(*stack) -> previous = new;
-		ft_update_stack_index(*stack, 1);
 	}
+	return (*stack);
+}
+
+t_stack	*ft_push_lst_tail(t_stack **stack, t_stack *new)
+{
+	t_stack	*head;
+
+	if (!new)
+		return (NULL);
+	if (!*stack)
+		*stack = new;
+	head = (*stack) -> next;
+	head -> previous = new;
+	(*stack) -> next = new;
+	new -> previous = *stack;
+	new -> next = head;
+	new -> index = (*stack) -> index + 1;
 	return (*stack);
 }
 
@@ -62,26 +79,24 @@ t_stack	*ft_unshift_lst(t_stack **stack, t_stack *new)
 		(*stack) -> previous = new;
 		new -> next = *stack;
 		new -> previous = last;
-		ft_update_stack_index(new, 1);
 	}
 	*stack = new;
+	ft_update_stack_index(*stack, 1);
 	return (*stack);
 }
 
 void	ft_shift_lst(t_stack **stack)
 {
-	t_stack	*prev;
-	t_stack	*curr;
+	t_stack	*updated;
 
-	curr = NULL;
+	updated = NULL;
 	if ((*stack) -> next != *stack)
 	{
-		prev = (*stack) -> previous;
-		curr = (*stack) -> next;
-		curr -> previous = prev;
-		prev -> next = curr;
+		(*stack) -> next -> previous = (*stack) -> previous;
+		(*stack) -> previous -> next = (*stack) -> next;
+		updated = (*stack) -> next;
 	}
 	free(*stack);
-	*stack = curr;	
+	*stack = updated;	
 	ft_update_stack_index(*stack, 1);
 }

@@ -33,11 +33,11 @@ void	ft_update_stack_index(t_stack *stack, int direction)
 	size_t	i;
 	
 	i = 0;
+	if (!stack)
+		return;
 	if (direction == -1)
 		i = ft_get_stack_len(stack) - 1;
 	curr = stack;
-	if (!stack)
-		return;
 	do
 	{
 		curr -> index = i;
