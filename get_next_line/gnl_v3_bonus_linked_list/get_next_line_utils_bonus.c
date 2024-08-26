@@ -12,65 +12,65 @@
 
 #include "get_next_line_bonus.h"
 
-t_fd_stash_list	*ft_init_stash(t_fd_stash_list **stash, int fd)
+t_stash	*ft_init_stash(t_stash **stash, int fd)
 {
-	t_fd_stash_list	*new;
+	t_stash	*new;
 
-	new = malloc(sizeof(t_fd_stash_list));
+	new = malloc(sizeof(t_stash));
 	if (!new)
 		return (NULL);
-	new->fd_stash = malloc(sizeof(t_fd_stash));
-	if (!new->fd_stash)
+	new->fd_node = malloc(sizeof(t_fd_node));
+	if (!new->fd_node)
 		return (free(new), NULL);
-	new->fd_stash->fd = fd;
-	new->fd_stash->buffer = malloc(1);
-	if (!(new->fd_stash->buffer))
-		return (free(new->fd_stash), free(new), NULL);
-	*(new->fd_stash->buffer) = '\0';
+	new->fd_node->fd = fd;
+	new->fd_node->buffer = malloc(1);
+	if (!(new->fd_node->buffer))
+		return (free(new->fd_node), free(new), NULL);
+	*(new->fd_node->buffer) = '\0';
 	new->next = NULL;
 	*stash = new;
 	return (*stash);
 }
 
-t_fd_stash_list	*ft_handle_fd(t_fd_stash_list **stash, int fd)
+t_stash	*ft_handle_fd(t_stash **stash, int fd)
 {
-	t_fd_stash_list	*current;
+	t_stash	*current;
 
 	if (!*stash)
 		return (NULL);
 	current = *stash;
 	while (current != NULL)
 	{
-		if (current->fd_stash->fd == fd)
+		if (current->fd_node->fd == fd)
 			return (current);
 		current = current->next;
 	}
-	return (ft_create_file_stash(stash, fd));
+	return (ft_create_fd_node(stash, fd));
 }
 
-void	ft_release_stash_list(t_fd_stash_list **stash, int fd)
+void	ft_release_stash(t_stash **stash, int fd)
 {
-	t_fd_stash_list	*last;
-	t_fd_stash_list	*current;
+	t_stash	*last;
+	t_stash	*current;
 
 	current = *stash;
 	last = *stash;
-	if (current->fd_stash->fd == fd)
+	if (current->fd_node->fd == fd)
 	{
 		*stash = current->next;
-		return (free(current->fd_stash->buffer),
-			free(current->fd_stash), free(current));
+		return (free(current->fd_node->buffer),
+			free(current->fd_node), free(current));
 	}
 	while (current != NULL)
 	{
-		if (current->fd_stash->fd == fd)
+		if (current->fd_node->fd == fd)
 		{
 			last->next = current->next;
-			return (free(current->fd_stash->buffer),
-				free(current->fd_stash), free(current));
+			return (free(current->fd_node->buffer),
+				free(current->fd_node), free(current));
 		}
 		current = current->next;
-		if (last->next->fd_stash->fd != fd)
+		if (last->next->fd_node->fd != fd)
 			last = current;
 	}
 }

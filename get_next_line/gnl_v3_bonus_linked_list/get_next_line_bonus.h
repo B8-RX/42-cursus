@@ -26,29 +26,27 @@
 typedef struct fd_stash {
 	int		fd;
 	char	*buffer;
-}	t_fd_stash;
+}	t_fd_node;
 
-typedef struct base_stash {
-	t_fd_stash			*fd_stash;
-	struct base_stash	*next;
-}	t_fd_stash_list;
+typedef struct s_stash {
+	t_fd_node		*fd_node;
+	struct s_stash	*next;
+}	t_stash;
 
-char			*get_next_line(int fd);
-t_fd_stash_list	*ft_init_stash(t_fd_stash_list **Stash, int fd);
-t_fd_stash_list	*ft_handle_fd(t_fd_stash_list **Stash, int fd);
-t_fd_stash_list	*ft_create_file_stash(t_fd_stash_list **Stash, int fd);
-t_fd_stash_list	*ft_read_file(t_fd_stash_list **Stash, int fd);
-t_fd_stash_list	*ft_update_fd_stash(t_fd_stash_list *Stash,
-					char *buff, int len);
-void			ft_release_stash_list(t_fd_stash_list **stash, int fd);
-char			*ft_get_line(t_fd_stash_list *Stash);
-void			ft_release_fd_stash(t_fd_stash_list **Stash, int fd);
-void			ft_free_fd_stash(t_fd_stash_list *stash);
-char			*ft_substr(char *s, unsigned int start, size_t len);
-char			*ft_strchr(char *s, int c);
-char			*ft_strjoin(char *s1, char *s2);
-size_t			ft_strlen(char *s);
-size_t			ft_strlcpy(char *dst, char *src, size_t size);
-size_t			ft_strlcat(char *dst, char *src, size_t size);
+char		*get_next_line(int fd);
+t_stash		*ft_init_stash(t_stash **stash, int fd);
+t_stash		*ft_handle_fd(t_stash **stash, int fd);
+t_stash		*ft_create_fd_node(t_stash **stash, int fd);
+t_stash		*ft_read_file(t_stash **stash, int fd);
+t_fd_node	*ft_update_fd_node(t_fd_node *fd_node,
+				char *buff, int len);
+void		ft_release_stash(t_stash **stash, int fd);
+char		*ft_get_line(t_fd_node *fd_node);
+char		*ft_substr(char *s, unsigned int start, size_t len);
+char		*ft_strchr(char *s, int c);
+char		*ft_strjoin(char *s1, char *s2);
+size_t		ft_strlen(char *s);
+size_t		ft_strlcpy(char *dst, char *src, size_t size);
+size_t		ft_strlcat(char *dst, char *src, size_t size);
 
 #endif // !GET_NEXT_LINE_H
