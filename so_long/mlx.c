@@ -6,7 +6,7 @@
 /*   By: ssghioua <ssghioua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 21:13:34 by ssghioua          #+#    #+#             */
-/*   Updated: 2024/08/24 21:13:36 by ssghioua         ###   ########.fr       */
+/*   Updated: 2024/08/29 02:20:49 by ssghioua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	init_server(t_game *game)
 		free_game(game);
 		exit(ERROR);
 	}
+	mlx_get_screen_size(game->mlx, &(game->screen_width),
+		&(game->screen_height));
 }
 
 void	init_window(t_game *game)
@@ -33,8 +35,6 @@ void	init_window(t_game *game)
 		free_game(game);
 		exit(ERROR);
 	}
-	mlx_get_screen_size(game->mlx, &(game->screen_width),
-		&(game->screen_height));
 }
 
 void	run_game(t_game *game)
