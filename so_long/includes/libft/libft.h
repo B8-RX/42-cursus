@@ -151,7 +151,6 @@ char		*ft_append_parity(t_printf *printf_props, char *str);
 char		*ft_append_blank(t_printf *printf_props, char *src);
 char		*ft_append_prefix_hexa(t_printf *printf_props, char *str);
 char		*ft_append_char_to_str(char *str, char c, int c_position);
-char		*ft_substr(const char *s, unsigned int start, size_t len);
 char		*ft_strchr(const char *s, int c);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 size_t		ft_strlen(const char *str);
